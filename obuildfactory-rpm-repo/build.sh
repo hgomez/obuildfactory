@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [Ê-z "$BASE_URL" ]; then
+if [ -z "$BASE_URL" ]; then
   echo "missing BASE_URL, build aborted..."
   exit -1
 fi
