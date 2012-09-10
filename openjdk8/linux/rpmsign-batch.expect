@@ -1,0 +1,22 @@
+#!/usr/bin/expect -f
+#
+# rpmsign-batch.expect : expect powered rpm signing command
+#
+
+proc usage {} {
+        send_user "Usage: rpmsign-batch.expect gpgname passphrase rpmfile\n\n"
+        exit
+}
+
+if {[llength $argv]!=3} usage
+
+set gpgname [lrange $argv 0 0]
+set passphrase [lrange $argv 1 1]
+set rpmfile [lrange $argv 2 2]
+
+#send_user "passphrase=$passphrase gpgname=$gpgname\n"
+
+spawn rpm --addsign -D "_signature gpg" -D "_gpg_name $gpgname" $rpmfile
+expect -exact "Enter pass phrase: "
+send -- "$passphrase\r"
+expect eof
