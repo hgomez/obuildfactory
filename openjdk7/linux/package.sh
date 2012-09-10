@@ -1,6 +1,10 @@
 #!/bin/sh
 #
 
+# Required vars :
+#
+# JVM_VERSION (ie 7u)
+
 PROJECT_NAME=openjdk7
 
 export LC_ALL=C

@@ -1,6 +1,10 @@
 #!/bin/sh
 #
 
+# Required vars :
+#
+# JVM_VERSION (ie b50)
+
 PROJECT_NAME=openjdk8
 
 export LC_ALL=C
