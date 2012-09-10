@@ -1,8 +1,8 @@
 [obuildfactory]
 name=OBuildFactory 
 type=rpm-md
-baseurl=http://obuildfactory.hgomez.net/fedora/$releasever/$basearch/
+baseurl=@@BASE_URL@@/fedora/$releasever/$basearch/
 gpgcheck=1
 enabled=1
 autorefresh=1
-gpgkey=http://obuildfactory.hgomez.net/RPM-GPG-KEY-obuildfactory
+gpgkey=@@BASE_URL@@/RPM-GPG-KEY-obuildfactory

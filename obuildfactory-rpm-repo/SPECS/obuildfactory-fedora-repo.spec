@@ -1,3 +1,5 @@
+%define base_url        %{BASE_URL}
+
 Name:           obuildfactory-fedora-repo
 Version:        1.0.0
 Release:        1
@@ -5,7 +7,7 @@ Summary:        OBuildFactory repo
 
 Group:          System Environment/Base
 License:        GPLv2
-URL:            http://obuildfactory.hgomez.net/
+URL:            %{base_url}
 Source0:        RPM-GPG-KEY-obuildfactory
 Source1:        obuildfactory-fedora.repo
 Source2:        gpl-2.0.txt
@@ -28,6 +30,7 @@ install -Dpm 0644 %{SOURCE0} %{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-
 
 # yum
 install -Dpm 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/yum.repos.d/obuildfactory.repo
+sed -i "s|@@BASE_URL@@|%{base_url}|g" %{buildroot}%{_sysconfdir}/yum.repos.d/obuildfactory.repo
 
 # GPLv2
 install -Dpm 0644 %{SOURCE2} %{buildroot}%{_prefix}/share/doc/obuildfactory/gpl-2.0.txt
