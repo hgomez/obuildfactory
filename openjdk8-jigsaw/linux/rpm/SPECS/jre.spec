@@ -128,24 +128,24 @@ This package contains JRE from %{origin} %{javaver}
 
 %install
 # Prep the install location.
-rm -rf ${RPM_BUILD_ROOT}
-mkdir -p ${RPM_BUILD_ROOT}%{jredir}
+rm -rf %{buildroot}
+mkdir -p %{buildroot}%{jredir}
 
-mv * ${RPM_BUILD_ROOT}%{jredir}
+mv * %{buildroot}%{jredir}
 
 # Remove .diz files
-find ${RPM_BUILD_ROOT}%{jredir} -type f -name "*.diz" -delete 
+find %{buildroot}%{jredir} -type f -name "*.diz" -delete 
 
-find $RPM_BUILD_ROOT%{jredir} -type f -o -type l \
+find %{buildroot}%{jredir} -type f -o -type l \
   | grep -v man/man1 \
   | grep -v man/jp \
   | grep -v man/ja \
-  | sed 's|'$RPM_BUILD_ROOT'| |' \
+  | sed 's|'%{buildroot}'| |' \
   > %{name}.files
 
 %if !%{cum_jdk}
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
-cat > $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{name} << EOF1
+mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
+cat > %{buildroot}%{_sysconfdir}/sysconfig/%{name} << EOF1
 JAVA_HOME=%{jredir}
 PATH=$JAVA_HOME/bin:$PATH
 EOF1
@@ -153,7 +153,7 @@ echo "/etc/sysconfig/%{name}" >> %{name}.files
 %endif
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files -f %{name}.files
 %defattr(-,root,root)

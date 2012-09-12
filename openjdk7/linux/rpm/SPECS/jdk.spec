@@ -160,22 +160,22 @@ This package contains Source Bundle files from %{origin} %{javaver}
 
 %install
 # Prep the install location.
-rm -rf ${RPM_BUILD_ROOT}
-mkdir -p ${RPM_BUILD_ROOT}%{jdkdir}
+rm -rf %{buildroot}
+mkdir -p %{buildroot}%{jdkdir}
 
-mv * ${RPM_BUILD_ROOT}%{jdkdir}
+mv * %{buildroot}%{jdkdir}
 
 # Remove .diz files
-find ${RPM_BUILD_ROOT}%{jdkdir} -type f -name "*.diz" -delete 
+find %{buildroot}%{jdkdir} -type f -name "*.diz" -delete 
 
 # exclude db, demo, sample related files from main contents
-find $RPM_BUILD_ROOT%{jdkdir} -type d \
+find %{buildroot}%{jdkdir} -type d \
   | grep -v %{jdkdir}/demo \
   | grep -v %{jdkdir}/sample \
-  | sed 's|'$RPM_BUILD_ROOT'|%dir |' \
+  | sed 's|'%{buildroot}'|%dir |' \
   > %{name}.files
 
-find $RPM_BUILD_ROOT%{jdkdir} -type f -o -type l \
+find %{buildroot}%{jdkdir} -type f -o -type l \
   | grep -v %{jdkdir}/db \
   | grep -v jdb \
   | grep -v man/man1 \
@@ -184,19 +184,19 @@ find $RPM_BUILD_ROOT%{jdkdir} -type f -o -type l \
   | grep -v %{jdkdir}/demo \
   | grep -v %{jdkdir}/sample \
   | grep -v src.zip \
-  | sed 's|'$RPM_BUILD_ROOT'| |' \
+  | sed 's|'%{buildroot}'| |' \
   >> %{name}.files
 
 %if !%{cum_jdk}
-mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig
-cat > $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/%{name} << EOF1
+mkdir -p %{buildroot}/%{_sysconfdir}/sysconfig
+cat > %{buildroot}/%{_sysconfdir}/sysconfig/%{name} << EOF1
 JAVA_HOME=%{jdkdir}
 EOF1
 echo "/etc/sysconfig/%{name}" >> %{name}.files
 %endif
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files -f %{name}.files
 %defattr(-,root,root)
