@@ -1,6 +1,8 @@
 #!/bin/bash
 #
 
+pushd sources
+
 export HG_TAGS=`hg tags | grep jdk8 | head -1 | sed "s/jdk8//" | cut -d ' ' -f 1 | sed 's/^-//'`
 export JVM_VERSION=`echo $HG_TAGS | sed "s/-/./g"`
 
@@ -37,3 +39,5 @@ if [ "$XPACKAGE"  = "true" ]; then
 
   popd
 fi
+
+popd
