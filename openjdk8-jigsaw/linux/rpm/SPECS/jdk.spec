@@ -154,7 +154,7 @@ Requires:       %{name} = %{epoch}:%{version}-%{release}
 This package contains Source Bundle files from %{origin} %{javaver}
 
 %prep
-%setup -n j2sdk-image
+%setup -n jdk-module-image
 
 %build
 

@@ -122,7 +122,7 @@ Requires: libXtst
 This package contains JRE from %{origin} %{javaver} 
 
 %prep
-%setup -n j2re-image
+%setup -n jre-module-image
 
 %build
 

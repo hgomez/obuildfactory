@@ -178,12 +178,12 @@ make all
 
 if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
   
-  if [ -x build/linux-amd64/j2sdk-image/bin/java ]; then
-    build/linux-amd64/j2sdk-image/bin/java -version
+  if [ -x build/linux-amd64/jdk-module-image/bin/java ]; then
+    build/linux-amd64/jdk-module-image/bin/java -version
     pushd build/linux-amd64
     mkdir -p $DROP_DIR/$PROJECT_NAME
-    tar cjf $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 j2sdk-image
-    tar cjf $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 j2re-image
+    tar cjf $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 jdk-module-image
+    tar cjf $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 jre-module-image
     popd
   else
     echo "can't find java, build failed" 
@@ -192,12 +192,12 @@ if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
 
 else
 
-  if [ -x build/linux-i586/j2sdk-image/bin/java ]; then
-    build/linux-i586/j2sdk-image/bin/java -version
+  if [ -x build/linux-i586/jdk-module-image/bin/java ]; then
+    build/linux-i586/jdk-module-image/bin/java -version
     pushd build/linux-i586
     mkdir -p $DROP_DIR/$PROJECT_NAME
-    tar cjf $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 j2sdk-image
-    tar cjf $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 j2re-image
+    tar cjf $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 jdk-module-image
+    tar cjf $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 jre-module-image
     popd
   else
     echo "can't find java, build failed" 
