@@ -129,7 +129,7 @@ ensure_freetype
 set_stdcpp_mode
 
 if [ -z "$MILESTONE" ]; then
-  MILESTONE=`hg tags | grep lambda | head -n 1 | sed 's/lambda//' | cut -d ' ' -f 1 | sed 's/^-//'`
+  MILESTONE=`hg tags | grep jdk8 | head -n 1 | sed 's/jdk8//' | cut -d ' ' -f 1 | sed 's/^-//'`
 fi
 
 echo "Calculated MILESTONE=$MILESTONE"
