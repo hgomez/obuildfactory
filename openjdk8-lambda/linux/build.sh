@@ -190,7 +190,7 @@ function test_build()
   if [ -x $IMAGE_BUILD_DIR/bin/java ]; then
     $IMAGE_BUILD_DIR/bin/java -version
   else
-    echo "can't find java, build failed" 
+    echo "can't find java into $IMAGE_BUILD_DIR, build failed" 
     exit -1
    fi
 }
