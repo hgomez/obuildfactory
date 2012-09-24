@@ -152,14 +152,14 @@ function build_old()
   export PARALLEL_COMPILE_JOBS=$NUM_CPUS
   export ANT_HOME=$ANT_HOME
 
+  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
+    export IMAGE_BUILD_DIR=`pwd`/build/linux-amd64/j2sdk-image
+  else
+    export IMAGE_BUILD_DIR=`pwd`/build/linux-i586/j2sdk-image
+  fi
+
   make sanity
   make all
-
-  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-    export IMAGE_BUILD_DIR=build/linux-amd64/j2sdk-image
-  else
-    export IMAGE_BUILD_DIR=build/linux-i586/j2sdk-image
-  fi
 }
 
 #
@@ -168,15 +168,18 @@ function build_old()
 function build_new()
 {
   echo "### using new build system ###"
-  cd common/makefiles
+
+  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
+    export IMAGE_BUILD_DIR=`pwd`/build/linux-x86_64-normal-server-release/images
+  else
+    export IMAGE_BUILD_DIR=`pwd`/build/linux-x86-normal-server-release/images
+  fi
+  
+  pushd common/makefiles
   sh ../autoconf/configure --with-boot-jdk=$ALT_BOOTDIR
   make images
 
-  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-    export IMAGE_BUILD_DIR=build/linux-x86_64-normal-server-release/images
-  else
-    export IMAGE_BUILD_DIR=build/linux-x86-normal-server-release/images
-  fi
+  popd
 }
 
 #
