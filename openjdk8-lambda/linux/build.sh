@@ -138,6 +138,8 @@ function ensure_java7()
 # 
 function build_old()
 {
+  echo "### using old build system ###"
+  
   NUM_CPUS=`grep "processor" /proc/cpuinfo | sort -u | wc -l`
 
   export LD_LIBRARY_PATH=
@@ -165,6 +167,7 @@ function build_old()
 #
 function build_new()
 {
+  echo "### using new build system ###"
   cd common/makefiles
   sh ../autoconf/configure --with-boot-jdk=$ALT_BOOTDIR
   make images
@@ -247,7 +250,6 @@ ensure_java7
 #
 # Build JDK/JRE images
 #
-
 if [ "$USE_NEW_BUILD_SYSTEM" = "true" ]; then
   build_new
 else
