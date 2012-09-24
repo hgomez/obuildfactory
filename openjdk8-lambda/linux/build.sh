@@ -180,7 +180,8 @@ function build_new()
   fi
   
   pushd common/makefiles
-  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with_cacerts_file=$DROP_DIR/cacerts
+#  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with_cacerts_file=$DROP_DIR/cacerts
+  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR
   make images
 
   popd
