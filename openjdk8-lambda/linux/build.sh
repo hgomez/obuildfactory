@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 
-PROJECT_NAME=$PROJECT_NAME
+PROJECT_NAME=openjdk8-lambda
 TAG_PATTERN=lambda
 
 export LC_ALL=C
