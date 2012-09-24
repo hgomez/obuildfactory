@@ -254,7 +254,7 @@ if [ "$USE_NEW_BUILD_SYSTEM" = "true" ]; then
   build_new
 else
   build_old
-di
+fi
 	  
 #
 # Test Build
