@@ -191,12 +191,19 @@ function build_new()
 #
 function test_build()
 {
-  if [ -x $IMAGE_BUILD_DIR/bin/java ]; then
-    $IMAGE_BUILD_DIR/bin/java -version
+  if [ -x $IMAGE_BUILD_DIR/j2sdk-image/bin/java ]; then
+    $IMAGE_BUILD_DIR/j2sdk-image/bin/java -version
   else
-    echo "can't find java into $IMAGE_BUILD_DIR, build failed" 
+    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed" 
     exit -1
    fi
+
+   if [ -x $IMAGE_BUILD_DIR/j2re-image/bin/java ]; then
+     $IMAGE_BUILD_DIR/j2re-image/bin/java -version
+   else
+     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed" 
+     exit -1
+    fi
 }
 
 #
