@@ -21,6 +21,7 @@ rm -rf BUILD
 mkdir -p BUILD
 rm -rf RPMS
 mkdir -p RPMS
+mkdir -p SOURCES
 
 CPU_BUILD_ARCH=`uname -p`
 
