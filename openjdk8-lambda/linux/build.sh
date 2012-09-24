@@ -1,7 +1,8 @@
 #!/bin/bash
 #
 
-PROJECT_NAME=openjdk8-lambda
+PROJECT_NAME=$PROJECT_NAME
+TAG_PATTERN=lambda
 
 export LC_ALL=C
 export LANG=C
@@ -194,9 +195,9 @@ function test_build()
 function archive_build()
 {
   pushd $IMAGE_BUILD_DIR
-  mkdir -p $DROP_DIR/openjdk8-lambda
-  tar cjf $DROP_DIR/openjdk8-lambda/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 j2sdk-image
-  tar cjf $DROP_DIR/openjdk8-lambda/j2re-image-$CPU_BUILD_ARCH.tar.bz2 j2re-image
+  mkdir -p $DROP_DIR/$PROJECT_NAME
+  tar cjf $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 j2sdk-image
+  tar cjf $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 j2re-image
   popd
 }
 
@@ -205,7 +206,7 @@ function archive_build()
 #
 
 if [ -z "$MILESTONE" ]; then
-  MILESTONE=`hg tags | grep lambda | head -n 1 | sed 's/lambda//' | cut -d ' ' -f 1 | sed 's/^-//'`
+  MILESTONE=`hg tags | grep $TAG_PATTERN | head -n 1 | sed 's/$TAG_PATTERN//' | cut -d ' ' -f 1 | sed 's/^-//'`
 fi
 
 echo "Calculated MILESTONE=$MILESTONE"
