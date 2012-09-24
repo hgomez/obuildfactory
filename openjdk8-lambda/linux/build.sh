@@ -170,7 +170,7 @@ function build_new()
   echo "### using new build system ###"
 
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-    export IMAGE_BUILD_DIR=`pwd`/build/linux-x86_64-normal-server-release/images
+    export IMAGE_BUILD_DIR=`pwd`/build/linux-x64-normal-server-release/images
   else
     export IMAGE_BUILD_DIR=`pwd`/build/linux-x86-normal-server-release/images
   fi
