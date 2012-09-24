@@ -176,7 +176,7 @@ function build_new()
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=`pwd`/build/linux-x64-normal-server-release/images
   else
-    export IMAGE_BUILD_DIR=`pwd`/build/linux-x86-normal-server-release/images
+    export IMAGE_BUILD_DIR=`pwd`/build/linux-ia32-normal-server-release/images
   fi
   
   pushd common/makefiles
