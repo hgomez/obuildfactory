@@ -215,6 +215,11 @@ function archive_build()
   mkdir -p $DROP_DIR/$PROJECT_NAME
   tar cjf $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 j2sdk-image
   tar cjf $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 j2re-image
+  
+  echo "produced tarball files under $DROP_DIR/$PROJECT_NAME"
+  ls -l $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2
+  ls -l $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2
+  
   popd
 }
 
