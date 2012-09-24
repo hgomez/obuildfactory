@@ -92,8 +92,9 @@ function ensure_freetype()
       popd
     fi
 
-    export ALT_FREETYPE_LIB_PATH=$DROP_DIR/freetype/lib
-    export ALT_FREETYPE_HEADERS_PATH=$DROP_DIR/freetype/include
+    export OBF_FREETYPE_DIR=$DROP_DIR/freetype
+    export OBF_FREETYPE_LIB_PATH=$OBF_FREETYPE_DIR/lib
+    export OBF_FREETYPE_HEADERS_PATH=$OBF_FREETYPE_DIR/include
 
   fi
 }
@@ -117,7 +118,7 @@ function ensure_java7()
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
 
     if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-x86_64 ]; then
-      export ALT_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-x86_64
+      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-x86_64
     else
       echo "missing required Java 7, aborting..."
     fi
@@ -125,7 +126,7 @@ function ensure_java7()
   else
 
   if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-i686 ]; then
-    export ALT_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-i686
+    export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-i686
   else
     echo "missing required Java 7, aborting..."
   fi
@@ -142,6 +143,7 @@ function build_old()
   
   NUM_CPUS=`grep "processor" /proc/cpuinfo | sort -u | wc -l`
 
+  export ALT_BOOTDIR=$OBF_BOOTDIR
   export LD_LIBRARY_PATH=
   export JAVA_HOME=
   export ALLOW_DOWNLOADS=true
@@ -151,6 +153,8 @@ function build_old()
   export HOTSPOT_BUILD_JOBS=$NUM_CPUS
   export PARALLEL_COMPILE_JOBS=$NUM_CPUS
   export ANT_HOME=$ANT_HOME
+  export ALT_FREETYPE_LIB_PATH=$OBF_FREETYPE_LIB_PATH
+  export ALT_FREETYPE_HEADERS_PATH=$OBF_FREETYPE_HEADERS_PATH
 
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=`pwd`/build/linux-amd64/j2sdk-image
@@ -176,7 +180,7 @@ function build_new()
   fi
   
   pushd common/makefiles
-  sh ../autoconf/configure --with-boot-jdk=$ALT_BOOTDIR
+  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with_cacerts_file=$DROP_DIR/cacerts
   make images
 
   popd
