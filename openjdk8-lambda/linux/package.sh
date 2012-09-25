@@ -31,7 +31,7 @@ if [ -f $DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 ]; then
   echo "packaging JDK"
   cp $DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 SOURCES/j2sdk-image.tar.bz2
 
-  rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_JVM_VERSION" --define="jdk_model $OBF_JDK_MODEL" --define="cum_jdk 0" SPECS/jdk.spec
+  rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" --define="jdk_model $OBF_JDK_MODEL" --define="cum_jdk 0" SPECS/jdk.spec
 
   if [ $? != 0 ]; then
     exit -1
@@ -45,7 +45,7 @@ if [ -f $DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 ]; then
   echo "packaging JRE"
   cp $DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 SOURCES/j2re-image.tar.bz2
 
-  rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_JVM_VERSION" --define="jdk_model $OBF_JDK_MODEL" --define="cum_jdk 0" SPECS/jre.spec
+  rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" --define="jdk_model $OBF_JDK_MODEL" --define="cum_jdk 0" SPECS/jre.spec
 
   if [ $? != 0 ]; then
     exit -1

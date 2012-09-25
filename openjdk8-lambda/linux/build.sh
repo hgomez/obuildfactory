@@ -141,6 +141,9 @@ function build_old()
   
   NUM_CPUS=`grep "processor" /proc/cpuinfo | sort -u | wc -l`
 
+  export BUILD_NUMBER="$OBF_BUILD_DATE"
+  export MILESTONE="$OBF_MILESTONE"
+
   export ALT_BOOTDIR=$OBF_BOOTDIR
   export LD_LIBRARY_PATH=
   export JAVA_HOME=
@@ -185,7 +188,8 @@ function build_new()
   mv ../autoconf/version.numbers ../autoconf/version.numbers.orig 
   cat ../autoconf/version.numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > ../autoconf/version.numbers
 
-  export JDK_BUILD_NUMBER=$BUILD_NUMBER
+  export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
+  export MILESTONE=$OBF_MILESTONE
   export COMPANY_NAME=$BUNDLE_VENDOR
 
   sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$DROP_DIR/cacerts
@@ -238,11 +242,8 @@ function archive_build()
 # Build start here
 #
 
-DATE_BUILD_NUMBER=`date +%Y%m%d`
 CPU_BUILD_ARCH=`uname -p`
 
-export BUILD_NUMBER="$DATE_BUILD_NUMBER"
-export MILESTONE="$OBF_MILESTONE"
 export JDK_BUNDLE_VENDOR="OBuildFactory"
 export BUNDLE_VENDOR="OBuildFactory"
 

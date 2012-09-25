@@ -31,9 +31,13 @@ pushd $OBF_SOURCES_PATH >>/dev/null
 #
 # OBF_MILESTONE will contains build tag number and name, ie b56-lambda but without dash inside (suited for RPM packages)
 # OBF_BUILD_NUMBER will contains build number, ie b56
+# OBF_BUILD_DATE will contains build date, ie 20120908
+#
+# Build System concats OBF_MILESTONE, - and OBF_BUILD_DATE, ie b56-lambda-20120908
 #
 export OBF_MILESTONE=`hg tags | grep lambda | head -1 | cut -d ' ' -f 1 | sed 's/^-//'`
 export OBF_BUILD_NUMBER=`hg tags | grep lambda | head -1 | sed "s/lambda//" | cut -d ' ' -f 1 | sed 's/^-//'`
+export OBF_BUILD_DATE=`date +%Y%m%d`
 
 
 popd >>/dev/null
