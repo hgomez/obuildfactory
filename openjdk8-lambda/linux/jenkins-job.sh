@@ -28,8 +28,12 @@ fi
 
 pushd $OBF_SOURCES_PATH >>/dev/null
 
+#
+# OBF_HG_TAGS will contains build, ie b56
+# OBF_MILESTONE will contains build, ie b56 but without dash inside (suited for RPM packages)
+#
 export OBF_HG_TAGS=`hg tags | grep lambda | head -1 | sed "s/lambda//" | cut -d ' ' -f 1 | sed 's/^-//'`
-export OBF_MILESTONE=`echo $HG_TAGS | sed "s/-/./g"`
+export OBF_MILESTONE=`echo $OBF_HG_TAGS | sed "s/-/./g"`
 
 popd >>/dev/null
 
