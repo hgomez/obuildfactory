@@ -248,8 +248,8 @@ CPU_BUILD_ARCH=`uname -p`
 
 export BUILD_NUMBER="$DATE_BUILD_NUMBER"
 export MILESTONE="$MILESTONE"
-export JDK_BUNDLE_VENDOR="OBuildFactory project"
-export BUNDLE_VENDOR="OBuildFactory project"
+export JDK_BUNDLE_VENDOR="OBuildFactory"
+export BUNDLE_VENDOR="OBuildFactory"
 
 #
 # Ensure cacerts are available
