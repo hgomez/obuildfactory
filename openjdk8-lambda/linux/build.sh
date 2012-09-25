@@ -180,8 +180,6 @@ function build_new()
   fi
   
   pushd common/makefiles
-  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$DROP_DIR/cacerts
-  
   # patch common/autoconf/version.numbers
   mv ../autoconf/version.numbers ../autoconf/version.numbers.orig 
   cat ../autoconf/version.numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > ../autoconf/version.numbers
@@ -189,7 +187,9 @@ function build_new()
   export JDK_BUILD_NUMBER=$BUILD_NUMBER
   export COMPANY_NAME=$BUNDLE_VENDOR
 
+  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$DROP_DIR/cacerts
   make images
+
   # restore original common/autoconf/version.numbers
   mv ../autoconf/version.numbers.orig ../autoconf/version.numbers
 
