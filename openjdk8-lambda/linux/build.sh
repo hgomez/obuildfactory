@@ -1,14 +1,13 @@
 #!/bin/bash
 #
 
-PROJECT_NAME=openjdk8-lambda
-TAG_PATTERN=lambda
-
-export LC_ALL=C
-export LANG=C
-
-export DROP_DIR="$HOME/DROP_DIR"
-mkdir -p $DROP_DIR
+# Required vars :
+#
+# OBF_BUILD_PATH (absolute path of project)
+# OBF_SOURCES_PATH (absolute path of project sources)
+# OBF_PROJECT_NAME (ie: openjdk8-lambda)
+# OBF_JVM_VERSION (ie: b50)
+# OBF_MILESTONE_TAGS (ie: )
 
 function cacerts_gen()
 {
@@ -162,8 +161,10 @@ function build_old()
     export IMAGE_BUILD_DIR=`pwd`/build/linux-i586/j2sdk-image
   fi
 
+  pushd $OBF_SOURCES_PATH >>/dev/null
   make sanity
   make all
+  popd >>/dev/null
 }
 
 #
@@ -179,7 +180,8 @@ function build_new()
     export IMAGE_BUILD_DIR=`pwd`/build/linux-ia32-normal-server-release/images
   fi
   
-  pushd common/makefiles
+  pushd $OBF_SOURCES_PATH/common/makefiles >>/dev/null
+  
   # patch common/autoconf/version.numbers
   mv ../autoconf/version.numbers ../autoconf/version.numbers.orig 
   cat ../autoconf/version.numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > ../autoconf/version.numbers
@@ -193,7 +195,7 @@ function build_new()
   # restore original common/autoconf/version.numbers
   mv ../autoconf/version.numbers.orig ../autoconf/version.numbers
 
-  popd
+  popd >>/dev/null
 }
 
 #
@@ -237,19 +239,15 @@ function archive_build()
 # Build start here
 #
 
-if [ -z "$MILESTONE" ]; then
-  MILESTONE=`hg tags | grep $TAG_PATTERN | head -n 1 | sed 's/$TAG_PATTERN//' | cut -d ' ' -f 1 | sed 's/^-//'`
-fi
-
-echo "Calculated MILESTONE=$MILESTONE"
-
 DATE_BUILD_NUMBER=`date +%Y%m%d`
 CPU_BUILD_ARCH=`uname -p`
 
 export BUILD_NUMBER="$DATE_BUILD_NUMBER"
-export MILESTONE="$MILESTONE"
+export MILESTONE="$OBF_MILESTONE"
 export JDK_BUNDLE_VENDOR="OBuildFactory"
 export BUNDLE_VENDOR="OBuildFactory"
+
+echo "Calculated MILESTONE=$MILESTONE, BUILD_NUMBER=$BUILD_NUMBER"
 
 #
 # Ensure cacerts are available

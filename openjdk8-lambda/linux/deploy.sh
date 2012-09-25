@@ -3,55 +3,53 @@
 
 # Required vars :
 #
-# BASE_URL (ie: http://www.obuildfactory.org)
-# BASE_PATH (ie: /home/jenkinsa/upload)
+# OBF_BUILD_PATH (absolute path of project)
 #
-# BASE_ARCH (i386 or x86_64)
-# DISTRIBUTION (centos, fedora, opensuse...)
-# RELEASE_VERSION (5, 6, 121)
+# OBF_BASE_URL (ie: http://www.obuildfactory.org)
+# OBF_BASE_PATH (ie: /home/jenkinsa/upload)
 #
-# GPG_ID (ie: packagers@obuildfactory.org)
-# GPG_PASSWORD (ie: 123456)
-# UPLOADER_USER_ID (ie: henri)
-# UPLOAD_HOST (ie: packages.obuildfactory.org)
+# OBF_BASE_ARCH (i386 or x86_64)
+# OBF_DISTRIBUTION (centos, fedora, opensuse...)
+# OBF_RELEASE_VERSION (5, 6, 121)
+#
+# OBF_GPG_ID (ie: packagers@obuildfactory.org)
+# OBF_GPG_PASSWORD (ie: 123456)
+# OBF_UPLOADER_USER_ID (ie: henri)
+# OBF_UPLOAD_HOST (ie: packages.obuildfactory.org)
 
-DEST_ARCH=$BASE_ARCH
+DEST_ARCH=$OBF_BASE_ARCH
 
-if [ "$DISTRIBUTION" = "opensuse" ]; then
-  if [ "$BASE_ARCH" = "i386" ]; then
+if [ "$OBF_DISTRIBUTION" = "opensuse" ]; then
+  if [ "$OBF_BASE_ARCH" = "i386" ]; then
     DEST_ARCH=i586
   fi
 fi
 
-UPLOAD_DIR=$BASE_PATH/$DISTRIBUTION/$RELEASE_VERSION/$DEST_ARCH
-YUM_REPO_DIR=$BASE_PATH/$DISTRIBUTION/$RELEASE_VERSION/$DEST_ARCH
+UPLOAD_DIR=$OBF_BASE_PATH/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$DEST_ARCH
+YUM_REPO_DIR=$OBF_BASE_PATH/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$DEST_ARCH
 YUM_INDEX_DIR=$YUM_REPO_DIR
 
-if [ "$DISTRIBUTION" = "opensuse" ]; then
-  YUM_INDEX_DIR=$BASE_PATH/$DISTRIBUTION/$RELEASE_VERSION
+if [ "$OBF_DISTRIBUTION" = "opensuse" ]; then
+  YUM_INDEX_DIR=$OBF_BASE_PATH/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION
 fi
 
 echo "### signing RPMS ###"
-for RPM_FILE in $PWD/linux/rpm/RPMS/*/*.rpm; do
-  ./linux/rpmsign-batch.expect $GPG_ID $GPG_PASSWORD $RPM_FILE
+for RPM_FILE in $OBF_BUILD_PATH/linux/rpm/RPMS/*/*.rpm; do
+  $OBF_BUILD_PATH/linux/rpmsign-batch.expect $OBF_GPGID $OBF_GPGPASSWORD $RPM_FILE
 done
 
-if [ "$XUPLOAD" = "true" ]; then
+[ "$OBF_DISTRIBUTION" = "centos" ] && [ "$OBF_RELEASE_VERSION" = "5" ] && CREATE_REPO_OPT="-s sha1"
 
-  [ "$DISTRIBUTION" = "centos" ] && [ "$RELEASE_VERSION" = "5" ] && CREATE_REPO_OPT="-s sha1"
+echo "### creating upload directory ###"
+ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST -o StrictHostKeyChecking=no "mkdir -p $OBF_UPLOAD_DIR"
 
-  echo "### creating upload directory ###"
-  ssh $UPLOADER_USER_ID@$UPLOAD_HOST -o StrictHostKeyChecking=no "mkdir -p $UPLOAD_DIR"
+echo "### copying RPMs to upload directory $OBF_UPLOAD_DIR ###"
+scp $OBUILDFACTORY_BUILD_PATH/linux/rpm/RPMS/*/*.rpm $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST:$OBF_UPLOAD_DIR
+echo "### moving RPMs from upload directory to final destination ###"
+ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "mkdir -p $YUM_REPO_DIR"
+ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "mv $OBF_UPLOAD_DIR/* $YUM_REPO_DIR"
 
-  echo "### copying RPMs to upload directory $UPLOAD_DIR ###"
-  scp linux/rpm/RPMS/*/*.rpm $UPLOADER_USER_ID@$UPLOAD_HOST:$UPLOAD_DIR
-  echo "### moving RPMs from upload directory to final destination ###"
-  ssh $UPLOADER_USER_ID@$UPLOAD_HOST "mkdir -p $YUM_REPO_DIR"
-  ssh $UPLOADER_USER_ID@$UPLOAD_HOST "mv $UPLOAD_DIR/* $YUM_REPO_DIR"
-
-  echo "### reindexing YUM repository ###"
-  ssh $UPLOADER_USER_ID@$UPLOAD_HOST "createrepo --update $CREATE_REPO_OPT $YUM_INDEX_DIR"
-  echo "### signing repomd.xml ###"
-  ssh $UPLOADER_USER_ID@$UPLOAD_HOST "gpg --yes --batch --passphrase=$GPG_PASSWORD --armor --sign $YUM_INDEX_DIR/repodata/repomd.xml" 
-
-fi
+echo "### reindexing YUM repository ###"
+ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "createrepo --update $CREATE_REPO_OPT $YUM_INDEX_DIR"
+echo "### signing repomd.xml ###"
+ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "gpg --yes --batch --passphrase=$OBF_GPGPASSWORD --armor --sign $YUM_INDEX_DIR/repodata/repomd.xml" 

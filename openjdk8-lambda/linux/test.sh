@@ -1,12 +1,11 @@
 #!/bin/sh
 #
 
-PROJECT_NAME=openjdk8-lambda
+# Required vars :
+#
+# OBF__BUILD_PATH (absolute path of project)
+#
 
-export LC_ALL=C
-export LANG=C
-
-export DROP_DIR="$HOME/DROP_DIR"
-mkdir -p $DROP_DIR
+pushd $OBF_BUILD_PATH/linux >>/dev/null
 
 echo "test later"
