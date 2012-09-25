@@ -29,11 +29,12 @@ fi
 pushd $OBF_SOURCES_PATH >>/dev/null
 
 #
-# OBF_HG_TAGS will contains build, ie b56
-# OBF_MILESTONE will contains build, ie b56 but without dash inside (suited for RPM packages)
+# OBF_MILESTONE will contains build tag number and name, ie b56-lambda but without dash inside (suited for RPM packages)
+# OBF_BUILD_NUMBER will contains build number, ie b56
 #
-export OBF_HG_TAGS=`hg tags | grep lambda | head -1 | sed "s/lambda//" | cut -d ' ' -f 1 | sed 's/^-//'`
-export OBF_MILESTONE=`echo $OBF_HG_TAGS | sed "s/-/./g"`
+export OBF_MILESTONE=`hg tags | grep lambda | head -1 | cut -d ' ' -f 1 | sed 's/^-//'`
+export OBF_BUILD_NUMBER=`hg tags | grep lambda | head -1 | sed "s/lambda//" | cut -d ' ' -f 1 | sed 's/^-//'`
+
 
 popd >>/dev/null
 

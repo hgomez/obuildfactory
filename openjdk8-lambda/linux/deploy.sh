@@ -3,7 +3,7 @@
 
 # Required vars :
 #
-# OBF_BUILD_PATH (absolute path of project)
+# OBF_BUILD_PATH (absolute path of project, ie obuildfactory/openjdk8-lambda/linux)
 #
 # OBF_BASE_URL (ie: http://www.obuildfactory.org)
 # OBF_BASE_PATH (ie: /home/jenkinsa/upload)
@@ -34,8 +34,8 @@ if [ "$OBF_DISTRIBUTION" = "opensuse" ]; then
 fi
 
 echo "### signing RPMS ###"
-for RPM_FILE in $OBF_BUILD_PATH/linux/rpm/RPMS/*/*.rpm; do
-  $OBF_BUILD_PATH/linux/rpmsign-batch.expect $OBF_GPGID $OBF_GPGPASSWORD $RPM_FILE
+for RPM_FILE in $OBF_BUILD_PATH/rpm/RPMS/*/*.rpm; do
+  $OBF_BUILD_PATH/rpmsign-batch.expect $OBF_GPGID $OBF_GPGPASSWORD $RPM_FILE
 done
 
 [ "$OBF_DISTRIBUTION" = "centos" ] && [ "$OBF_RELEASE_VERSION" = "5" ] && CREATE_REPO_OPT="-s sha1"
@@ -44,7 +44,7 @@ echo "### creating upload directory ###"
 ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST -o StrictHostKeyChecking=no "mkdir -p $OBF_UPLOAD_DIR"
 
 echo "### copying RPMs to upload directory $OBF_UPLOAD_DIR ###"
-scp $OBUILDFACTORY_BUILD_PATH/linux/rpm/RPMS/*/*.rpm $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST:$OBF_UPLOAD_DIR
+scp $OBUILDFACTORY_BUILD_PATH/rpm/RPMS/*/*.rpm $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST:$OBF_UPLOAD_DIR
 echo "### moving RPMs from upload directory to final destination ###"
 ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "mkdir -p $YUM_REPO_DIR"
 ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "mv $OBF_UPLOAD_DIR/* $YUM_REPO_DIR"

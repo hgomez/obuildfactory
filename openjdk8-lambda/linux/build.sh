@@ -3,11 +3,10 @@
 
 # Required vars :
 #
-# OBF_BUILD_PATH (absolute path of project)
+# OBF_BUILD_PATH (absolute path of project, ie obuildfactory/openjdk8-lambda/linux)
 # OBF_SOURCES_PATH (absolute path of project sources)
 # OBF_PROJECT_NAME (ie: openjdk8-lambda)
-# OBF_JVM_VERSION (ie: b50)
-# OBF_MILESTONE_TAGS (ie: )
+# OBF_MILESTONE (ie: b56-lambda)
 
 function cacerts_gen()
 {

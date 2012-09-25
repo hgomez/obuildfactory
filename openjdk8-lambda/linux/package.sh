@@ -3,7 +3,7 @@
 
 # Required vars :
 #
-# OBF_BUILD_PATH (absolute path of project)
+# OBF_BUILD_PATH (absolute path of project, ie obuildfactory/openjdk8-lambda/linux)
 # OBF_PROJECT_NAME (ie: openjdk8-lambda)
 # OBF_JVM_VERSION (ie: b50)
 #
@@ -11,7 +11,7 @@
 #
 # OBF_JDK_MODEL (ie: x86_64 to override default calculated)
 
-pushd $OBF_BUILD_PATH/linux/rpm >>/dev/null
+pushd $OBF_BUILD_PATH/rpm >>/dev/null
 
 rm -rf TEMP
 mkdir -p TEMP
