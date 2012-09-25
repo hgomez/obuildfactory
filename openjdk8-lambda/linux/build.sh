@@ -247,7 +247,7 @@ CPU_BUILD_ARCH=`uname -p`
 export JDK_BUNDLE_VENDOR="OBuildFactory"
 export BUNDLE_VENDOR="OBuildFactory"
 
-echo "Calculated MILESTONE=$MILESTONE, BUILD_NUMBER=$BUILD_NUMBER"
+echo "Calculated MILESTONE=$OBF_MILESTONE, BUILD_NUMBER=$OBF_BUILD_NUMBER"
 
 #
 # Ensure cacerts are available
