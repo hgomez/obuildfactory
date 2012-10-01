@@ -7,7 +7,9 @@
 # OBF_SOURCES_PATH (absolute path of project sources)
 # OBF_PROJECT_NAME (ie: openjdk8-lambda)
 # OBF_MILESTONE (ie: b56-lambda)
-
+#
+# build mercurial : http://hg.openjdk.java.net/build-infra/jdk8/
+#
 function cacerts_gen()
 {
   local DESTCERTS=$1
