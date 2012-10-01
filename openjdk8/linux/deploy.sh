@@ -44,10 +44,10 @@ echo "### creating upload directory ###"
 ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST -o StrictHostKeyChecking=no "mkdir -p $UPLOAD_DIR"
 
 echo "### copying RPMs to upload directory $UPLOAD_DIR ###"
-scp $OBUILDFACTORY_BUILD_PATH/rpm/RPMS/*/*.rpm $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST:$UPLOAD_DIR
+scp $OBF_BUILD_PATH/rpm/RPMS/*/*.rpm $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST:$UPLOAD_DIR
 echo "### moving RPMs from upload directory to final destination ###"
 ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "mkdir -p $YUM_REPO_DIR"
-ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "mv $OBF_UPLOAD_DIR/* $YUM_REPO_DIR"
+ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "mv $UPLOAD_DIR/* $YUM_REPO_DIR"
 
 echo "### reindexing YUM repository ###"
 ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "createrepo --update $CREATE_REPO_OPT $YUM_INDEX_DIR"
