@@ -6,7 +6,8 @@
 # OBF_BUILD_PATH (absolute path of project, ie obuildfactory/openjdk8-lambda/linux)
 #
 # OBF_BASE_URL (ie: http://www.obuildfactory.org)
-# OBF_BASE_PATH (ie: /home/jenkinsa/upload)
+# OBF_BASE_UPLOAD_PATH (ie: /home/jenkinsa/upload)
+# OBF_BASE_PATH (ie: /home/jenkinsa/www)
 #
 # OBF_BASE_ARCH (i386 or x86_64)
 # OBF_DISTRIBUTION (centos, fedora, opensuse...)
@@ -25,7 +26,7 @@ if [ "$OBF_DISTRIBUTION" = "opensuse" ]; then
   fi
 fi
 
-UPLOAD_DIR=$OBF_BASE_PATH/IN_PROGRESS/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$DEST_ARCH
+UPLOAD_DIR=$OBF_BASE_UPLOAD_PATH/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$DEST_ARCH
 YUM_REPO_DIR=$OBF_BASE_PATH/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$DEST_ARCH
 YUM_INDEX_DIR=$YUM_REPO_DIR
 
