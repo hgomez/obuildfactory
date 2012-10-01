@@ -35,7 +35,7 @@ fi
 
 echo "### signing RPMS ###"
 for RPM_FILE in $OBF_BUILD_PATH/rpm/RPMS/*/*.rpm; do
-  $OBF_BUILD_PATH/rpmsign-batch.expect $OBF_GPGID $OBF_GPGPASSWORD $RPM_FILE
+  $OBF_BUILD_PATH/rpmsign-batch.expect $OBF_GPG_ID $OBF_GPG_PASSWORD $RPM_FILE
 done
 
 [ "$OBF_DISTRIBUTION" = "centos" ] && [ "$OBF_RELEASE_VERSION" = "5" ] && CREATE_REPO_OPT="-s sha1"
@@ -43,7 +43,7 @@ done
 echo "### creating upload directory ###"
 ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST -o StrictHostKeyChecking=no "mkdir -p $UPLOAD_DIR"
 
-echo "### copying RPMs to upload directory $OBF_UPLOAD_DIR ###"
+echo "### copying RPMs to upload directory $UPLOAD_DIR ###"
 scp $OBUILDFACTORY_BUILD_PATH/rpm/RPMS/*/*.rpm $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST:$UPLOAD_DIR
 echo "### moving RPMs from upload directory to final destination ###"
 ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "mkdir -p $YUM_REPO_DIR"
