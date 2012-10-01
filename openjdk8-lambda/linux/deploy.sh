@@ -25,7 +25,7 @@ if [ "$OBF_DISTRIBUTION" = "opensuse" ]; then
   fi
 fi
 
-UPLOAD_DIR=$OBF_BASE_PATH/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$DEST_ARCH
+UPLOAD_DIR=$OBF_BASE_PATH/IN_PROGRESS/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$DEST_ARCH
 YUM_REPO_DIR=$OBF_BASE_PATH/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$DEST_ARCH
 YUM_INDEX_DIR=$YUM_REPO_DIR
 
@@ -41,10 +41,10 @@ done
 [ "$OBF_DISTRIBUTION" = "centos" ] && [ "$OBF_RELEASE_VERSION" = "5" ] && CREATE_REPO_OPT="-s sha1"
 
 echo "### creating upload directory ###"
-ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST -o StrictHostKeyChecking=no "mkdir -p $OBF_UPLOAD_DIR"
+ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST -o StrictHostKeyChecking=no "mkdir -p $UPLOAD_DIR"
 
-echo "### copying RPMs to upload directory $OBF_UPLOAD_DIR ###"
-scp $OBUILDFACTORY_BUILD_PATH/rpm/RPMS/*/*.rpm $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST:$OBF_UPLOAD_DIR
+echo "### copying RPMs to upload directory $UPLOAD_DIR ###"
+scp $OBUILDFACTORY_BUILD_PATH/rpm/RPMS/*/*.rpm $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST:$UPLOAD_DIR
 echo "### moving RPMs from upload directory to final destination ###"
 ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "mkdir -p $YUM_REPO_DIR"
 ssh $OBF_UPLOADER_USER_ID@$OBF_UPLOAD_HOST "mv $OBF_UPLOAD_DIR/* $YUM_REPO_DIR"
