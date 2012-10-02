@@ -28,10 +28,13 @@
 
 Summary: %{origin} JDK %{javaver} Environment
 
+# Adjust RPM version (- is not allowed, lowercase strings)
+%define rpm_rel_version %(version_rel=`echo %{jvm_version} | sed "s/-/./g" | tr "[:upper:]" "[:lower:]"`; echo "$version_rel")
+
 #
-# jvm_version provided via --define externally
+# jvm_version is provided via --define externally, to rpm convention via rpm_rel_version
 #
-Version: %{javaver}.%{jvm_version}
+Version: %{javaver}.%{rpm_rel_version}
 Release: 1%{?dist}
 
 #
