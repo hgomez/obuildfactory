@@ -120,9 +120,9 @@ function build_old()
   export JAVA_HOME=
   
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64/j2sdk-image
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
   else
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586/j2sdk-image
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
   fi
 
   pushd $OBF_SOURCES_PATH >>/dev/null
