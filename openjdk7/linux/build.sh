@@ -96,11 +96,6 @@ function ensure_freetype()
   fi
 }
 
-export BUILD_NUMBER="$DATE_BUILD_NUMBER"
-export MILESTONE="$MILESTONE"
-export JDK_BUNDLE_VENDOR="OBuildFactory project"
-export BUNDLE_VENDOR="OBuildFactory project"
-
 #
 # Build using old build system
 # 
@@ -110,6 +105,9 @@ function build_old()
   
   NUM_CPUS=`grep "processor" /proc/cpuinfo | sort -u | wc -l`
 
+  export MILESTONE="$OBF_MILESTONE"
+  export BUILD_NUMBER="$OBF_BUILD_DATE"
+  
   export LD_LIBRARY_PATH=
   export JAVA_HOME=
   export ALLOW_DOWNLOADS=true
@@ -130,6 +128,15 @@ function build_old()
   make sanity
   make all
   popd >>/dev/null
+}
+
+#
+# Build using new build system
+# 
+function build_new()
+{
+ echo "not yet"
+ exit -1
 }
 
 #
