@@ -105,7 +105,7 @@ function build_old()
   
   NUM_CPUS=`grep "processor" /proc/cpuinfo | sort -u | wc -l`
 
-  export MILESTONE="$OBF_MILESTONE"
+  export MILESTONE="$OBF_BUILD_NUMBER"
   export BUILD_NUMBER="$OBF_BUILD_DATE"
   
   export LD_LIBRARY_PATH=
