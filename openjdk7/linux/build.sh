@@ -109,7 +109,7 @@ function build_old()
   export BUILD_NUMBER="$OBF_BUILD_DATE"
   
   export LD_LIBRARY_PATH=
-  export JAVA_HOME=
+  export ALT_BOOTDIR=$JAVA_HOME
   export ALLOW_DOWNLOADS=true
   export ALT_CACERTS_FILE=$DROP_DIR/cacerts
   export ALT_BOOTDIR=$ALT_BOOTDIR
