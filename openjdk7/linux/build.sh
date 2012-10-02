@@ -117,7 +117,8 @@ function build_old()
   export HOTSPOT_BUILD_JOBS=$NUM_CPUS
   export PARALLEL_COMPILE_JOBS=$NUM_CPUS
   export ANT_HOME=$ANT_HOME
-
+  export JAVA_HOME=
+  
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64/j2sdk-image
   else
