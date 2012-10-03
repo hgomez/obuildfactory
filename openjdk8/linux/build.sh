@@ -163,6 +163,9 @@ function build_old()
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586/j2sdk-image
   fi
 
+  # Set Company Name to OBuildFactory
+  sed -i "s|COMPANY_NAME = N/A|COMPANY_NAME = $BUNDLE_VENDOR|g" $OBF_SOURCES_PATH/jdk/make/common/shared/Defs.gmk
+
   pushd $OBF_SOURCES_PATH >>/dev/null
   make sanity
   make all
