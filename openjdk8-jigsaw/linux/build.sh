@@ -1,14 +1,15 @@
 #!/bin/bash
 #
 
-PROJECT_NAME=openjdk8-jigsaw
-
-export LC_ALL=C
-export LANG=C
-
-export DROP_DIR="$HOME/DROP_DIR"
-mkdir -p $DROP_DIR
-
+# Required vars :
+#
+# OBF_BUILD_PATH (absolute path of project, ie obuildfactory/openjdk8-lambda/linux)
+# OBF_SOURCES_PATH (absolute path of project sources)
+# OBF_PROJECT_NAME (ie: openjdk8-lambda)
+# OBF_MILESTONE (ie: b56-lambda)
+#
+# build mercurial : http://hg.openjdk.java.net/build-infra/jdk8/
+#
 function cacerts_gen()
 {
   local DESTCERTS=$1
@@ -50,7 +51,7 @@ function ensure_ant()
   export PATH=$DROP_DIR/ant/bin:$PATH
 }
 
-ensure_cacert()
+function ensure_cacert()
 {
   if [ ! -f $DROP_DIR/cacerts ]; then
     echo "no cacerts found, regenerate it..."
@@ -91,8 +92,9 @@ function ensure_freetype()
       popd
     fi
 
-    export ALT_FREETYPE_LIB_PATH=$DROP_DIR/freetype/lib
-    export ALT_FREETYPE_HEADERS_PATH=$DROP_DIR/freetype/include
+    export OBF_FREETYPE_DIR=$DROP_DIR/freetype
+    export OBF_FREETYPE_LIB_PATH=$OBF_FREETYPE_DIR/lib
+    export OBF_FREETYPE_HEADERS_PATH=$OBF_FREETYPE_DIR/include
 
   fi
 }
@@ -107,6 +109,150 @@ function set_stdcpp_mode()
       export STATIC_CXX=false
   fi
 }
+
+#
+# Determine BUILD JVM to use
+#
+function ensure_java7() 
+{
+  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
+
+    if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-x86_64 ]; then
+      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-x86_64
+    else
+      echo "missing required Java 7, aborting..."
+    fi
+    
+  else
+
+  if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-i686 ]; then
+    export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-i686
+  else
+    echo "missing required Java 7, aborting..."
+  fi
+
+  fi
+}
+
+#
+# Build using old build system
+# 
+function build_old()
+{
+  echo "### using old build system ###"
+  
+  NUM_CPUS=`grep "processor" /proc/cpuinfo | sort -u | wc -l`
+
+  export BUILD_NUMBER="$OBF_BUILD_DATE"
+  export MILESTONE="$OBF_MILESTONE"
+
+  export ALT_BOOTDIR=$OBF_BOOTDIR
+  export LD_LIBRARY_PATH=
+  export JAVA_HOME=
+  export ALLOW_DOWNLOADS=true
+  export ALT_CACERTS_FILE=$DROP_DIR/cacerts
+  export ALT_BOOTDIR=$ALT_BOOTDIR
+  export ALT_DROPS_DIR=$DROP_DIR
+  export HOTSPOT_BUILD_JOBS=$NUM_CPUS
+  export PARALLEL_COMPILE_JOBS=$NUM_CPUS
+  export ANT_HOME=$ANT_HOME
+  export ALT_FREETYPE_LIB_PATH=$OBF_FREETYPE_LIB_PATH
+  export ALT_FREETYPE_HEADERS_PATH=$OBF_FREETYPE_HEADERS_PATH
+
+  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64/j2sdk-image
+  else
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586/j2sdk-image
+  fi
+
+  # Set Company Name to OBuildFactory
+  sed -i "s|COMPANY_NAME = N/A|COMPANY_NAME = $BUNDLE_VENDOR|g" $OBF_SOURCES_PATH/jdk/make/common/shared/Defs.gmk
+
+  pushd $OBF_SOURCES_PATH >>/dev/null
+  make sanity
+  make all
+  popd >>/dev/null
+}
+
+#
+# Build using new build system
+#
+function build_new()
+{
+  echo "### using new build system ###"
+
+  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-x64-normal-server-release/images
+  else
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-ia32-normal-server-release/images
+  fi
+  
+  pushd $OBF_SOURCES_PATH/common/makefiles >>/dev/null
+  
+  # patch common/autoconf/version.numbers
+  mv ../autoconf/version.numbers ../autoconf/version.numbers.orig 
+  cat ../autoconf/version.numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > ../autoconf/version.numbers
+
+  export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
+  export MILESTONE=$OBF_MILESTONE
+  export COMPANY_NAME=$BUNDLE_VENDOR
+
+  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$DROP_DIR/cacerts
+  make images
+
+  # restore original common/autoconf/version.numbers
+  mv ../autoconf/version.numbers.orig ../autoconf/version.numbers
+
+  popd >>/dev/null
+}
+
+#
+# Verify build 
+#
+function test_build()
+{
+  if [ -x $IMAGE_BUILD_DIR/j2sdk-image/bin/java ]; then
+    $IMAGE_BUILD_DIR/j2sdk-image/bin/java -version
+  else
+    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed" 
+    exit -1
+   fi
+
+   if [ -x $IMAGE_BUILD_DIR/j2re-image/bin/java ]; then
+     $IMAGE_BUILD_DIR/j2re-image/bin/java -version
+   else
+     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed" 
+     exit -1
+    fi
+}
+
+#
+# Archives build 
+#
+function archive_build()
+{
+  pushd $IMAGE_BUILD_DIR
+  mkdir -p $DROP_DIR/$PROJECT_NAME
+  tar cjf $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 j2sdk-image
+  tar cjf $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 j2re-image
+  
+  echo "produced tarball files under $DROP_DIR/$PROJECT_NAME"
+  ls -l $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2
+  ls -l $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2
+  
+  popd
+}
+
+#
+# Build start here
+#
+
+CPU_BUILD_ARCH=`uname -p`
+
+export JDK_BUNDLE_VENDOR="OBuildFactory"
+export BUNDLE_VENDOR="OBuildFactory"
+
+echo "Calculated MILESTONE=$OBF_MILESTONE, BUILD_NUMBER=$OBF_BUILD_NUMBER"
 
 #
 # Ensure cacerts are available
@@ -124,84 +270,30 @@ ensure_ant
 ensure_freetype
 
 #
-#
+# Set correct GCC mode
 #
 set_stdcpp_mode
 
-if [ -z "$MILESTONE" ]; then
-  MILESTONE=`hg tags | grep jdk8 | head -n 1 | sed 's/jdk8//' | cut -d ' ' -f 1 | sed 's/^-//'`
-fi
+#
+# Select Java 7 (32 / 64bits)
+#
+ensure_java7
 
-echo "Calculated MILESTONE=$MILESTONE"
-
-DATE_BUILD_NUMBER=`date +%Y%m%d`
-CPU_BUILD_ARCH=`uname -p`
-
-export BUILD_NUMBER="$DATE_BUILD_NUMBER"
-export MILESTONE="$MILESTONE"
-export JDK_BUNDLE_VENDOR="OBuildFactory project"
-export BUNDLE_VENDOR="OBuildFactory project"
-
-if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-
-    if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-x86_64 ]; then
-      ALT_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-x86_64
-    else
-      echo "missing required Java 7, aborting..."
-    fi
-    
+#
+# Build JDK/JRE images
+#
+if [ "$USE_NEW_BUILD_SYSTEM" = "true" ]; then
+  build_new
 else
-
-  if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-i686 ]; then
-    ALT_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-i686
-  else
-    echo "missing required Java 7, aborting..."
-  fi
-
+  build_old
 fi
+	  
+#
+# Test Build
+#
+test_build
 
-NUM_CPUS=`grep "processor" /proc/cpuinfo | sort -u | wc -l`
-
-export LD_LIBRARY_PATH=
-export JAVA_HOME=
-export ALLOW_DOWNLOADS=true
-export ALT_CACERTS_FILE=$DROP_DIR/cacerts
-export ALT_BOOTDIR=$ALT_BOOTDIR
-export ALT_DROPS_DIR=$DROP_DIR
-export HOTSPOT_BUILD_JOBS=$NUM_CPUS
-export PARALLEL_COMPILE_JOBS=$NUM_CPUS
-export ANT_HOME=$ANT_HOME
-
-make sanity
-make all
-
-
-if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-  
-  if [ -x build/linux-amd64/jdk-module-image/bin/java ]; then
-    build/linux-amd64/jdk-module-image/bin/java -version
-    pushd build/linux-amd64
-    mkdir -p $DROP_DIR/$PROJECT_NAME
-    tar cjf $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 jdk-module-image
-    tar cjf $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 jre-module-image
-    popd
-  else
-    echo "can't find java, build failed" 
-    exit -1
-  fi
-
-else
-
-  if [ -x build/linux-i586/jdk-module-image/bin/java ]; then
-    build/linux-i586/jdk-module-image/bin/java -version
-    pushd build/linux-i586
-    mkdir -p $DROP_DIR/$PROJECT_NAME
-    tar cjf $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 jdk-module-image
-    tar cjf $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 jre-module-image
-    popd
-  else
-    echo "can't find java, build failed" 
-    exit -1
-  fi
-
-fi
+#
+# Archive Builds
+#
+archive_build
