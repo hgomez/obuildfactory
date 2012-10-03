@@ -118,7 +118,6 @@ function build_old()
   export PARALLEL_COMPILE_JOBS=$NUM_CPUS
   export ANT_HOME=$ANT_HOME
   export JAVA_HOME=
-  export COMPANY_NAME="$BUNDLE_VENDOR"
   
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
@@ -126,6 +125,9 @@ function build_old()
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
   fi
 
+  # Set Company Name to OBuildFactory
+  sed -i "s|COMPANY_NAME = N/A|COMPANY_NAME = $BUNDLE_VENDOR|g" $OBF_SOURCES_PATH/jdk/make/common/shared/Defs.gmk
+  
   pushd $OBF_SOURCES_PATH >>/dev/null
   make sanity
   make all
