@@ -27,6 +27,10 @@ if [ -z "$OBF_SOURCES_PATH" ]; then
   export OBF_SOURCES_PATH=`pwd`/sources
 fi
 
+if [ -z "$OBF_WORKSPACE_PATH" ]; then
+  export OBF_WORKSPACE_PATH=`pwd`
+fi
+
 pushd $OBF_SOURCES_PATH >>/dev/null
 
 #
