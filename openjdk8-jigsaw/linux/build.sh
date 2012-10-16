@@ -212,17 +212,17 @@ function build_new()
 #
 function test_build()
 {
-  if [ -x $IMAGE_BUILD_DIR/j2sdk-image/bin/java ]; then
-    $IMAGE_BUILD_DIR/j2sdk-image/bin/java -version
+  if [ -x $IMAGE_BUILD_DIR/jdk-module-image/bin/java ]; then
+    $IMAGE_BUILD_DIR/jdk-module-image/bin/java -version
   else
-    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed" 
+    echo "can't find java into JDK $IMAGE_BUILD_DIR/jdk-module-image, build failed" 
     exit -1
    fi
 
-   if [ -x $IMAGE_BUILD_DIR/j2re-image/bin/java ]; then
-     $IMAGE_BUILD_DIR/j2re-image/bin/java -version
+   if [ -x $IMAGE_BUILD_DIR/jre-module-image/bin/java ]; then
+     $IMAGE_BUILD_DIR/jre-module-image/bin/java -version
    else
-     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed" 
+     echo "can't find java into JRE $IMAGE_BUILD_DIR/jre-module-image, build failed" 
      exit -1
     fi
 }
@@ -234,8 +234,8 @@ function archive_build()
 {
   pushd $IMAGE_BUILD_DIR
   mkdir -p $DROP_DIR/$PROJECT_NAME
-  tar cjf $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 j2sdk-image
-  tar cjf $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 j2re-image
+  tar cjf $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 jdk-base-image
+  tar cjf $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 jre-base-image
   
   echo "produced tarball files under $DROP_DIR/$PROJECT_NAME"
   ls -l $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2
