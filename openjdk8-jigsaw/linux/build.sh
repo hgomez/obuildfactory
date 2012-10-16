@@ -233,13 +233,13 @@ function test_build()
 function archive_build()
 {
   pushd $IMAGE_BUILD_DIR
-  mkdir -p $DROP_DIR/$PROJECT_NAME
-  tar cjf $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 jdk-base-image
-  tar cjf $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 jre-base-image
+  mkdir -p $DROP_DIR/$OBF_PROJECT_NAME
+  tar cjf $DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 jdk-base-image
+  tar cjf $DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 jre-base-image
   
-  echo "produced tarball files under $DROP_DIR/$PROJECT_NAME"
-  ls -l $DROP_DIR/$PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2
-  ls -l $DROP_DIR/$PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2
+  echo "produced tarball files under $DROP_DIR/$OBF_PROJECT_NAME"
+  ls -l $DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2
+  ls -l $DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2
   
   popd
 }
