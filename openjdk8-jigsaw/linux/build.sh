@@ -160,9 +160,9 @@ function build_old()
   export ALT_FREETYPE_HEADERS_PATH=$OBF_FREETYPE_HEADERS_PATH
 
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64/j2sdk-image
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-x64
   else
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586/j2sdk-image
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
   fi
 
   # Set Company Name to OBuildFactory
@@ -182,9 +182,9 @@ function build_new()
   echo "### using new build system ###"
 
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-x64-normal-server-release/images
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-x64
   else
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-ia32-normal-server-release/images
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
   fi
   
   pushd $OBF_SOURCES_PATH/common/makefiles >>/dev/null
