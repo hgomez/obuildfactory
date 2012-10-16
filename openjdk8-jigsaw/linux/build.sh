@@ -160,7 +160,7 @@ function build_old()
   export ALT_FREETYPE_HEADERS_PATH=$OBF_FREETYPE_HEADERS_PATH
 
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-x64
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
   else
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
   fi
