@@ -234,8 +234,8 @@ function archive_build()
 {
   pushd $IMAGE_BUILD_DIR
   mkdir -p $DROP_DIR/$OBF_PROJECT_NAME
-  tar cjf $DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 jdk-base-image
-  tar cjf $DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 jre-base-image
+  tar cjf $DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 jdk-module-image
+  tar cjf $DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 jre-module-image
   
   echo "produced tarball files under $DROP_DIR/$OBF_PROJECT_NAME"
   ls -l $DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2
