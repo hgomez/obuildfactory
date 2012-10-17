@@ -124,38 +124,6 @@ Requires: libXtst
 %description
 This package contains the JDK from %{origin} %{javaver}
 
-%package db
-Summary:        JavaDB files from %{origin} %{javaver}
-Group:          Development/Languages
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-
-%description db
-This package contains JavaDB files from %{origin} %{javaver}
-
-%package demo
-Summary:        Demos files from %{origin} %{javaver}
-Group:          Development/Languages
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-
-%description demo
-This package contains contains files from %{origin} %{javaver}
-
-%package sample
-Summary:        Samples files from %{origin} %{javaver}
-Group:          Development/Languages
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-
-%description sample
-This package contains samples files from %{origin} %{javaver}
-
-%package src
-Summary:        Source Bundle from %{origin} %{javaver}
-Group:          Development/Languages
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-
-%description src
-This package contains Source Bundle files from %{origin} %{javaver}
-
 %prep
 %setup -n jdk-module-image
 
@@ -201,24 +169,6 @@ rm -rf %{buildroot}
 
 %files -f %{name}.files
 %defattr(-,root,root)
-%doc %{jdkdir}/man
-
-%files db
-%defattr(-,root,root)
-%{jdkdir}/man/man1/jdb.1
-%{jdkdir}/man/ja_JP.UTF-8/man1/jdb.1
-
-%files demo
-%defattr(-,root,root)
-%{jdkdir}/demo
-
-%files sample
-%defattr(-,root,root)
-%{jdkdir}/sample
-
-%files src
-%defattr(-,root,root)
-%{jdkdir}/src.zip
 
 %changelog
 * Sat Sep 1 2012 henri.gomez@gmail.com 1.8.0-Jigsaw.b50-1
