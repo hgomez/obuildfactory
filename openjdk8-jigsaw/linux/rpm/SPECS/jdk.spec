@@ -171,7 +171,7 @@ mv * %{buildroot}%{jdkdir}
 # Remove .diz files
 find %{buildroot}%{jdkdir} -type f -name "*.diz" -delete 
 
-# exclude db, demo, sample related files from main contents
+# exclude demo, sample related files from main contents
 find %{buildroot}%{jdkdir} -type d \
   | grep -v %{jdkdir}/demo \
   | grep -v %{jdkdir}/sample \
@@ -179,7 +179,6 @@ find %{buildroot}%{jdkdir} -type d \
   > %{name}.files
 
 find %{buildroot}%{jdkdir} -type f -o -type l \
-  | grep -v %{jdkdir}/db \
   | grep -v man/man1 \
   | grep -v man/jp \
   | grep -v man/ja \
