@@ -182,9 +182,9 @@ function build_new()
   echo "### using new build system ###"
 
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-x64-normal-server-release/images
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-x86_64-normal-server-release/images
   else
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-ia32-normal-server-release/images
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-x86-normal-server-release/images
   fi
   
   pushd $OBF_SOURCES_PATH/common/makefiles >>/dev/null
