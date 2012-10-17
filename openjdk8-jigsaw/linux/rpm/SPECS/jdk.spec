@@ -180,7 +180,6 @@ find %{buildroot}%{jdkdir} -type d \
 
 find %{buildroot}%{jdkdir} -type f -o -type l \
   | grep -v %{jdkdir}/db \
-  | grep -v jdb \
   | grep -v man/man1 \
   | grep -v man/jp \
   | grep -v man/ja \
@@ -207,7 +206,6 @@ rm -rf %{buildroot}
 
 %files db
 %defattr(-,root,root)
-%{jdkdir}/bin/jdb
 %{jdkdir}/man/man1/jdb.1
 %{jdkdir}/man/ja_JP.UTF-8/man1/jdb.1
 
