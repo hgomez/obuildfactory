@@ -5,7 +5,7 @@
 #
 # OBF_BUILD_PATH (absolute path of project, ie obuildfactory/openjdk8/linux)
 # OBF_PROJECT_NAME (ie: openjdk8)
-# OBF_JVM_VERSION (ie: b50)
+# OBF_BUILD_NUMBER (ie: b50)
 #
 # Optional vars :
 #
