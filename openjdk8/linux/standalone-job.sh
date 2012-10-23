@@ -13,8 +13,10 @@ export LANG=C
 #
 # Prepare Drop DIR
 #
-export DROP_DIR="$HOME/DROP_DIR"
-mkdir -p $DROP_DIR
+if [ -z $DROP_DIR ]; then
+  export DROP_DIR=`pwd`/DROP_DIR
+  mkdir -p $DROP_DIR
+fi
 
 #
 # Provide Main Variables to Scripts
