@@ -33,7 +33,7 @@ if [ -z "$OBF_WORKSPACE_PATH" ]; then
 fi
 
 if [ ! -d $OBF_SOURCES_PATH ]; then
-	hg clone http://hg.openjdk.java.net/lambda/lambda $OBF_SOURCES_PATH
+  hg clone http://hg.openjdk.java.net/lambda/lambda $OBF_SOURCES_PATH
 fi	
 	
 pushd $OBF_SOURCES_PATH >>/dev/null

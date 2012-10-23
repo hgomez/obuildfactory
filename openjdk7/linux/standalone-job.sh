@@ -34,7 +34,7 @@ if [ -z "$OBF_WORKSPACE_PATH" ]; then
 fi
 
 if [ ! -d $OBF_SOURCES_PATH ]; then
-	hg clone http://hg.openjdk.java.net/jdk7u/jdk7u $OBF_SOURCES_PATH
+  hg clone http://hg.openjdk.java.net/jdk7u/jdk7u $OBF_SOURCES_PATH
 fi	
 	
 pushd $OBF_SOURCES_PATH >>/dev/null
