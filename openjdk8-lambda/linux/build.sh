@@ -283,7 +283,7 @@ ensure_java7
 #
 # Build JDK/JRE images
 #
-if [ "$USE_NEW_BUILD_SYSTEM" = "true" ]; then
+if [ "$XUSE_NEW_BUILD_SYSTEM" = "true" ]; then
   build_new
 else
   build_old
