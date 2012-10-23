@@ -37,9 +37,9 @@ function cacerts_gen()
 
 function ensure_ant()
 {
-  if [ ! -x $DROP_DIR/ant/bin/ant ]; then
-    mkdir -p $DROP_DIR/ant
-    pushd $DROP_DIR/ant
+  if [ ! -x $OBF_DROP_DIR/ant/bin/ant ]; then
+    mkdir -p $OBF_DROP_DIR/ant
+    pushd $OBF_DROP_DIR/ant
     curl -L http://mirrors.ircam.fr/pub/apache/ant/binaries/apache-ant-1.8.4-bin.tar.gz -o apache-ant-1.8.4-bin.tar.gz
     tar xzf apache-ant-1.8.4-bin.tar.gz
     mv apache-ant-1.8.4/* .
@@ -48,19 +48,19 @@ function ensure_ant()
     popd
   fi
 
-  export PATH=$DROP_DIR/ant/bin:$PATH
+  export PATH=$OBF_DROP_DIR/ant/bin:$PATH
 }
 
 function ensure_cacert()
 {
-  if [ ! -f $DROP_DIR/cacerts ]; then
+  if [ ! -f $OBF_DROP_DIR/cacerts ]; then
     echo "no cacerts found, regenerate it..."
-    cacerts_gen $DROP_DIR/cacerts
+    cacerts_gen $OBF_DROP_DIR/cacerts
   else
-    if test `find "$DROP_DIR/cacerts" -mtime +7`
+    if test `find "$OBF_DROP_DIR/cacerts" -mtime +7`
     then
       echo "cacerts older than one week, regenerate it..."
-      cacerts_gen $DROP_DIR/cacerts
+      cacerts_gen $OBF_DROP_DIR/cacerts
     fi
   fi
 }
@@ -80,19 +80,19 @@ function ensure_freetype()
 
   if [ $? == 0 ]; then
 
-    if [ ! -d $DROP_DIR/freetype ]; then
-      pushd $DROP_DIR
+    if [ ! -d $OBF_DROP_DIR/freetype ]; then
+      pushd $OBF_DROP_DIR
       curl -L http://freefr.dl.sourceforge.net/project/freetype/freetype2/2.4.10/freetype-2.4.10.tar.bz2 -o freetype-2.4.10.tar.bz2
       tar xjf freetype-2.4.10.tar.bz2
       cd freetype-2.4.10
-      mkdir -p $DROP_DIR/freetype
-      ./configure --prefix=$DROP_DIR/freetype
+      mkdir -p $OBF_DROP_DIR/freetype
+      ./configure --prefix=$OBF_DROP_DIR/freetype
       make 
       make install
       popd
     fi
 
-    export OBF_FREETYPE_DIR=$DROP_DIR/freetype
+    export OBF_FREETYPE_DIR=$OBF_DROP_DIR/freetype
     export OBF_FREETYPE_LIB_PATH=$OBF_FREETYPE_DIR/lib
     export OBF_FREETYPE_HEADERS_PATH=$OBF_FREETYPE_DIR/include
 
@@ -150,9 +150,9 @@ function build_old()
   export LD_LIBRARY_PATH=
   export JAVA_HOME=
   export ALLOW_DOWNLOADS=true
-  export ALT_CACERTS_FILE=$DROP_DIR/cacerts
+  export ALT_CACERTS_FILE=$OBF_DROP_DIR/cacerts
   export ALT_BOOTDIR=$ALT_BOOTDIR
-  export ALT_DROPS_DIR=$DROP_DIR
+  export ALT_DROPS_DIR=$OBF_DROP_DIR
   export HOTSPOT_BUILD_JOBS=$NUM_CPUS
   export PARALLEL_COMPILE_JOBS=$NUM_CPUS
   export ANT_HOME=$ANT_HOME
@@ -198,7 +198,7 @@ function build_new()
   export COMPANY_NAME=$BUNDLE_VENDOR
 
   mkdir -p $OBF_WORKSPACE_PATH/.ccache
-  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
+  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
   make images
 
   # restore original common/autoconf/version.numbers
@@ -233,13 +233,13 @@ function test_build()
 function archive_build()
 {
   pushd $IMAGE_BUILD_DIR
-  mkdir -p $DROP_DIR/$OBF_PROJECT_NAME
-  tar cjf $DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 jdk-module-image
-  tar cjf $DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 jre-module-image
+  mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME
+  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 jdk-module-image
+  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 jre-module-image
   
-  echo "produced tarball files under $DROP_DIR/$OBF_PROJECT_NAME"
-  ls -l $DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2
-  ls -l $DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2
+  echo "produced tarball files under $OBF_DROP_DIR/$OBF_PROJECT_NAME"
+  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2
+  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2
   
   popd
 }

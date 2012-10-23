@@ -12,9 +12,9 @@ export LANG=C
 #
 # Prepare Drop DIR
 #
-if [ -z $DROP_DIR ]; then
-  export DROP_DIR=`pwd`/DROP_DIR
-  mkdir -p $DROP_DIR
+if [ -z $OBF_DROP_DIR ]; then
+  export OBF_DROP_DIR=`pwd`/OBF_DROP_DIR
+  mkdir -p $OBF_DROP_DIR
 fi
 
 #

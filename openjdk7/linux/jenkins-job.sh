@@ -13,8 +13,8 @@ export LANG=C
 #
 # Prepare Drop DIR
 #
-export DROP_DIR="$HOME/DROP_DIR"
-mkdir -p $DROP_DIR
+export OBF_DROP_DIR="$HOME/OBF_DROP_DIR"
+mkdir -p $OBF_DROP_DIR
 
 #
 # Provide Main Variables to Scripts
