@@ -27,7 +27,8 @@ if [ -z "$OBF_BUILD_PATH" ]; then
 fi
 
 if [ -z "$OBF_SOURCES_PATH" ]; then
-  export OBF_SOURCES_PATH=`pwd`/sources
+  export OBF_SOURCES_PATH=`pwd`/sources/$OBF_PROJECT_NAME
+  mkdir -p `pwd`/sources
 fi
 
 if [ -z "$OBF_WORKSPACE_PATH" ]; then
