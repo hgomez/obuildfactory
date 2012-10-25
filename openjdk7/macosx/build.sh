@@ -129,9 +129,6 @@ function test_build()
     fi
 }
 
-openjdk7/build/macosx-x86_64/j2sdk-bundle/jdk1.7.0.jdk/Contents/Home
-openjdk7/build/macosx-x86_64/j2re-bundle/jre1.7.0.jre/Contents/Home
-
 #
 # Archives build 
 #
