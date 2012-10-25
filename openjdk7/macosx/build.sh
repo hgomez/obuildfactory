@@ -3,22 +3,6 @@
 
 # Required vars :
 #
-function apply_patches()
-{
-	export RHINO_JAR=$OBF_DROP_DIR/rhino.jar
-
-	pushd $OBF_SOURCES_PATH >>/dev/null
-	
-	for i in $OBF_BUILD_PATH/patches/*.patch; do
-	  echo "applying patch $i"
-	  patch -p0 <$i
-	done
-	
-	popd >>/dev/null
-}
-
-# Required vars :
-#
 # OBF_BUILD_PATH (absolute path of project, ie obuildfactory/openjdk8/macosx)
 # OBF_SOURCES_PATH (absolute path of project sources)
 # OBF_PROJECT_NAME (ie: openjdk7)
@@ -226,11 +210,6 @@ export JDK_BUNDLE_VENDOR="OBuildFactory"
 export BUNDLE_VENDOR="OBuildFactory"
 
 echo "Calculated MILESTONE=$OBF_MILESTONE, BUILD_NUMBER=$OBF_BUILD_NUMBER"
-
-#
-# Apply patches
-# 
-apply_patches
 
 #
 # Ensure cacerts are available
