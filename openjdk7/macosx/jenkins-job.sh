@@ -55,9 +55,8 @@ if [ -z "$OBF_RELEASE_VERSION" ]; then
   export OBF_RELEASE_VERSION=`uname -r`
 fi
 
-if [ -z "$OBF_BASE_ARCH" ]; then
-  export OBF_BASE_ARCH=`uname -m`
-fi
+# OpenJDK on OSX is locked to 64bits architecture
+export OBF_BASE_ARCH=x86_64
 
 popd >>/dev/null
 
