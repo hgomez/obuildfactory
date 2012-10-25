@@ -50,54 +50,6 @@ function ensure_cacert()
   fi
 }
 
-#
-# Build FreeType for embedding
-#
-function ensure_freetype()
-{
-  if [ ! -f $OBF_DROP_DIR/freetype/lib/libfreetype.dylib ]; then
-	  
-	  FREETYPE_VERSION=2.4.10
-
-	  if [ ! -f $OBF_DROP_DIR/freetype-$FREETYPE_VERSION.tar.bz2 ]; then
-	    curl -L http://download.savannah.gnu.org/releases/freetype/freetype-$FREETYPE_VERSION.tar.bz2 -o $OBF_DROP_DIR/freetype-$FREETYPE_VERSION.tar.bz2
-	  fi
-
-	  if [ ! -d $OBF_DROP_DIR/freetype-patches ]; then
-	    mkdir -p $OBF_DROP_DIR/freetype-patches
-	    curl -L https://trac.macports.org/export/92468/trunk/dports/print/freetype/files/patch-modules.cfg.diff -o $OBF_DROP_DIR/freetype-patches/patch-modules.cfg.diff
-	    curl -L https://trac.macports.org/export/92468/trunk/dports/print/freetype/files/patch-src_base_ftrfork.c.diff -o $OBF_DROP_DIR/freetype-patches/patch-src_base_ftrfork.c.diff
-	  fi
-
-	  rm -rf freetype-$FREETYPE_VERSION
-	  rm -rf $OBF_DROP_DIR/freetype
-
-	  tar xvjf $OBF_DROP_DIR/freetype-$FREETYPE_VERSION.tar.bz2
-	  pushd freetype-$FREETYPE_VERSION >>/dev/null
-
-	  for i in $OBF_DROP_DIR/freetype-patches/*; do
-	    echo "applying patch $i"
-	    patch -p0 <$i
-	  done
-
-	  ./configure --prefix=$OBF_DROP_DIR/freetype CC=/usr/bin/clang 'CFLAGS=-pipe -Os -arch i386 -arch x86_64' \
-      'LDFLAGS=-arch i386 -arch x86_64' CXX=/usr/bin/clang++ 'CXXFLAGS=-pipe -Os -arch i386 -arch x86_64' \
-      --disable-static --with-old-mac-fonts
-	  make install
-
-#	  cp $OBF_DROP_DIR/freetype/lib/libfreetype.6.dylib $OBF_DROP_DIR/freetype/lib/libfreetype.dylib
-#	  install_name_tool -id @rpath/libfreetype.dylib $OBF_DROP_DIR/freetype/lib/libfreetype.dylib	  
-	  
-	  popd >>/dev/null
-	  rm -rf freetype-$FREETYPE_VERSION
-	  
-  fi
-
-  export ALT_FREETYPE_LIB_PATH=$OBF_DROP_DIR/freetype/lib
-  export ALT_FREETYPE_HEADERS_PATH=$OBF_DROP_DIR/freetype/include
-}
-
-
 function check_version()
 {
     local version=$1 check=$2
@@ -198,14 +150,7 @@ function archive_build()
 # Build start here
 #
 
-if [ "$XUSE_UNIVERSAL" = "true" ]; then
-  export CPU_BUILD_ARCH=universal
-else
-  export CPU_BUILD_ARCH=`uname -m`
-  rm -f $OBF_BUILD_PATH/patches/universal-build.patch
-fi
-
-
+export CPU_BUILD_ARCH=`x86_64`
 export JDK_BUNDLE_VENDOR="OBuildFactory"
 export BUNDLE_VENDOR="OBuildFactory"
 
@@ -215,11 +160,6 @@ echo "Calculated MILESTONE=$OBF_MILESTONE, BUILD_NUMBER=$OBF_BUILD_NUMBER"
 # Ensure cacerts are available
 #
 ensure_cacert
-
-#
-# Ensure FreeType are built
-#
-ensure_freetype
 
 #
 # Build JDK/JRE images
