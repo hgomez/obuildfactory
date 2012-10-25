@@ -82,7 +82,7 @@ function build_old()
 
   case $CPU_BUILD_ARCH in
   	x86_64)
-  		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86_64
+		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86_64
   	;;
   	i386)
   		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-i586
@@ -129,19 +129,34 @@ function test_build()
     fi
 }
 
+openjdk7/build/macosx-x86_64/j2sdk-bundle/jdk1.7.0.jdk/Contents/Home
+openjdk7/build/macosx-x86_64/j2re-bundle/jre1.7.0.jre/Contents/Home
+
 #
 # Archives build 
 #
 function archive_build()
 {
-    pushd $IMAGE_BUILD_DIR
-    mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH
+    mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_PROJECT_NAME/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH
+
+    pushd $IMAGE_BUILD_DIR >>/dev/null
     tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 j2sdk-image
-    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2re-image-$CPU_BUILD_ARCH.tar.bz2 j2re-image
+    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2re-images-$CPU_BUILD_ARCH.tar.bz2 j2re-image
+	popd >>/dev/null
+
+    pushd $IMAGE_BUILD_DIR/j2sdk-bundle >>/dev/null
+    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2sdk-bundle-$CPU_BUILD_ARCH.tar.bz2 jdk1.7.0.jdk
+	popd >>/dev/null
+
+    pushd $IMAGE_BUILD_DIR/j2re-bundle >>/dev/null
+    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2re-bundle-$CPU_BUILD_ARCH.tar.bz2 jre1.7.0.jre
+	popd >>/dev/null
   
     echo "produced tarball files under $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH"
     ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2
     ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2re-image-$CPU_BUILD_ARCH.tar.bz2
+    ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2sdk-bundle-$CPU_BUILD_ARCH.tar.bz2
+    ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2re-bundle-$CPU_BUILD_ARCH.tar.bz2
   
     popd
 }
@@ -150,7 +165,9 @@ function archive_build()
 # Build start here
 #
 
-export CPU_BUILD_ARCH=`x86_64`
+# OpenJDK on OSX is locked to 64bits architecture
+export CPU_BUILD_ARCH="x86_64"
+
 export JDK_BUNDLE_VENDOR="OBuildFactory"
 export BUNDLE_VENDOR="OBuildFactory"
 

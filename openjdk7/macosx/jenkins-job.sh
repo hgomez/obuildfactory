@@ -13,7 +13,10 @@ export LANG=C
 #
 # Prepare Drop DIR
 #
-export OBF_DROP_DIR="$HOME/OBF_DROP_DIR"
+if [ -z $OBF_DROP_DIR ]; then
+  export OBF_DROP_DIR="$HOME/OBF_DROP_DIR"
+fi
+
 mkdir -p $OBF_DROP_DIR
 
 #
