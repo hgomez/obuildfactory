@@ -47,6 +47,18 @@ export OBF_MILESTONE=`hg tags | grep $TAG_FILTER | head -1 | cut -d ' ' -f 1 | s
 export OBF_BUILD_NUMBER=`hg tags | grep $TAG_FILTER | head -1 | sed "s/$TAG_FILTER//" | cut -d ' ' -f 1 | sed 's/^-//'`
 export OBF_BUILD_DATE=`date +%Y%m%d`
 
+if [ -z "$OBF_DISTRIBUTION" ]; then
+  export OBF_DISTRIBUTION=`uname`
+fi
+
+if [ -z "$OBF_RELEASE_VERSION" ]; then
+  export OBF_RELEASE_VERSION=`uname -r`
+fi
+
+if [ -z "$OBF_BASE_ARCH" ]; then
+  export OBF_BASE_ARCH=`uname -m`
+fi
+
 popd >>/dev/null
 
 if [ "$XBUILD" = "true" ]; then
