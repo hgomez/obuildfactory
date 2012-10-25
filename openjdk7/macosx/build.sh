@@ -134,7 +134,7 @@ function test_build()
 #
 function archive_build()
 {
-    mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH
+    mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME
 
     pushd $IMAGE_BUILD_DIR >>/dev/null
     tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2sdk-image
