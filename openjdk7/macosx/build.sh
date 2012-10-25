@@ -138,7 +138,7 @@ function archive_build()
 
     pushd $IMAGE_BUILD_DIR >>/dev/null
     tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 j2sdk-image
-    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2re-images-$CPU_BUILD_ARCH.tar.bz2 j2re-image
+    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2re-image-$CPU_BUILD_ARCH.tar.bz2 j2re-image
 	popd >>/dev/null
 
     pushd $IMAGE_BUILD_DIR/j2sdk-bundle >>/dev/null
@@ -154,8 +154,6 @@ function archive_build()
     ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2re-image-$CPU_BUILD_ARCH.tar.bz2
     ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2sdk-bundle-$CPU_BUILD_ARCH.tar.bz2
     ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2re-bundle-$CPU_BUILD_ARCH.tar.bz2
-  
-    popd
 }
 
 #
