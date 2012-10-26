@@ -80,6 +80,10 @@ function build_old()
   export PARALLEL_COMPILE_JOBS=$NUM_CPUS
   export JAVA_HOME=
 
+  if [ "$XDEBUG" = "true" ]; then
+    export SKIP_FASTDEBUG_BUILD=false
+  fi
+
   case $OBF_BASE_ARCH in
   	x86_64)
 		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86_64
@@ -137,16 +141,21 @@ function archive_build()
     mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME
 
     pushd $IMAGE_BUILD_DIR >>/dev/null
-    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2sdk-image
-    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
+	
+    if [ "$XDEBUG" = "true" ]; then
+    	FILENAME_PREFIX="fastdebug-"
+    fi
+	
+    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$FILENAME_PREFIX$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2sdk-image
+    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$FILENAME_PREFIX$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
 	popd >>/dev/null
 
     pushd $IMAGE_BUILD_DIR/j2sdk-bundle >>/dev/null
-    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-bundle-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jdk1.7.0.jdk
+    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-bundle-$FILENAME_PREFIX$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jdk1.7.0.jdk
 	popd >>/dev/null
 
     pushd $IMAGE_BUILD_DIR/j2re-bundle >>/dev/null
-    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-bundle-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jre1.7.0.jre
+    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-bundle-$FILENAME_PREFIX$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jre1.7.0.jre
 	popd >>/dev/null
   
     echo "produced tarball files under $OBF_DROP_DIR/$OBF_PROJECT_NAME"
