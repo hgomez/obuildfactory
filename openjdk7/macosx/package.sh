@@ -57,7 +57,6 @@ function build_dmg()
     pushd TEMP >>/dev/null
 
     tar xjf $BUNDLE_FILE
-    mv $SRC_BUNDLE $DST_BUNDLE
     
     # Set Milestone and buildnumber in Info.plist
     sed -i "" -e "s|<string>$JVM_VERSION</string>|<string>$JVM_VERSION-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE</string>|" $DST_BUNDLE/Contents/Info.plist
@@ -71,7 +70,6 @@ function build_dmg()
     hdiutil attach template.dmg -readwrite -noverify -noautoopen -noautoopenro -noautoopenrw -noautofsck -noidme -noidmereveal -noidmetrash -mountpoint $DMG_MOUNT_DIR
 
     rm -f $DMG_MOUNT_DIR/$DMG_BUNDLE_DIR
-	ls -l
     mv $SRC_BUNDLE $DMG_MOUNT_DIR/$DST_BUNDLE
     cp -f ../README $DMG_MOUNT_DIR/README
     cp -f ../LEGAL $DMG_MOUNT_DIR/LEGAL
