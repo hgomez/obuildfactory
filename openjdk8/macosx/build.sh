@@ -122,7 +122,25 @@ function build_new()
     export COMPANY_NAME=$BUNDLE_VENDOR
 
     mkdir -p $OBF_WORKSPACE_PATH/.ccache
-    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
+
+    case $OBF_BASE_ARCH in
+    	x86_64)
+  			export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86_64
+    	;;
+    	i386)
+    		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-i586
+    	;;
+    	universal)
+    		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-universal
+    	;;
+    esac
+
+    if [ "$XDEBUG" = "true" ]; then
+	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
+	else
+	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
+    fi
+
     make images
 
     # restore original common/autoconf/version.numbers
