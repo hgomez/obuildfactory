@@ -26,13 +26,13 @@ JDK_BUNDLE=$OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-bundle$FILENAME_PREFIX-$OBF_BAS
 JRE_BUNDLE=$OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
 
 #
-# jdk/jre
-# $OBF_DROP_DIR/$OBF_PROJECT_NAME/$OBF_DISTRIBUTION/$OBF_RELEASE_VERSION/$OBF_BASE_ARCH/j2sdk-bundle-$OBF_BASE_ARCH.tar.bz2
-# $JDK_ORG_BUNDLE_DIRNAME
-# $JDK_DST_BUNDLE_DIRNAME
-# 1.8.0
-# 1.8.0.jdk
-# OpenJDK-OSX-1.8
+# PACKAGE_NAME = jdk/jre
+# BUNDLE_FILE = $JDK_BUNDLE/$JRE_BUNDLE
+# SRC_BUNDLE = $JDK_ORG_BUNDLE_DIRNAME/$JRE_ORG_BUNDLE_DIRNAME
+# DST_BUNDLE = $JDK_DST_BUNDLE_DIRNAME/$JRE_DST_BUNDLE_DIRNAME
+# JVM_VERSION = 1.8.0
+# DMG_BUNDLE_DIR = 1.8.0.jdk
+# FILE_NAME = OpenJDK-OSX-1.8/OpenJDK-OSX-1.8-fastdebug
 #
 function build_dmg()
 {
@@ -69,11 +69,11 @@ function build_dmg()
     hdiutil attach template.dmg -readwrite -noverify -noautoopen -noautoopenro -noautoopenrw -noautofsck -noidme -noidmereveal -noidmetrash -mountpoint $DMG_MOUNT_DIR
 
     rm -f $DMG_MOUNT_DIR/$DMG_BUNDLE_DIR
-    mv $JDK_DST_BUNDLE_DIRNAME $DMG_MOUNT_DIR
+    mv $DST_BUNDLE $DMG_MOUNT_DIR
     cp -f ../README $DMG_MOUNT_DIR/README
     cp -f ../LEGAL $DMG_MOUNT_DIR/LEGAL
 
-    ../SetFileIcon -image ../logo.png -file $DMG_MOUNT_DIR/$JDK_DST_BUNDLE_DIRNAME
+    ../SetFileIcon -image ../logo.png -file $DMG_MOUNT_DIR/$DST_BUNDLE
 
     hdiutil detach $DMG_MOUNT_DIR -quiet -force
     hdiutil convert template.dmg -format UDZO -imagekey zlib-level=9 -o $FILE_NAME-$OBF_BASE_ARCH-$PACKAGE_NAME-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.dmg
@@ -90,12 +90,12 @@ function build_dmg()
 }
 
 # jdk/jre
-# $JDK_BUNDLE
-# $JDK_ORG_BUNDLE_DIRNAME
-# $JDK_DST_BUNDLE_DIRNAME
+# $JDK_BUNDLE/$JRE_BUNDLE
+# $JDK_ORG_BUNDLE_DIRNAME/$JRE_ORG_BUNDLE_DIRNAME
+# $JDK_DST_BUNDLE_DIRNAME/$JRE_DST_BUNDLE_DIRNAME
 # 1.8.0
 # 1.8.0.jdk
-# OpenJDK-OSX-1.8 (or OpenJDK-OSX-1.8-fastdebug)
+# OpenJDK-OSX-1.8/OpenJDK-OSX-1.8-fastdebug
 
 build_dmg jdk $JDK_BUNDLE $JDK_ORG_BUNDLE_DIRNAME $JDK_DST_BUNDLE_DIRNAME 1.8.0 1.8.0.jdk OpenJDK-OSX-1.8$FILENAME_PREFIX
 build_dmg jre $JRE_BUNDLE $JRE_ORG_BUNDLE_DIRNAME $JRE_DST_BUNDLE_DIRNAME 1.8.0 1.8.0.jre OpenJDK-OSX-1.8$FILENAME_PREFIX
