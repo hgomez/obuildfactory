@@ -125,13 +125,13 @@ function build_new()
 
     case $OBF_BASE_ARCH in
     	x86_64)
-  			export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86_64
+  			export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86_64-normal-server-release/images
     	;;
     	i386)
-    		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-i586
+    		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86-normal-server-release/images
     	;;
     	universal)
-    		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-universal
+    		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-universal-normal-server-release/images
     	;;
     esac
 
