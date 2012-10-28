@@ -20,7 +20,7 @@ function cacerts_gen()
   split  -p "-----BEGIN CERTIFICATE-----" cacert-clean.pem cert_
 
   export JAVA_HOME=`/usr/libexec/java_home -v 1.6`
-
+  
   for CERT_FILE in cert_*; do
     ALIAS=$(basename ${CERT_FILE})
     echo yes | keytool -import -alias ${ALIAS} -keystore cacerts -storepass 'changeit' -file ${CERT_FILE} || :
@@ -120,7 +120,8 @@ function build_new()
     export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
     export MILESTONE=$OBF_MILESTONE
     export COMPANY_NAME=$BUNDLE_VENDOR
-
+    OBF_BOOTDIR=`/usr/libexec/java_home -v 1.7`
+	
     mkdir -p $OBF_WORKSPACE_PATH/.ccache
 
     case $OBF_BASE_ARCH in
