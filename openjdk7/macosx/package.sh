@@ -71,7 +71,7 @@ function build_dmg()
     hdiutil attach template.dmg -readwrite -noverify -noautoopen -noautoopenro -noautoopenrw -noautofsck -noidme -noidmereveal -noidmetrash -mountpoint $DMG_MOUNT_DIR
 
     rm -f $DMG_MOUNT_DIR/$DMG_BUNDLE_DIR
-    mv $JDK_DST_BUNDLE_DIRNAME $DMG_MOUNT_DIR
+    mv $SRC_BUNDLE $DMG_MOUNT_DIR/$DST_BUNDLE
     cp -f ../README $DMG_MOUNT_DIR/README
     cp -f ../LEGAL $DMG_MOUNT_DIR/LEGAL
 
