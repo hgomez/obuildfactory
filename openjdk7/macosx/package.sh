@@ -59,7 +59,7 @@ function build_dmg()
     tar xjf $BUNDLE_FILE
     
     # Set Milestone and buildnumber in Info.plist
-    sed -i "" -e "s|<string>$JVM_VERSION</string>|<string>$JVM_VERSION-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE</string>|" $DST_BUNDLE/Contents/Info.plist
+    sed -i "" -e "s|<string>$JVM_VERSION</string>|<string>$JVM_VERSION-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE</string>|" $SRC_BUNDLE/Contents/Info.plist
   
     cp ../template.dmg.bz2 .
     bzip2 -d template.dmg.bz2
