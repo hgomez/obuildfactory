@@ -109,8 +109,26 @@ function build_old()
 # 
 function build_new()
 {
- echo "not yet"
- exit -1
+    echo "### using new build system ###"
+
+    pushd $OBF_SOURCES_PATH/common/makefiles >>/dev/null
+  
+    # patch common/autoconf/version.numbers
+    mv ../autoconf/version.numbers ../autoconf/version.numbers.orig 
+    cat ../autoconf/version.numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > ../autoconf/version.numbers
+
+    export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
+    export MILESTONE=$OBF_MILESTONE
+    export COMPANY_NAME=$BUNDLE_VENDOR
+
+    mkdir -p $OBF_WORKSPACE_PATH/.ccache
+    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
+    make images
+
+    # restore original common/autoconf/version.numbers
+    mv ../autoconf/version.numbers.orig ../autoconf/version.numbers
+
+    popd >>/dev/null
 }
 
 #
