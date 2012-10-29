@@ -1,4 +1,4 @@
-# obuildfactory
+# OBuildFactory
 
 This GitHub project  provides build scripts for OpenJDK 7, 8, 8+Lambda, 8+Jigsaw.
 
@@ -14,7 +14,7 @@ You could use these scripts from a Jenkins Powered environment to setup a Contin
 
 Initialy planned for Linux, it will also include Mac OSX scripts from [openjdk-osx-build](http://code.google.com/p/openjdk-osx-build/) so OSX users could produce their own packages
 
-# documentation
+# Documentation
 
 [Building and packaging OpenJDK7 for OSX](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK7-for-OSX)
 
