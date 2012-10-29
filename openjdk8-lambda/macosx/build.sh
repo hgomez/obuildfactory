@@ -180,21 +180,25 @@ function archive_build()
     pushd $IMAGE_BUILD_DIR >>/dev/null
 	
     if [ "$XDEBUG" = "true" ]; then
-    	FILENAME_PREFIX="-fastdebug"
+		FILENAME_PREFIX="-fastdebug"
     fi
 	
     tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2sdk-image
     tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
 	popd >>/dev/null
 
-    pushd $IMAGE_BUILD_DIR/j2sdk-bundle >>/dev/null
-    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jdk1.8.0.jdk
-	popd >>/dev/null
-
-    pushd $IMAGE_BUILD_DIR/j2re-bundle >>/dev/null
-    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jre1.8.0.jre
-	popd >>/dev/null
-  
+	if [ -d $IMAGE_BUILD_DIR/j2sdk-bundle ]; then
+		pushd $IMAGE_BUILD_DIR/j2sdk-bundle >>/dev/null
+		tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jdk1.8.0.jdk
+		popd >>/dev/null
+  	fi
+	
+    if [ -d $IMAGE_BUILD_DIR/j2re-bundle ]; then
+		pushd $IMAGE_BUILD_DIR/j2re-bundle >>/dev/null
+		tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jre1.8.0.jre
+		popd >>/dev/null
+	fi
+	
     echo "produced tarball files under $OBF_DROP_DIR/$OBF_PROJECT_NAME"
     ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/*$OBF_BUILD_NUMBER-$OBF_BUILD_DATE*
 }
