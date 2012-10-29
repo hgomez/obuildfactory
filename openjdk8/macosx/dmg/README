@@ -1,52 +1,15 @@
-Welcome to OpenJDK 1.7 for OS/X
--------------------------------
+# Welcome to OpenJDK 8 for OS/X
 
-The goal of this project is to provide a Java SE 1.7 to OS/X, using OpenJDK 1.7.
+This package has been created using build and packages scripts from OBuildFactory project : https://github.com/hgomez/obuildfactory.
 
-Project is hosted on GoogleCode, http://code.google.com/p/openjdk-osx-build/ and you will find there OS/X build and templates files.
+More informations on how to do it yourself : https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK8-for-OSX
 
-OpenJDK 1.7 source code is available on OpenJDK mercurial repositories :
+OpenJDK 8 source code is available on OpenJDK mercurial repositories : http://hg.openjdk.java.net/jdk8/jdk8
 
-Initial version for OS/X was OpenJDK 1.7 from OpenBSD branch : http://hg.openjdk.java.net/bsd-port/bsd-port
+# Members
 
-There is now a Mac OS/X branch : http://hg.openjdk.java.net/macosx-port/macosx-port
-
-Our project will allow you to build OpenJDK from both branches.
-
-Have fun with OpenJDK on OS/X !
-
-Issues
-------
-
-Even if OpenJDK VMs are seen by system and available on Java Preferences, you couldn't use as default VM.
-See http://code.google.com/p/openjdk-osx-build/issues/detail?id=4
-
-You could still use OpenJDK VM but you should specify the full PATH for java command, ie
-
-OpenJDK 1.7 64bits from OpenBSD port :
-
-/Library/Java/JavaVirtualMachines/openjdk-1.7-x86_64/Contents/Home/bin/java
-
-OpenJDK 1.7 32/64bits JDK from OS/X Mac port :
-
-/Library/Java/JavaVirtualMachines/1.7.0.jdk/Contents/Home/bin
-
-OpenJDK 1.7 32/64bits JRE from OS/X Mac port :
-
-/Library/Java/JavaVirtualMachines/1.7.0.jre/Contents/Home/bin
-
-Members
--------
-
-Henri Gomez :
+## Henri Gomez
 
 email: henri.gomez@gmail.com
 twitter: @hgomez
 blog: http://blog.hgomez.net/
-
-Gildas Cuisinier :
-
-email: hikage@hikage.be
-twitter: @gcuisinier
-blog: http://blog.hikage.be/
-
