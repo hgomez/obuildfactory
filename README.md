@@ -1,5 +1,7 @@
 # OBuildFactory
 
+![OBuildFactory Logo](https://raw.github.com/hgomez/obuildfactory/master/OBuildFactory-Logo.png)
+
 This GitHub project  provides build scripts for OpenJDK 7, 8, 8+Lambda, 8+Jigsaw.
 
 These scripts add goodies like :
