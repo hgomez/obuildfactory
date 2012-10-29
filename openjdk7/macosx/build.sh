@@ -150,14 +150,22 @@ function archive_build()
     tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
 	popd >>/dev/null
 
-    pushd $IMAGE_BUILD_DIR/j2sdk-bundle >>/dev/null
-    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jdk1.7.0.jdk
-	popd >>/dev/null
+	if [ - d $IMAGE_BUILD_DIR/j2sdk-bundle ]; then
+    	pushd $IMAGE_BUILD_DIR/j2sdk-bundle >>/dev/null
+		tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jdk1.7.0.jdk
+		popd >>/dev/null
+	else
+		echo "Warning, j2sdk bundle not found, DMG packages won't be available"
+	fi
 
-    pushd $IMAGE_BUILD_DIR/j2re-bundle >>/dev/null
-    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jre1.7.0.jre
-	popd >>/dev/null
-  
+	if [ - d $IMAGE_BUILD_DIR/j2re-bundle ]; then
+    	pushd $IMAGE_BUILD_DIR/j2re-bundle >>/dev/null
+    	tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jre1.7.0.jre
+		popd >>/dev/null
+	else
+		echo "Warning, j2re bundle not found, DMG packages won't be available"
+	fi
+	
     echo "produced tarball files under $OBF_DROP_DIR/$OBF_PROJECT_NAME"
     ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/*$OBF_BUILD_NUMBER-$OBF_BUILD_DATE*
 }
