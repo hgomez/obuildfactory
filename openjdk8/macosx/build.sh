@@ -96,6 +96,10 @@ function build_old()
   	;;
   esac
   
+  if [ "$XCLEAN" = "true" ]; then
+	  rm -rf $IMAGE_BUILD_DIR
+  fi
+  
   # Set Company Name to OBuildFactory
   sed -i "" -e "s|COMPANY_NAME = N/A|COMPANY_NAME = $BUNDLE_VENDOR|g" $OBF_SOURCES_PATH/jdk/make/common/shared/Defs.gmk
   
@@ -135,6 +139,10 @@ function build_new()
     		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-universal-normal-server-release/images
     	;;
     esac
+
+    if [ "$XCLEAN" = "true" ]; then
+  	  rm -rf $IMAGE_BUILD_DIR
+    fi
 
     if [ "$XDEBUG" = "true" ]; then
 	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
