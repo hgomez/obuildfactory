@@ -96,6 +96,10 @@ function build_old()
   	;;
   esac
   
+  if [ "$XCLEAN" = "true" ]; then
+	  rm -rf $IMAGE_BUILD_DIR
+  fi
+  
   # Set Company Name to OBuildFactory
   sed -i "" -e "s|COMPANY_NAME = N/A|COMPANY_NAME = $BUNDLE_VENDOR|g" $OBF_SOURCES_PATH/jdk/make/common/shared/Defs.gmk
   
