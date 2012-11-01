@@ -1,0 +1,57 @@
+--- jdk/make/common/Defs.gmk.orig	2012-10-13 23:29:43.000000000 +0200
++++ jdk/make/common/Defs.gmk	2012-10-13 23:30:29.000000000 +0200
+@@ -180,7 +180,7 @@
+   ifdef ALT_FREETYPE_LIB_PATH
+     FREETYPE_LIB_PATH = $(ALT_FREETYPE_LIB_PATH)
+     ifeq ($(PLATFORM), macosx)
+-      USING_SYSTEM_FT_LIB=true
++      USING_SYSTEM_FT_LIB=false
+     endif
+   else
+     ifeq ($(DEVTOOLS_FT_DIR_EXISTS), true)
+--- jdk/make/sun/font/Makefile.orig	2012-10-14 23:55:28.000000000 +0200
++++ jdk/make/sun/font/Makefile	2012-10-14 23:51:16.000000000 +0200
+@@ -132,15 +132,23 @@
+     OTHER_LDLIBS += $(FREETYPE_LIB_PATH)/freetype.lib
+ else 
+   ifeq ($(USING_SYSTEM_FT_LIB), false)
+-    FREETYPE_LIB = $(LIB_LOCATION)/$(LIB_PREFIX)freetype.$(LIBRARY_SUFFIX).6
++    ifeq ($(PLATFORM), macosx)
++      FREETYPE_LIB = $(LIB_LOCATION)/$(LIB_PREFIX)freetype.$(LIBRARY_SUFFIX)
++      OTHER_LDLIBS += -lfreetype
++    else
++      FREETYPE_LIB = $(LIB_LOCATION)/$(LIB_PREFIX)freetype.$(LIBRARY_SUFFIX).6
++      OTHER_LDLIBS += -L$(FREETYPE_LIB_PATH) -lfreetype
++    endif
+   endif
+-  OTHER_LDLIBS += -L$(FREETYPE_LIB_PATH) -lfreetype
+ endif 
+ 
+ library:: $(FREETYPE_LIB)
+ 
+ $(FREETYPE_LIB):
+ 	$(CP) $(FREETYPE_LIB_PATH)/$(LIB_PREFIX)freetype.$(LIBRARY_SUFFIX) $@
++  ifeq ($(PLATFORM), macosx)
++	install_name_tool -id @rpath/libfreetype.dylib $@
++  endif
+ endif
+ 
+ #ifeq ($(PLATFORM), solaris)
+@@ -178,7 +186,7 @@
+ # Libraries to link, and other C flags.
+ #
+ 
+-ifeq ($(PLATFORM), macosx))
++ifeq ($(PLATFORM), macosx)
+ OTHER_INCLUDES += -I$(X11_PATH)/include
+ OTHER_LDLIBS  += -lawt $(LIBM) $(LIBCXX)
+  ifeq ($(OS_VENDOR),Apple)
+@@ -203,7 +211,7 @@
+ 
+ # set up compile flags..
+ 
+-ifeq ($(PLATFORM), macosx))
++ifeq ($(PLATFORM), macosx)
+ CPPFLAGS += -I$(CLASSHDRDIR)
+ endif
+ 
