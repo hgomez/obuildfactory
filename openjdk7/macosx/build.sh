@@ -15,7 +15,7 @@ function apply_patches()
 {
   pushd $OBF_SOURCES_PATH >>/dev/null
 
-  if [ -d patches ]; then
+  if [ -d $OBF_BUILD_PATH/patches ]; then
     for i in $OBF_BUILD_PATH/patches/*.patch; do
       echo "applying patch $i"
       patch -p0 <$i
