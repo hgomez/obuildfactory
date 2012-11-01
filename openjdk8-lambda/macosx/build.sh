@@ -18,7 +18,7 @@ function apply_patches()
   if [ -d $OBF_BUILD_PATH/patches ]; then
     for i in $OBF_BUILD_PATH/patches/*.patch; do
       echo "applying patch $i"
-      patch -p0 <$i
+      patch -f -p0 <$i
     done
   fi
   
