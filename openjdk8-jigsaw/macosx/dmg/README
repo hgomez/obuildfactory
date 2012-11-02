@@ -1,0 +1,15 @@
+# Welcome to OpenJDK 8 for OS/X
+
+This package has been created using build and packages scripts from OBuildFactory project : https://github.com/hgomez/obuildfactory.
+
+More informations on how to do it yourself : https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK8-for-OSX
+
+OpenJDK 8 source code is available on OpenJDK mercurial repositories : http://hg.openjdk.java.net/jdk8/jdk8
+
+# Members
+
+## Henri Gomez
+
+email: henri.gomez@gmail.com
+twitter: @hgomez
+blog: http://blog.hgomez.net/
