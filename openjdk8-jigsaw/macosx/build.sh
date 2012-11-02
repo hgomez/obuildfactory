@@ -175,7 +175,18 @@ function build_old()
   pushd $OBF_SOURCES_PATH >>/dev/null
   make ALLOW_DOWNLOADS=true SA_APPLE_BOOT_JAVA=true ALWAYS_PASS_TEST_GAMMA=true ALT_BOOTDIR=$ALT_BOOTDIR ALT_DROPS_DIR=$DROP_DIR HOTSPOT_BUILD_JOBS=$NUM_CPUS PARALLEL_COMPILE_JOBS=$NUM_CPUS
 
-  # Create OSX Layout JDK
+  # Create j2sdk image dir
+  rm -rf $IMAGE_BUILD_DIR/j2sdk-image
+  mkdir -p $IMAGE_BUILD_DIR/j2sdk-image
+  cp -rf $IMAGE_BUILD_DIR/jdk-module-image/* $IMAGE_BUILD_DIR/j2sdk-image
+  
+  # Create j2re image dir
+  rm -rf $IMAGE_BUILD_DIR/j2re-image
+  mkdir -p $IMAGE_BUILD_DIR/j2re-image
+  cp -rf $IMAGE_BUILD_DIR/jre-module-image/* $IMAGE_BUILD_DIR/j2re-image
+  cp -rf -rf $IMAGE_BUILD_DIR/jigsaw-pkgs $IMAGE_BUILD_DIR/j2re-image
+  
+  # Create OSX Layout j2sdk-bundle dir
   rm -rf $IMAGE_BUILD_DIR/j2sdk-bundle
   mkdir -p $IMAGE_BUILD_DIR/j2sdk-bundle/jdk1.8.0.jdk/Contents/Home
   mkdir -p $IMAGE_BUILD_DIR/j2sdk-bundle/jdk1.8.0.jdk/Contents/MacOS
@@ -186,7 +197,7 @@ function build_old()
   ln -s ../Home/lib/jli/libjli.dylib .
   popd
 
-  # Create OSX Layout JRE
+  # Create OSX Layout j2re-bundle dir
   rm -rf $IMAGE_BUILD_DIR/j2re-bundle
   mkdir -p $IMAGE_BUILD_DIR/j2re-bundle/jre1.8.0.jre/Contents/Home
   mkdir -p $IMAGE_BUILD_DIR/j2re-bundle/jre1.8.0.jre/Contents/MacOS
@@ -284,8 +295,14 @@ function archive_build()
     	FILENAME_PREFIX="-fastdebug"
     fi
 	
-    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2sdk-image
-    tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
+	if [ -d j2sdk-image ]; then
+      tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2sdk-image
+    fi
+	
+	if [ -d j2re-image ]; then
+      tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
+    fi
+	
 	popd >>/dev/null
 
 	if [ -d $IMAGE_BUILD_DIR/j2sdk-bundle ]; then
