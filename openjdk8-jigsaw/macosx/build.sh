@@ -176,21 +176,23 @@ function build_old()
   make ALLOW_DOWNLOADS=true SA_APPLE_BOOT_JAVA=true ALWAYS_PASS_TEST_GAMMA=true ALT_BOOTDIR=$ALT_BOOTDIR ALT_DROPS_DIR=$DROP_DIR HOTSPOT_BUILD_JOBS=$NUM_CPUS PARALLEL_COMPILE_JOBS=$NUM_CPUS
 
   # Create OSX Layout JDK
+  rm -rf $IMAGE_BUILD_DIR/j2sdk-bundle
   mkdir -p $IMAGE_BUILD_DIR/j2sdk-bundle/jdk1.8.0.jdk/Contents/Home
   mkdir -p $IMAGE_BUILD_DIR/j2sdk-bundle/jdk1.8.0.jdk/Contents/MacOS
-  cp $OBF_BUILD_PATH/dmg/Info.plist $IMAGE_BUILD_DIR/j2sdk-bundle/jdk1.8.0.jdk/Contents
-  mv $IMAGE_BUILD_DIR/jdk-module-image/* $IMAGE_BUILD_DIR/j2sdk-bundle/jdk1.8.0.jdk/Contents/Home
+  cp -f $OBF_BUILD_PATH/dmg/Info.plist $IMAGE_BUILD_DIR/j2sdk-bundle/jdk1.8.0.jdk/Contents
+  cp -rf $IMAGE_BUILD_DIR/jdk-module-image/* $IMAGE_BUILD_DIR/j2sdk-bundle/jdk1.8.0.jdk/Contents/Home
   chmod 755 $IMAGE_BUILD_DIR/j2sdk-bundle/jdk1.8.0.jdk/Contents/Home/bin/*
   pushd $IMAGE_BUILD_DIR/j2sdk-bundle/jdk1.8.0.jdk/Contents/MacOS
   ln -s ../Home/lib/jli/libjli.dylib .
   popd
 
   # Create OSX Layout JRE
+  rm -rf $IMAGE_BUILD_DIR/j2re-bundle
   mkdir -p $IMAGE_BUILD_DIR/j2re-bundle/jre1.8.0.jre/Contents/Home
   mkdir -p $IMAGE_BUILD_DIR/j2re-bundle/jre1.8.0.jre/Contents/MacOS
-  cp $OBF_BUILD_PATH/dmg/Info.plist $IMAGE_BUILD_DIR/j2re-bundle/jre1.8.0.jre/Contents
-  mv $IMAGE_BUILD_DIR/jre-module-image/* $IMAGE_BUILD_DIR/j2re-bundle/jre1.8.0.jre/Contents/Home
-  mv $IMAGE_BUILD_DIR/jigsaw-pkgs $IMAGE_BUILD_DIR/j2re-bundle/jre1.8.0.jre/Contents/Home
+  cp -f $OBF_BUILD_PATH/dmg/Info.plist $IMAGE_BUILD_DIR/j2re-bundle/jre1.8.0.jre/Contents
+  cp -rf $IMAGE_BUILD_DIR/jre-module-image/* $IMAGE_BUILD_DIR/j2re-bundle/jre1.8.0.jre/Contents/Home
+  cp -rf -rf $IMAGE_BUILD_DIR/jigsaw-pkgs $IMAGE_BUILD_DIR/j2re-bundle/jre1.8.0.jre/Contents/Home
   chmod 755 $IMAGE_BUILD_DIR/j2re-bundle/jre1.8.0.jre/Contents/Home/bin/*
   pushd $IMAGE_BUILD_DIR/j2re-bundle/jre1.8.0.jre/Contents/MacOS
   ln -s ../Home/lib/jli/libjli.dylib .
