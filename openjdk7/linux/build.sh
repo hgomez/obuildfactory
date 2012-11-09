@@ -107,7 +107,6 @@ function build_old()
 
   export MILESTONE="$OBF_BUILD_NUMBER"
   export BUILD_NUMBER="$OBF_BUILD_DATE"
-  
   export LD_LIBRARY_PATH=
   export ALT_BOOTDIR=$JAVA_HOME
   export ALLOW_DOWNLOADS=true
