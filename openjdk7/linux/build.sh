@@ -117,6 +117,10 @@ function build_old()
   export PARALLEL_COMPILE_JOBS=$NUM_CPUS
   export ANT_HOME=$ANT_HOME
   export JAVA_HOME=
+
+  if [ "$XDEBUG" = "true" ]; then
+    export SKIP_FASTDEBUG_BUILD=false
+  fi
   
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
