@@ -24,7 +24,7 @@ mkdir -p SOURCES
 CPU_BUILD_ARCH=`uname -p`
 
 if [ -z "$OBF_JDK_MODEL" ]; then
- OBF_JDK_MODEL=$OBF_BASE_ARCH
+ OBF_JDK_MODEL=$CPU_BUILD_ARCH
 fi
 
 
