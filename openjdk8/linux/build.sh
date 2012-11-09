@@ -204,7 +204,18 @@ function build_new()
   export COMPANY_NAME=$BUNDLE_VENDOR
 
   mkdir -p $OBF_WORKSPACE_PATH/.ccache
-  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
+
+  if [ "$XCLEAN" = "true" ]; then
+	  rm -rf $IMAGE_BUILD_DIR
+  fi
+    
+  if [ "$XDEBUG" = "true" ]; then
+    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
+  else
+    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
+  fi
+
+  
   make images
 
   # restore original common/autoconf/version.numbers
@@ -245,12 +256,12 @@ function archive_build()
   	FILENAME_PREFIX="-fastdebug"
   fi
 		
-  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 j2sdk-image
-  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 j2re-image
+  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2sdk-image
+  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
   
   echo "produced tarball files under $OBF_DROP_DIR/$OBF_PROJECT_NAME"
-  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2
-  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2
+  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
+  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
   
   popd
 }
