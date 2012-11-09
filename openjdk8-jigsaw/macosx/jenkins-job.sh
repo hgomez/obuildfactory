@@ -23,7 +23,7 @@ mkdir -p $OBF_DROP_DIR
 # Provide Main Variables to Scripts
 #
 if [ -z "$OBF_BUILD_PATH" ]; then
-  export OBF_BUILD_PATH=`pwd`/obuildfactory/$OBF_PROJECT_NAME/linux
+  export OBF_BUILD_PATH=`pwd`/obuildfactory/$OBF_PROJECT_NAME/macosx
 fi
 
 if [ -z "$OBF_SOURCES_PATH" ]; then
