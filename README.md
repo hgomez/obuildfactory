@@ -20,6 +20,8 @@ Initialy planned for Linux, it will also include Mac OSX scripts from [openjdk-o
 
 [Wiki](https://github.com/hgomez/obuildfactory/wiki)
 
+[Building and packaging OpenJDK7 for Linux](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK7-for-Linux)
+
 [Building and packaging OpenJDK7 for OSX](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK7-for-OSX)
 
 [Building and packaging OpenJDK8 for OSX](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK8-for-OSX)
