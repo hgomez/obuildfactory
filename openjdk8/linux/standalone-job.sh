@@ -17,8 +17,6 @@ if [ -z $OBF_DROP_DIR ]; then
   export OBF_DROP_DIR=`pwd`/OBF_DROP_DIR
 fi
 
-mkdir -p $OBF_DROP_DIR
-
 #
 # Provide Main Variables to Scripts
 #
