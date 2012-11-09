@@ -27,6 +27,9 @@ if [ -z "$OBF_JDK_MODEL" ]; then
  OBF_JDK_MODEL=$CPU_BUILD_ARCH
 fi
 
+if [ "$XDEBUG" = "true" ]; then
+	FILENAME_PREFIX="-fastdebug"
+fi
 
 if [ -f $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 ]; then
   echo "packaging JDK"
