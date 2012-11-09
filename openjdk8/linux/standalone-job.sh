@@ -56,41 +56,9 @@ export OBF_MILESTONE=`hg tags | grep $TAG_FILTER | head -1 | cut -d ' ' -f 1 | s
 export OBF_BUILD_NUMBER=`hg tags | grep $TAG_FILTER | head -1 | sed "s/$TAG_FILTER//" | cut -d ' ' -f 1 | sed 's/^-//'`
 export OBF_BUILD_DATE=`date +%Y%m%d`
 
-
 popd >>/dev/null
 
-if [ "$XBUILD" = "true" ]; then
-  $OBF_BUILD_PATH/build.sh
-
-  if [ $? != 0 ]; then
-    exit -1
-  fi
-
-fi
-
-if [ "$XTEST" = "true" ]; then
-  $OBF_BUILD_PATH/test.sh
-
-  if [ $? != 0 ]; then
-    exit -1
-  fi
-
-fi
-
-if [ "$XPACKAGE"  = "true" ]; then
-  $OBF_BUILD_PATH/package.sh
-
-  if [ $? != 0 ]; then
-    exit -1
-  fi
-
-fi
-
-if [ "$XDEPLOY"  = "true" ]; then
-  $OBF_BUILD_PATH/deploy.sh
-
-  if [ $? != 0 ]; then
-    exit -1
-  fi
-
-fi
+#
+# Mercurial repositories updated, call Jenkins job now
+#
+$OBF_BUILD_PATH/jenkins-job.sh
