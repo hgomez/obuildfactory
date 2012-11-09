@@ -157,12 +157,20 @@ function build_old()
   export ALT_FREETYPE_LIB_PATH=$OBF_FREETYPE_LIB_PATH
   export ALT_FREETYPE_HEADERS_PATH=$OBF_FREETYPE_HEADERS_PATH
 
+  if [ "$XDEBUG" = "true" ]; then
+    export SKIP_FASTDEBUG_BUILD=false
+  fi
+  
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64/j2sdk-image
   else
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586/j2sdk-image
   fi
 
+  if [ "$XCLEAN" = "true" ]; then
+	  rm -rf $IMAGE_BUILD_DIR
+  fi
+  
   # Set Company Name to OBuildFactory
   sed -i "s|COMPANY_NAME = N/A|COMPANY_NAME = $BUNDLE_VENDOR|g" $OBF_SOURCES_PATH/jdk/make/common/shared/Defs.gmk
 
@@ -232,6 +240,11 @@ function archive_build()
 {
   pushd $IMAGE_BUILD_DIR
   mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME
+
+  if [ "$XDEBUG" = "true" ]; then
+  	FILENAME_PREFIX="-fastdebug"
+  fi
+		
   tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 j2sdk-image
   tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 j2re-image
   
