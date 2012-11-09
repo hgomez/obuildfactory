@@ -24,12 +24,13 @@ mkdir -p SOURCES
 CPU_BUILD_ARCH=`uname -p`
 
 if [ -z "$OBF_JDK_MODEL" ]; then
- OBF_JDK_MODEL=$CPU_BUILD_ARCH
+ OBF_JDK_MODEL=$OBF_BASE_ARCH
 fi
 
-if [ -f $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 ]; then
+
+if [ -f $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 ]; then
   echo "packaging JDK"
-  cp $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 SOURCES/j2sdk-image.tar.bz2
+  cp $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 SOURCES/j2sdk-image.tar.bz2
 
   rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" --define="jdk_model $OBF_JDK_MODEL" --define="cum_jdk 0" SPECS/jdk.spec
 
@@ -38,12 +39,12 @@ if [ -f $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 ]; t
   fi
 
 else
-  echo "missing JDK image tarball $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2, skipping packaging"
+  echo "missing JDK image tarball $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2, skipping packaging"
 fi
 
-if [ -f $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 ]; then
+if [ -f $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 ]; then
   echo "packaging JRE"
-  cp $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 SOURCES/j2re-image.tar.bz2
+  cp $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 SOURCES/j2re-image.tar.bz2
 
   rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" --define="jdk_model $OBF_JDK_MODEL" --define="cum_jdk 0" SPECS/jre.spec
 
@@ -52,7 +53,7 @@ if [ -f $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 ]; th
   fi
 
 else
-  echo "missing JRE image tarball $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2, skipping packaging"
+  echo "missing JRE image tarball $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2, skipping packaging"
 fi
 
 cp -rf RPMS $OBF_DROP_DIR/$OBF_PROJECT_NAME
