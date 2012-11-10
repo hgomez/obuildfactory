@@ -188,6 +188,7 @@ function build_new()
   export COMPANY_NAME=$BUNDLE_VENDOR
   export STATIC_CXX=false
 
+  rm -rf $OBF_WORKSPACE_PATH/.ccache
   mkdir -p $OBF_WORKSPACE_PATH/.ccache
 
   if [ "$XDEBUG" = "true" ]; then
