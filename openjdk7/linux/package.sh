@@ -4,8 +4,8 @@
 # Required vars :
 #
 # OBF_BUILD_PATH (absolute path of project, ie obuildfactory/openjdk8/linux)
-# OBF_PROJECT_NAME (ie: openjdk8)
-# OBF_BUILD_NUMBER (ie: b50)
+# OBF_PROJECT_NAME (ie: openjdk7)
+# OBF_BUILD_NUMBER (ie: u12-b01)
 #
 # Optional vars :
 #
