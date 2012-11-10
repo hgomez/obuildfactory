@@ -204,13 +204,13 @@ function build_new()
 
 	    case $OBF_BASE_ARCH in
 	    	x86_64)
-			    CONF=macosx-x86_64-normal-server-fastdebug
+			    BUILD_PROFILE=macosx-x86_64-normal-server-fastdebug
 	    	;;
 	    	i386)
-		        CONF=macosx-x86-normal-server-fastdebug
+		        BUILD_PROFILE=macosx-x86-normal-server-fastdebug
 	    	;;
 	    	universal)
-	            CONF=macosx-universal-normal-server-fastdebug
+	            BUILD_PROFILE=macosx-universal-normal-server-fastdebug
 	    	;;
 	    esac
 
@@ -221,13 +221,13 @@ function build_new()
 
 	    case $OBF_BASE_ARCH in
 	    	x86_64)
-		        CONF=macosx-x86_64-normal-server-release
+		        BUILD_PROFILE=macosx-x86_64-normal-server-release
 	    	;;
 	    	i386)
-	            CONF=macosx-x86-normal-server-release
+	            BUILD_PROFILE=macosx-x86-normal-server-release
 	    	;;
 	    	universal)
-            	CONF=macosx-universal-normal-server-release
+            	BUILD_PROFILE=macosx-universal-normal-server-release
 	    	;;
 	    esac
 
@@ -235,13 +235,13 @@ function build_new()
 	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
     fi
 
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$CONF
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$BUILD_PROFILE
 	
 	if [ "$XCLEAN" = "true" ]; then
-  	   CONF=$CONF make clean
+  	   CONF=$BUILD_PROFILE make clean
     fi
 
-    CONF=$CONF make images
+    CONF=$BUILD_PROFILE make images
     
     # restore original common/autoconf/version.numbers
     mv ../autoconf/version.numbers.orig ../autoconf/version.numbers
