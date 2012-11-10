@@ -204,13 +204,13 @@ function build_new()
 
 	    case $OBF_BASE_ARCH in
 	    	x86_64)
-	  			CURR_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86_64-normal-server-fastdebug
+			    CONF=macosx-x86_64-normal-server-fastdebug
 	    	;;
 	    	i386)
-	    		CURR_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86-normal-server-fastdebug
+		        CONF=macosx-x86-normal-server-fastdebug
 	    	;;
 	    	universal)
-	    		CURR_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-universal-normal-server-fastdebug
+	            CONF=macosx-universal-normal-server-fastdebug
 	    	;;
 	    esac
 
@@ -221,13 +221,13 @@ function build_new()
 
 	    case $OBF_BASE_ARCH in
 	    	x86_64)
-	  			CURR_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86_64-normal-server-release
+		        CONF=macosx-x86_64-normal-server-release
 	    	;;
 	    	i386)
-	    		CURR_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86-normal-server-release
+	            CONF=macosx-x86-normal-server-release
 	    	;;
 	    	universal)
-	    		CURR_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-universal-normal-server-release
+            	CONF=macosx-universal-normal-server-release
 	    	;;
 	    esac
 
@@ -235,18 +235,14 @@ function build_new()
 	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
     fi
 
-    export IMAGE_BUILD_DIR=$CURR_BUILD_DIR/images
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$CONF
 	
-    pushd $BUILD_DIR >>/dev/null
-    
 	if [ "$XCLEAN" = "true" ]; then
   	  make clean
     fi
 
     make images
     
-	popd >>/dev/null
-	
     # restore original common/autoconf/version.numbers
     mv ../autoconf/version.numbers.orig ../autoconf/version.numbers
 
