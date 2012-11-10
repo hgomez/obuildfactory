@@ -198,6 +198,7 @@ function build_new()
     export COMPANY_NAME=$BUNDLE_VENDOR
     OBF_BOOTDIR=`/usr/libexec/java_home -v 1.7`
 	
+    rm -rf $OBF_WORKSPACE_PATH/.ccache
     mkdir -p $OBF_WORKSPACE_PATH/.ccache
 
     if [ "$XDEBUG" = "true" ]; then
