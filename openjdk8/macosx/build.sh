@@ -115,8 +115,11 @@ function ensure_freetype()
 
   fi
 
-  export ALT_FREETYPE_LIB_PATH=$OBF_DROP_DIR/freetype/lib
-  export ALT_FREETYPE_HEADERS_PATH=$OBF_DROP_DIR/freetype/include
+  if [ "$XUSE_NEW_BUILD_SYSTEM" != "true" ]; then
+    export ALT_FREETYPE_LIB_PATH=$OBF_DROP_DIR/freetype/lib
+    export ALT_FREETYPE_HEADERS_PATH=$OBF_DROP_DIR/freetype/include
+  fi
+  
 }
 
 function check_version()
