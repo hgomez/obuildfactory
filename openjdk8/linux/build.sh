@@ -98,15 +98,6 @@ function ensure_freetype()
 }
 
 #
-# Under RHEL/CentOS/Fedora, switch to dynamic linking for C++
-# Andrew from RH recommand it for all Gnu/Linux distributions
-#
-function set_stdcpp_mode()
-{
-	export STATIC_CXX=false
-}
-
-#
 # Determine BUILD JVM to use
 #
 function ensure_java7() 
@@ -154,6 +145,7 @@ function build_old()
   export ANT_HOME=$ANT_HOME
   export ALT_FREETYPE_LIB_PATH=$OBF_FREETYPE_LIB_PATH
   export ALT_FREETYPE_HEADERS_PATH=$OBF_FREETYPE_HEADERS_PATH
+  export STATIC_CXX=false
 
   if [ "$XDEBUG" = "true" ]; then
     export SKIP_FASTDEBUG_BUILD=false
@@ -194,6 +186,7 @@ function build_new()
   export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
   export MILESTONE=$OBF_MILESTONE
   export COMPANY_NAME=$BUNDLE_VENDOR
+  export STATIC_CXX=false
 
   mkdir -p $OBF_WORKSPACE_PATH/.ccache
 
@@ -300,11 +293,6 @@ ensure_ant
 # Ensure freetype is correct one 
 # 
 ensure_freetype
-
-#
-# Set correct GCC mode
-#
-set_stdcpp_mode
 
 #
 # Select Java 7 (32 / 64bits)
