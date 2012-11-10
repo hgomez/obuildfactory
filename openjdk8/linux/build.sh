@@ -103,9 +103,7 @@ function ensure_freetype()
 #
 function set_stdcpp_mode()
 {
-  if [ `uname` = "Linux" ]; then
-      export STATIC_CXX=false
-  fi
+	export STATIC_CXX=false
 }
 
 #
