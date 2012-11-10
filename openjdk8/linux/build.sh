@@ -212,9 +212,9 @@ function build_new()
   else
 
 	  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-	    BUILD_PROFILE=linux-x86_64-normal-server-release/images
+	    BUILD_PROFILE=linux-x86_64-normal-server-release
 	  else
-	    BUILD_PROFILE=linux-x86-normal-server-release/images
+	    BUILD_PROFILE=linux-x86-normal-server-release
 	  fi
   
 	  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
@@ -224,10 +224,10 @@ function build_new()
   export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$BUILD_PROFILE/images
 
   if [ "$XCLEAN" = "true" ]; then
-	  make clean
+	  CONT=$BUILD_PROFILE make clean
   fi
   
-  make images
+  CONT=$BUILD_PROFILE make images
 
   # restore original common/autoconf/version.numbers
   mv ../autoconf/version.numbers.orig ../autoconf/version.numbers
