@@ -187,12 +187,6 @@ function build_new()
 {
   echo "### using new build system ###"
 
-  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-x86_64-normal-server-release/images
-  else
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-x86-normal-server-release/images
-  fi
-  
   pushd $OBF_SOURCES_PATH/common/makefiles >>/dev/null
   
   # patch common/autoconf/version.numbers
@@ -205,16 +199,33 @@ function build_new()
 
   mkdir -p $OBF_WORKSPACE_PATH/.ccache
 
-  if [ "$XCLEAN" = "true" ]; then
-	  rm -rf $IMAGE_BUILD_DIR
-  fi
-    
   if [ "$XDEBUG" = "true" ]; then
-    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
+
+	  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
+	    BUILD_PROFILE=linux-x86_64-normal-server-fastdebug
+	  else
+  	    BUILD_PROFILE=linux-x86-normal-server-fastdebug
+	  fi
+  
+	  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
+
   else
-    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
+
+	  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
+	    BUILD_PROFILE=linux-x86_64-normal-server-release/images
+	  else
+	    BUILD_PROFILE=linux-x86-normal-server-release/images
+	  fi
+  
+	  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
+
   fi
 
+  export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$BUILD_PROFILE/images
+
+  if [ "$XCLEAN" = "true" ]; then
+	  make clean
+  fi
   
   make images
 
