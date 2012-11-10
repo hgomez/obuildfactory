@@ -200,21 +200,36 @@ function build_new()
 	
     mkdir -p $OBF_WORKSPACE_PATH/.ccache
 
-    case $OBF_BASE_ARCH in
-    	x86_64)
-  			export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86_64-normal-server-release/images
-    	;;
-    	i386)
-    		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86-normal-server-release/images
-    	;;
-    	universal)
-    		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-universal-normal-server-release/images
-    	;;
-    esac
-
     if [ "$XDEBUG" = "true" ]; then
+
+	    case $OBF_BASE_ARCH in
+	    	x86_64)
+	  			export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86_64-normal-server-fastdebug/images
+	    	;;
+	    	i386)
+	    		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86-normal-server-fastdebug/images
+	    	;;
+	    	universal)
+	    		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-universal-normal-server-fastdebug/images
+	    	;;
+	    esac
+
 	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
+
 	else
+
+	    case $OBF_BASE_ARCH in
+	    	x86_64)
+	  			export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86_64-normal-server-release/images
+	    	;;
+	    	i386)
+	    		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86-normal-server-release/images
+	    	;;
+	    	universal)
+	    		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-universal-normal-server-release/images
+	    	;;
+	    esac
+
 	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
     fi
 
