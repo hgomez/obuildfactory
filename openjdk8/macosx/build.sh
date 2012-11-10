@@ -212,14 +212,14 @@ function build_new()
     	;;
     esac
 
-    if [ "$XCLEAN" = "true" ]; then
-  	  rm -rf $IMAGE_BUILD_DIR
-    fi
-
     if [ "$XDEBUG" = "true" ]; then
 	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
 	else
 	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
+    fi
+
+    if [ "$XCLEAN" = "true" ]; then
+  	  make clean
     fi
 
     make images
