@@ -40,6 +40,14 @@ sh ./get_source.sh
 popd >>/dev/null
 
 #
+# Update sources to provided tag XUSE_TAG (if defined)
+#
+if [ ! -z "$XUSE_TAG" ]; then
+  echo "using tag $XUSE_TAG"
+  sh ./make/scripts/hgforest.sh update $XUSE_TAG
+fi
+
+#
 # Mercurial repositories updated, call Jenkins job now
 #
 $OBF_BUILD_PATH/jenkins-job.sh

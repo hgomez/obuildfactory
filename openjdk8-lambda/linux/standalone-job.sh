@@ -45,6 +45,14 @@ pushd $OBF_SOURCES_PATH >>/dev/null
 sh ./get_source.sh
 
 #
+# Update sources to provided tag XUSE_TAG (if defined)
+#
+if [ ! -z "$XUSE_TAG" ]; then
+  echo "using tag $XUSE_TAG"
+  sh ./make/scripts/hgforest.sh update $XUSE_TAG
+fi
+
+#
 # OBF_MILESTONE will contains build tag number and name, ie b56-lambda but without dash inside (suited for RPM packages)
 # OBF_BUILD_NUMBER will contains build number, ie b56
 # OBF_BUILD_DATE will contains build date, ie 20120908

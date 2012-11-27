@@ -44,6 +44,14 @@ pushd $OBF_SOURCES_PATH >>/dev/null
 #
 sh ./get_source.sh
 
+#
+# Update sources to provided tag XUSE_TAG (if defined)
+#
+if [ ! -z "$XUSE_TAG" ]; then
+  echo "using tag $XUSE_TAG"
+  sh ./make/scripts/hgforest.sh update $XUSE_TAG
+fi
+
 popd >>/dev/null
 
 #
