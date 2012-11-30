@@ -115,6 +115,11 @@ function set_stdcpp_mode()
 #
 function ensure_java7() 
 {
+    if [ ! -z "$OBF_JAVA7_HOME" ]; then
+      export OBF_BOOTDIR=$OBF_JAVA7_HOME
+      return
+    fi
+	  
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
 
     if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-x86_64 ]; then
