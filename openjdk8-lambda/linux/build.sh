@@ -115,6 +115,11 @@ function set_stdcpp_mode()
 #
 function ensure_java7() 
 {
+  if [ ! -z "$OBF_JAVA7_HOME" ]; then
+    export OBF_BOOTDIR=$OBF_JAVA7_HOME
+    return
+  fi
+	  
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
 
     if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-x86_64 ]; then
@@ -160,9 +165,9 @@ function build_old()
   export ALT_FREETYPE_HEADERS_PATH=$OBF_FREETYPE_HEADERS_PATH
 
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64/j2sdk-image
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
   else
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586/j2sdk-image
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
   fi
 
   # Set Company Name to OBuildFactory
