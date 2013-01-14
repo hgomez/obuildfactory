@@ -143,7 +143,15 @@ function build_old()
   export BUILD_NUMBER="$OBF_BUILD_DATE"
   
   export LD_LIBRARY_PATH=
-  export ALT_BOOTDIR=`/usr/libexec/java_home -v 1.7`
+  if [ -z "$ALT_BOOTDIR" ]; then
+    if [ -z "$JAVA_HOME" ];
+    then
+      export ALT_BOOTDIR=`/usr/libexec/java_home -v 1.7`
+    else
+      export ALT_BOOTDIR=$JAVA_HOME
+    fi
+  fi
+  export ALT_BOOTDIR=$JAVA_HOME
   export ALLOW_DOWNLOADS=true
   export ALT_CACERTS_FILE=$OBF_DROP_DIR/cacerts
   export ALT_BOOTDIR=$ALT_BOOTDIR
@@ -196,6 +204,13 @@ function build_new()
     export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
     export MILESTONE=$OBF_MILESTONE
     export COMPANY_NAME=$BUNDLE_VENDOR
+
+    if [ -z "$JAVA_HOME" ];
+    then
+      export OBF_BOOTDIR=`/usr/libexec/java_home -v 1.7`
+    else
+      export OBF_BOOTDIR=$JAVA_HOME
+    fi
     OBF_BOOTDIR=`/usr/libexec/java_home -v 1.7`
 	
     rm -rf $OBF_WORKSPACE_PATH/.ccache
