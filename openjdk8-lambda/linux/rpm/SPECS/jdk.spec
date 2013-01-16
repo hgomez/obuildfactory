@@ -148,13 +148,13 @@ This package contains JavaDB files from %{origin} %{javaver}
 #%description sample
 #This package contains samples files from %{origin} %{javaver}
 
-%package src
-Summary:        Source Bundle from %{origin} %{javaver}
-Group:          Development/Languages
-Requires:       %{name} = %{epoch}:%{version}-%{release}
+#%package src
+#Summary:        Source Bundle from %{origin} %{javaver}
+#Group:          Development/Languages
+#Requires:       %{name} = %{epoch}:%{version}-%{release}
 
-%description src
-This package contains Source Bundle files from %{origin} %{javaver}
+#%description src
+#This package contains Source Bundle files from %{origin} %{javaver}
 
 %prep
 %setup -n j2sdk-image
@@ -219,10 +219,13 @@ rm -rf %{buildroot}
 #%defattr(-,root,root)
 #%{jdkdir}/sample
 
-%files src
-%defattr(-,root,root)
-%{jdkdir}/src.zip
+#%files src
+#%defattr(-,root,root)
+#%{jdkdir}/src.zip
 
 %changelog
+* Wed Jan 16 2013 henri.gomez@gmail.com 1.8.0-lambda.b56-1
+- Remove subpackages demo, sample and src since contents is not in built images
+
 * Sat Sep 1 2012 henri.gomez@gmail.com 1.8.0-lambda.b50-1
 - Initial package

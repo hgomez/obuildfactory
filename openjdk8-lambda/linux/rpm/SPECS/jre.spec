@@ -163,5 +163,8 @@ rm -rf %{buildroot}
 #%doc %{jredir}/man
 
 %changelog
+* Wed Jan 16 2013 henri.gomez@gmail.com 1.8.0-lambda.b56-1
+- Remove man refs since contents is not in built images
+
 * Sat Sep 1 2012 henri.gomez@gmail.com 1.8.0-lambda.b50-1
 - Initial package
