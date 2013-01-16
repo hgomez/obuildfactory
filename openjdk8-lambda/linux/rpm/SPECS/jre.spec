@@ -160,7 +160,7 @@ rm -rf %{buildroot}
 
 %files -f %{name}.files
 %defattr(-,root,root)
-%doc %{jredir}/man
+#%doc %{jredir}/man
 
 %changelog
 * Sat Sep 1 2012 henri.gomez@gmail.com 1.8.0-lambda.b50-1

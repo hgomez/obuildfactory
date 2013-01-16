@@ -203,13 +203,13 @@ rm -rf %{buildroot}
 
 %files -f %{name}.files
 %defattr(-,root,root)
-%doc %{jdkdir}/man
+#%doc %{jdkdir}/man
 
 %files db
 %defattr(-,root,root)
 %{jdkdir}/bin/jdb
-%{jdkdir}/man/man1/jdb.1
-%{jdkdir}/man/ja_JP.UTF-8/man1/jdb.1
+#%{jdkdir}/man/man1/jdb.1
+#%{jdkdir}/man/ja_JP.UTF-8/man1/jdb.1
 
 %files demo
 %defattr(-,root,root)
