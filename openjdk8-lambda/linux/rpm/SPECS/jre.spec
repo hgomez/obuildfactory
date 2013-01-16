@@ -160,11 +160,11 @@ rm -rf %{buildroot}
 
 %files -f %{name}.files
 %defattr(-,root,root)
-#%doc %{jredir}/man
+%doc %{jredir}/man
 
 %changelog
 * Wed Jan 16 2013 henri.gomez@gmail.com 1.8.0-lambda.b56-1
-- Remove man refs since contents is not in built images
+- ReAdded man refs since contents is not in built images
 
 * Sat Sep 1 2012 henri.gomez@gmail.com 1.8.0-lambda.b50-1
 - Initial package
