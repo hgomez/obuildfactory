@@ -132,21 +132,21 @@ Requires:       %{name} = %{epoch}:%{version}-%{release}
 %description db
 This package contains JavaDB files from %{origin} %{javaver}
 
-%package demo
-Summary:        Demos files from %{origin} %{javaver}
-Group:          Development/Languages
-Requires:       %{name} = %{epoch}:%{version}-%{release}
+#%package demo
+#Summary:        Demos files from %{origin} %{javaver}
+#Group:          Development/Languages
+#Requires:       %{name} = %{epoch}:%{version}-%{release}
 
-%description demo
-This package contains contains files from %{origin} %{javaver}
+#%description demo
+#This package contains contains files from %{origin} %{javaver}
 
-%package sample
-Summary:        Samples files from %{origin} %{javaver}
-Group:          Development/Languages
-Requires:       %{name} = %{epoch}:%{version}-%{release}
+#%package sample
+#Summary:        Samples files from %{origin} %{javaver}
+#Group:          Development/Languages
+#Requires:       %{name} = %{epoch}:%{version}-%{release}
 
-%description sample
-This package contains samples files from %{origin} %{javaver}
+#%description sample
+#This package contains samples files from %{origin} %{javaver}
 
 %package src
 Summary:        Source Bundle from %{origin} %{javaver}
@@ -211,13 +211,13 @@ rm -rf %{buildroot}
 #%{jdkdir}/man/man1/jdb.1
 #%{jdkdir}/man/ja_JP.UTF-8/man1/jdb.1
 
-%files demo
-%defattr(-,root,root)
-%{jdkdir}/demo
+#%files demo
+#%defattr(-,root,root)
+#%{jdkdir}/demo
 
-%files sample
-%defattr(-,root,root)
-%{jdkdir}/sample
+#%files sample
+#%defattr(-,root,root)
+#%{jdkdir}/sample
 
 %files src
 %defattr(-,root,root)
