@@ -170,6 +170,10 @@ function build_old()
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
   fi
 
+  if [ "$XCLEAN" = "true" ]; then
+          rm -rf $IMAGE_BUILD_DIR
+  fi
+
   # Set Company Name to OBuildFactory
   sed -i "s|COMPANY_NAME = N/A|COMPANY_NAME = $BUNDLE_VENDOR|g" $OBF_SOURCES_PATH/jdk/make/common/shared/Defs.gmk
 
@@ -204,6 +208,10 @@ function build_new()
 
   rm -rf $OBF_WORKSPACE_PATH/.ccache
   mkdir -p $OBF_WORKSPACE_PATH/.ccache
+
+  if [ "$XCLEAN" = "true" ]; then
+     make clean
+  fi
 
   sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
   make images
