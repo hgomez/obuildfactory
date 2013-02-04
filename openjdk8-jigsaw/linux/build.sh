@@ -208,7 +208,7 @@ function build_new()
   mkdir -p $OBF_WORKSPACE_PATH/.ccache
 
   sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
-                           --with-milestone=$OBF_MILESTONE
+                           --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
   make images
 
   # restore original common/autoconf/version.numbers

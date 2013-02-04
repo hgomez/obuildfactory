@@ -207,7 +207,7 @@ function build_new()
 	  fi
   
 	  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug \
-                               --with-milestone=$OBF_MILESTONE
+                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
 
   else
 
@@ -218,7 +218,7 @@ function build_new()
 	  fi
   
 	  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
-                               --with-milestone=$OBF_MILESTONE
+                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
 
   fi
 
