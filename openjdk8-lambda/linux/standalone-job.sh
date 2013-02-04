@@ -59,8 +59,8 @@ fi
 #
 # Build System concats OBF_MILESTONE, - and OBF_BUILD_DATE, ie b56-lambda-20120908
 #
-export OBF_MILESTONE=`hg tags | grep lambda | head -1 | cut -d ' ' -f 1 | sed 's/^-//'`
-export OBF_BUILD_NUMBER=`hg tags | grep lambda | head -1 | sed "s/lambda//" | cut -d ' ' -f 1 | sed 's/^-//'`
+export OBF_MILESTONE=`hg tags | grep jdk8 | head -1 | cut -d ' ' -f 1 | sed 's/^-//'`
+export OBF_BUILD_NUMBER=`hg tags | grep jdk8 | head -1 | sed "s/jdk8//" | cut -d ' ' -f 1 | sed 's/^-//'`
 export OBF_BUILD_DATE=`date +%Y%m%d`
 
 
