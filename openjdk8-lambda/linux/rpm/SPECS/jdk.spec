@@ -35,7 +35,7 @@ Summary: %{origin} JDK %{javaver} Environment
 # jvm_version is provided via --define externally, to rpm convention via rpm_rel_version
 #
 Version: %{javaver}.%{rpm_rel_version}
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 #
 # Force _jvmdir to be into /opt/obuildfactory where all jvms will be stored
@@ -132,29 +132,29 @@ Requires:       %{name} = %{epoch}:%{version}-%{release}
 %description db
 This package contains JavaDB files from %{origin} %{javaver}
 
-#%package demo
-#Summary:        Demos files from %{origin} %{javaver}
-#Group:          Development/Languages
-#Requires:       %{name} = %{epoch}:%{version}-%{release}
+%package demo
+Summary:        Demos files from %{origin} %{javaver}
+Group:          Development/Languages
+Requires:       %{name} = %{epoch}:%{version}-%{release}
 
-#%description demo
-#This package contains contains files from %{origin} %{javaver}
+%description demo
+This package contains contains files from %{origin} %{javaver}
 
-#%package sample
-#Summary:        Samples files from %{origin} %{javaver}
-#Group:          Development/Languages
-#Requires:       %{name} = %{epoch}:%{version}-%{release}
+%package sample
+Summary:        Samples files from %{origin} %{javaver}
+Group:          Development/Languages
+Requires:       %{name} = %{epoch}:%{version}-%{release}
 
-#%description sample
-#This package contains samples files from %{origin} %{javaver}
+%description sample
+This package contains samples files from %{origin} %{javaver}
 
-#%package src
-#Summary:        Source Bundle from %{origin} %{javaver}
-#Group:          Development/Languages
-#Requires:       %{name} = %{epoch}:%{version}-%{release}
+%package src
+Summary:        Source Bundle from %{origin} %{javaver}
+Group:          Development/Languages
+Requires:       %{name} = %{epoch}:%{version}-%{release}
 
-#%description src
-#This package contains Source Bundle files from %{origin} %{javaver}
+%description src
+This package contains Source Bundle files from %{origin} %{javaver}
 
 %prep
 %setup -n j2sdk-image
@@ -208,22 +208,25 @@ rm -rf %{buildroot}
 %files db
 %defattr(-,root,root)
 %{jdkdir}/bin/jdb
-#%{jdkdir}/man/man1/jdb.1
-#%{jdkdir}/man/ja_JP.UTF-8/man1/jdb.1
+%{jdkdir}/man/man1/jdb.1
+%{jdkdir}/man/ja_JP.UTF-8/man1/jdb.1
 
-#%files demo
-#%defattr(-,root,root)
-#%{jdkdir}/demo
+%files demo
+%defattr(-,root,root)
+%{jdkdir}/demo
 
-#%files sample
-#%defattr(-,root,root)
-#%{jdkdir}/sample
+%files sample
+%defattr(-,root,root)
+%{jdkdir}/sample
 
-#%files src
-#%defattr(-,root,root)
-#%{jdkdir}/src.zip
+%files src
+%defattr(-,root,root)
+%{jdkdir}/src.zip
 
 %changelog
+* Mon Feb 4 2013 henri.gomez@gmail.com 1.8.0-lambda.b56-2
+- demo, samples and src packages are back
+
 * Wed Jan 16 2013 henri.gomez@gmail.com 1.8.0-lambda.b56-1
 - Remove subpackages demo, sample and src since contents is not in built images
 
