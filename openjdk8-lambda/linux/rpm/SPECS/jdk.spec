@@ -203,7 +203,7 @@ rm -rf %{buildroot}
 
 %files -f %{name}.files
 %defattr(-,root,root)
-#%doc %{jdkdir}/man
+%doc %{jdkdir}/man
 
 %files db
 %defattr(-,root,root)
