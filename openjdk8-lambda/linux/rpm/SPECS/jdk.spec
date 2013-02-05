@@ -35,7 +35,7 @@ Summary: %{origin} JDK %{javaver} Environment
 # jvm_version is provided via --define externally, to rpm convention via rpm_rel_version
 #
 Version: %{javaver}.%{rpm_rel_version}
-Release: 2%{?dist}
+Release: 1%{?dist}
 
 #
 # Force _jvmdir to be into /opt/obuildfactory where all jvms will be stored
@@ -224,6 +224,9 @@ rm -rf %{buildroot}
 %{jdkdir}/src.zip
 
 %changelog
+* Tue Feb 5 2013 henri.gomez@gmail.com 1.8.0-lambda.b72-1
+- man pages are back
+
 * Mon Feb 4 2013 henri.gomez@gmail.com 1.8.0-lambda.b56-2
 - demo, samples and src packages are back
 
