@@ -211,13 +211,37 @@ function build_new()
   rm -rf $OBF_WORKSPACE_PATH/.ccache
   mkdir -p $OBF_WORKSPACE_PATH/.ccache
 
-  if [ "$XCLEAN" = "true" ]; then
-     make clean
+  if [ "$XDEBUG" = "true" ]; then
+
+	  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
+	    BUILD_PROFILE=linux-x86_64-normal-server-fastdebug
+	  else
+  	    BUILD_PROFILE=linux-x86-normal-server-fastdebug
+	  fi
+  
+	  bash ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug \
+                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
+
+  else
+
+	  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
+	    BUILD_PROFILE=linux-x86_64-normal-server-release
+	  else
+	    BUILD_PROFILE=linux-x86-normal-server-release
+	  fi
+  
+	  bash ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
+                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
+
   fi
 
-  bash ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
-                           --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
-  make images
+  export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$BUILD_PROFILE/images
+
+  if [ "$XCLEAN" = "true" ]; then
+	  CONT=$BUILD_PROFILE make clean
+  fi
+  
+  CONT=$BUILD_PROFILE make images
 
   # restore original common/autoconf/version.numbers
   if [ -f ../autoconf/version.numbers.orig ]; then
