@@ -206,7 +206,7 @@ function build_new()
   	    BUILD_PROFILE=linux-x86-normal-server-fastdebug
 	  fi
   
-	  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug \
+	  bash ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug \
                                --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
 
   else
@@ -217,7 +217,7 @@ function build_new()
 	    BUILD_PROFILE=linux-x86-normal-server-release
 	  fi
   
-	  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
+	  bash ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
                                --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
 
   fi

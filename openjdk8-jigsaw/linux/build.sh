@@ -207,7 +207,7 @@ function build_new()
   rm -rf $OBF_WORKSPACE_PATH/.ccache
   mkdir -p $OBF_WORKSPACE_PATH/.ccache
 
-  sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache 
+  bash ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache 
   make images
 
   # restore original common/autoconf/version.numbers
