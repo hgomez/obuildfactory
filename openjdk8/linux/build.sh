@@ -163,7 +163,7 @@ function build_old()
   fi
 
   if [ "$XCLEAN" = "true" ]; then
-	  rm -rf $IMAGE_BUILD_DIR
+	rm -rf $IMAGE_BUILD_DIR
   fi
   
   # Set Company Name to OBuildFactory

@@ -163,11 +163,20 @@ function build_old()
   export ANT_HOME=$ANT_HOME
   export ALT_FREETYPE_LIB_PATH=$OBF_FREETYPE_LIB_PATH
   export ALT_FREETYPE_HEADERS_PATH=$OBF_FREETYPE_HEADERS_PATH
+  export STATIC_CXX=false
 
+  if [ "$XDEBUG" = "true" ]; then
+    export SKIP_FASTDEBUG_BUILD=false
+  fi
+  
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
   else
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
+  fi
+
+  if [ "$XCLEAN" = "true" ]; then
+    rm -rf $IMAGE_BUILD_DIR
   fi
 
   # Set Company Name to OBuildFactory
