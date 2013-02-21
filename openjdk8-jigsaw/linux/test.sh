@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 
 PROJECT_NAME=openjdk8-jigsaw

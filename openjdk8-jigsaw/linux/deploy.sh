@@ -1,6 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 #
-
 # Required vars :
 #
 # OBF_BUILD_PATH (absolute path of project, ie obuildfactory/openjdk8-lambda/linux)
