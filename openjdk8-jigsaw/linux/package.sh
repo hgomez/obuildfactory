@@ -40,7 +40,7 @@ if [ "$XUSE_FPM" = "true" ]; then
     mkdir -p tmp/$OBF_PROJECT_NAME
     pushd tmp/$OBF_PROJECT_NAME
     tar xvjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
-    XDEST_DIR=opt/obuildfactory/$OBF_PROJECT_NAME/$PACKAGE_NAME-$OBF_JDK_MODEL$FILENAME_PREFIX
+    XDEST_DIR=opt/obuildfactory/$PACKAGE_NAME-$OBF_JDK_MODEL$FILENAME_PREFIX
     rm -rf $XDEST_DIR
     mkdir -p $XDEST_DIR
     mv j2sdk-image/* $XDEST_DIR 
