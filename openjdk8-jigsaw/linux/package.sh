@@ -96,7 +96,7 @@ else
         echo "missing JRE image tarball $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2, skipping packaging"
     fi
 
-    cp -rf RPMS $OBF_DROP_DIR/$OBF_PROJECT_NAME
+    mv RPMS/*/*.rpm $OBF_DROP_DIR/$OBF_PROJECT_NAME
 
 fi
 
