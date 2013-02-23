@@ -11,6 +11,9 @@
 #
 # OBF_JDK_MODEL (ie: x86_64 to override default calculated)
 
+PACKAGE_NAME="jdk-1.7.0-openjdk"
+PACKAGE_DESCRIPTION="OpenJDK 7 native package"
+
 pushd $OBF_BUILD_PATH/rpm >>/dev/null
 
 if [ "$XDEBUG" = "true" ]; then
@@ -38,7 +41,7 @@ if [ "$XUSE_FPM" = "true" ]; then
 
     rm -rf *.$XPACKAGE_MODE
 
-    fpm --verbose -s dir -t $XPACKAGE_MODE -n $OBF_PROJECT_NAME$FILENAME_PREFIX -v "1.8.0-$OBF_BUILD_NUMBER" --category language -m "Henri Gomez <henri.gomez@gmail.com>" \
+    fpm --verbose -s dir -t $XPACKAGE_MODE -n $OBF_PROJECT_NAME$FILENAME_PREFIX -v "1.7.0-$OBF_BUILD_NUMBER" --category language -m "Henri Gomez <henri.gomez@gmail.com>" \
     --url https://github.com/hgomez/obuildfactory/ \
     --description "$PACKAGE_DESCRIPTION$DESCRIPTION_ADDON" \
     -C . opt
