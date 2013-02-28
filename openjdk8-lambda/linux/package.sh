@@ -11,7 +11,7 @@
 #
 # OBF_JDK_MODEL (ie: x86_64 to override default calculated)
 
-PACKAGE_NAME="jdk-1.8.0-lambda openjdk"
+PACKAGE_NAME="jdk-1.8.0-lambda-openjdk"
 PACKAGE_DESCRIPTION="OpenJDK 8 with Lambda native package"
 
 pushd $OBF_BUILD_PATH/rpm >>/dev/null
