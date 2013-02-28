@@ -283,12 +283,17 @@ function archive_build()
 {
   pushd $IMAGE_BUILD_DIR
   mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME
-  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2 jdk-module-image
-  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2 jre-module-image
+
+  if [ "$XDEBUG" = "true" ]; then
+  	FILENAME_PREFIX="-fastdebug"
+  fi
+		
+  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2sdk-image
+  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
   
   echo "produced tarball files under $OBF_DROP_DIR/$OBF_PROJECT_NAME"
-  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image-$CPU_BUILD_ARCH.tar.bz2
-  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image-$CPU_BUILD_ARCH.tar.bz2
+  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
+  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
   
   popd
 }
