@@ -14,7 +14,7 @@ These scripts add goodies like :
 
 You could use these scripts from a Jenkins Powered environment to setup a Continuous Integration chain or standalone for one shot builds.
 
-Initialy planned for Linux, it will also include Mac OSX scripts from [openjdk-osx-build](http://code.google.com/p/openjdk-osx-build/) so OSX users could produce their own packages
+Initialy planned for Linux, this project also include Mac OSX scripts from [openjdk-osx-build](http://code.google.com/p/openjdk-osx-build/) 
 
 # Documentation
 
