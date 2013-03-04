@@ -22,6 +22,8 @@ Initialy planned for Linux, this project also include Mac OSX scripts from [open
 
 ## Linux
 
+Build and packages are tested on CentOS 5, 6, Fedora 18, openSUSE 12.2 and Ubuntu 12.10 weekly on my home package factory (motorized by Jenkins). Binary packages will be uploaded to Bintray really soon on a weekly basis.
+
 [How to build and package OpenJDK 7 on Linux](https://github.com/hgomez/obuildfactory/wiki/How-to-build-and-package-OpenJDK-7-on-Linux)
 
 [How to build and package OpenJDK 8 on Linux](https://github.com/hgomez/obuildfactory/wiki/How-to-build-and-package-OpenJDK-8-on-Linux)
