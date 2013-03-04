@@ -22,14 +22,18 @@ Initialy planned for Linux, it will also include Mac OSX scripts from [openjdk-o
 
 ## Linux
 
-[Building and packaging OpenJDK7 for Linux](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK7-for-Linux)
+[How to build and package OpenJDK 7 on Linux](https://github.com/hgomez/obuildfactory/wiki/How-to-build-and-package-OpenJDK-7-on-Linux)
 
-[Building and packaging OpenJDK8 for Linux](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK8-for-Linux)
+[How to build and package OpenJDK 8 on Linux](https://github.com/hgomez/obuildfactory/wiki/How-to-build-and-package-OpenJDK-8-on-Linux)
+
+[How to build and package OpenJDK 8 with Lambda on Linux](https://github.com/hgomez/obuildfactory/wiki/How-to-build-and-package-OpenJDK-8-with-lambda-on-Linux)
+
 
 ## OSX
 
-I don't hava anymore OSX machines so I won't be able to help on Apple platforms.
+I don't have anymore OSX machines so I won't be able to help on Apple platforms.
 There is some wiki pages who detailed how to build, but there is no guaranty about success.
+BTW, I'll welcome pull-requests so it will help others OSX users.
 
 [Building and packaging OpenJDK7 for OSX](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK7-for-OSX)
 
@@ -37,4 +41,3 @@ There is some wiki pages who detailed how to build, but there is no guaranty abo
 
 [Building and packaging OpenJDK8 with Lambda for OSX](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK8-with-Lambda-for-OSX)
 
-[Building and packaging OpenJDK8 with Jigsaw for OSX](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK8-with-Jigsaw-for-OSX)
