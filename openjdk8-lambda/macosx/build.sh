@@ -236,14 +236,14 @@ function test_build()
   if [ -x $IMAGE_BUILD_DIR/j2sdk-image/bin/java ]; then
     $IMAGE_BUILD_DIR/j2sdk-image/bin/java -version
   else
-    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed" 
+    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image/bin, build failed" 
     exit -1
    fi
 
    if [ -x $IMAGE_BUILD_DIR/j2re-image/bin/java ]; then
      $IMAGE_BUILD_DIR/j2re-image/bin/java -version
    else
-     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed" 
+     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image/bin, build failed" 
      exit -1
     fi
 }
