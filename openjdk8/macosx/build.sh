@@ -270,17 +270,17 @@ function build_new()
 #
 function test_build()
 {
-  if [ -x $IMAGE_BUILD_DIR/j2sdk-image/bin/java ]; then
-    $IMAGE_BUILD_DIR/j2sdk-image/bin/java -version
+  if [ -x $IMAGE_BUILD_DIR/images/j2sdk-image/bin/java ]; then
+    $IMAGE_BUILD_DIR/images/j2sdk-image/bin/java -version
   else
-    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed" 
+    echo "can't find java into JDK $IMAGE_BUILD_DIR/images/j2sdk-imagei/bin, build failed" 
     exit -1
    fi
 
-   if [ -x $IMAGE_BUILD_DIR/j2re-image/bin/java ]; then
-     $IMAGE_BUILD_DIR/j2re-image/bin/java -version
+   if [ -x $IMAGE_BUILD_DIR/images/j2re-image/bin/java ]; then
+     $IMAGE_BUILD_DIR/images/j2re-image/bin/java -version
    else
-     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed" 
+     echo "can't find java into JRE $IMAGE_BUILD_DIR/images/j2re-image/bin, build failed" 
      exit -1
     fi
 }
@@ -292,7 +292,7 @@ function archive_build()
 {
     mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME
 
-    pushd $IMAGE_BUILD_DIR >>/dev/null
+    pushd $IMAGE_BUILD_DIR/images >>/dev/null
 	
     if [ "$XDEBUG" = "true" ]; then
     	FILENAME_PREFIX="-fastdebug"
@@ -302,16 +302,16 @@ function archive_build()
     tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
 	popd >>/dev/null
 
-	if [ -d $IMAGE_BUILD_DIR/j2sdk-bundle ]; then
-		pushd $IMAGE_BUILD_DIR/j2sdk-bundle >>/dev/null
+	if [ -d $IMAGE_BUILD_DIR/images/j2sdk-bundle ]; then
+		pushd $IMAGE_BUILD_DIR/images/j2sdk-bundle >>/dev/null
 		tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jdk1.8.0.jdk
 		popd >>/dev/null
 	else
 		echo "Warning, j2sdk bundle not found, DMG packages won't be available"
   	fi
 	
-	if [ -d $IMAGE_BUILD_DIR/j2re-bundle ]; then
-		pushd $IMAGE_BUILD_DIR/j2re-bundle >>/dev/null
+	if [ -d $IMAGE_BUILD_DIR/images/j2re-bundle ]; then
+		pushd $IMAGE_BUILD_DIR/images/j2re-bundle >>/dev/null
 		tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jre1.8.0.jre
 		popd >>/dev/null
 	else
