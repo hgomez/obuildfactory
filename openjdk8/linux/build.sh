@@ -38,7 +38,7 @@ function ensure_ant()
   if [ ! -x $OBF_DROP_DIR/ant/bin/ant ]; then
     mkdir -p $OBF_DROP_DIR/ant
     pushd $OBF_DROP_DIR/ant
-    curl -L http://mirrors.ircam.fr/pub/apache/ant/binaries/apache-ant-1.8.4-bin.tar.gz -o apache-ant-1.8.4-bin.tar.gz
+    curl -L http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz -o apache-ant-1.8.4-bin.tar.gz
     tar xzf apache-ant-1.8.4-bin.tar.gz
     mv apache-ant-1.8.4/* .
     rmdir apache-ant-1.8.4
