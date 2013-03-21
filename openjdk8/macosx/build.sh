@@ -251,7 +251,7 @@ function build_new()
 	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
     fi
 
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$BUILD_PROFILE
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$BUILD_PROFILE/images
 	
 	if [ "$XCLEAN" = "true" ]; then
   	   CONF=$BUILD_PROFILE make clean
@@ -273,14 +273,14 @@ function test_build()
   if [ -x $IMAGE_BUILD_DIR/j2sdk-image/bin/java ]; then
     $IMAGE_BUILD_DIR/j2sdk-image/bin/java -version
   else
-    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed" 
+    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image/bin, build failed" 
     exit -1
    fi
 
    if [ -x $IMAGE_BUILD_DIR/j2re-image/bin/java ]; then
      $IMAGE_BUILD_DIR/j2re-image/bin/java -version
    else
-     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed" 
+     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image/bin, build failed" 
      exit -1
     fi
 }
