@@ -43,7 +43,7 @@ curl -vvf -u$BINTRAY_USER:$BINTRAY_APIKEY -H "Content-Type: application/json" -X
 echo "@@@@@@@@@@@@@@@@@@@@@@"
 echo "@@@ create package @@@"
 echo "@@@@@@@@@@@@@@@@@@@@@@"
-curl -vvf -u$BINTRAY_USER:$BINTRAY_APIKEY -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/ --data "{ \"name\": \"$RPM_NAME\", \"desc\": \"auto\", \"desc_url\": \"$BASE_DESC/$RPM_NAME\", \"labels\": \"\" }"
+curl -vvf -u$BINTRAY_USER:$BINTRAY_APIKEY -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/ --data "{ \"name\": \"$RPM_NAME\", \"desc\": \"$RPM_NAME package\", \"desc_url\": \"$BASE_DESC/$RPM_NAME\", \"labels\": \"\" }"
 
 #echo "@@@@@@@@@@@@@@@@@@@@@@"
 #echo "@@@ delete version @@@"
