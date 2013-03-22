@@ -30,7 +30,34 @@ Build and packages are tested on CentOS 5, 6, Fedora 18, openSUSE 12.2 and Ubunt
 
 [How to build and package OpenJDK 8 with Lambda on Linux](https://github.com/hgomez/obuildfactory/wiki/How-to-build-and-package-OpenJDK-8-with-lambda-on-Linux)
 
+### Yum repositories
 
+Thanks to JFrog Bintray, OpenJDK for Linux are available for major Linux distributions :
+
+    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-centos5-i386 -O bintray-hgomez-obuildfactory.repo
+    sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
+
+    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-centos5-x86-64 -O bintray-hgomez-obuildfactory.repo
+    sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
+
+    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-centos6-i386 -O bintray-hgomez-obuildfactory.repo
+    sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
+
+    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-centos6-x86-64 -O bintray-hgomez-obuildfactory.repo
+    sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
+
+    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-fedora18-i386 -O bintray-hgomez-obuildfactory.repo
+    sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
+
+    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-fedora18-x86-64 -O bintray-hgomez-obuildfactory.repo
+    sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
+
+    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-opensuse122-i386 -O bintray-hgomez-obuildfactory.repo
+    sudo mv bintray-hgomez-obuildfactory.repo /etc/zypp/repos.d/
+
+    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-opensuse122-x86-64 -O bintray-hgomez-obuildfactory.repo
+    sudo mv bintray-hgomez-obuildfactory.repo /etc/zypp/repos.d/
+    
 ## OSX
 
 I don't have anymore OSX machines so I won't be able to help on Apple platforms.
