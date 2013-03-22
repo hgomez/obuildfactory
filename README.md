@@ -83,6 +83,13 @@ Then you could install rpm like this :
     # install openjdk7 on SLES/openSUSE 64bits
     sudo zypper install jdk-1.7.0-openjdk-x86_64
     
+And then update then with yum/zypper :
+
+    # update obuildfactory package on CentOS/Fedora
+    sudo yum update
+    # update obuildfactory package on SLES/openSUSE
+    sudo zypper update
+
 ## OSX
 
 I don't have anymore OSX machines so I won't be able to help on Apple platforms.
