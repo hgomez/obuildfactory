@@ -32,7 +32,7 @@ Build and packages are tested on CentOS 5, 6, Fedora 18, openSUSE 12.2 and Ubunt
 
 ### Yum repositories
 
-Thanks to JFrog Bintray, OpenJDK for Linux are available for major Linux distributions.
+Thanks to JFrog Bintray, OpenJDKs for Linux are available for major Linux distributions in yum repositories, install repositories like :
 
 #### CentOS 5 32bits
 
@@ -73,6 +73,15 @@ Thanks to JFrog Bintray, OpenJDK for Linux are available for major Linux distrib
 
     wget https://bintray.com/repo/rpm/hgomez/obuildfactory-opensuse122-x86-64 -O bintray-hgomez-obuildfactory.repo
     sudo mv bintray-hgomez-obuildfactory.repo /etc/zypp/repos.d/
+
+Then you could install rpm like this :
+
+    # install openjdk8 lambda on CentOS/Fedora 32bits
+    sudo yum install jdk-1.8.0-lambda-openjdk-i686
+    # install openjdk8 on CentOS/Fedora 64bits
+    sudo yum install jdk-1.8.0-openjdk-x86_64
+    # install openjdk7 on SLES/openSUSE 64bits
+    sudo zypper install jdk-1.7.0-openjdk-x86_64
     
 ## OSX
 
