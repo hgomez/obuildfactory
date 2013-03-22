@@ -26,6 +26,7 @@ RPM_NAME=`rpm --queryformat "%{NAME}" -qp $RPM_FILE`
 RPM_VERSION=`rpm --queryformat "%{VERSION}" -qp $RPM_FILE`
 RPM_RELEASE=`rpm --queryformat "%{RELEASE}" -qp $RPM_FILE`
 RPM_ARCH=`rpm --queryformat "%{ARCH}" -qp $RPM_FILE`
+RPM_DESCRIPTION=`rpm --queryformat "%{DESCRIPTION}" -qp $RPM_FILE`
 
 if [ -z "$RPM_NAME" ] || [ -z "$RPM_VERSION" ] || [ -z "$RPM_RELEASE" ] || [ -z "$RPM_ARCH" ]; then
   echo "no RPM metadata information in $RPM_FILE, skipping."
@@ -43,7 +44,7 @@ curl -vvf -u$BINTRAY_USER:$BINTRAY_APIKEY -H "Content-Type: application/json" -X
 echo "@@@@@@@@@@@@@@@@@@@@@@"
 echo "@@@ create package @@@"
 echo "@@@@@@@@@@@@@@@@@@@@@@"
-curl -vvf -u$BINTRAY_USER:$BINTRAY_APIKEY -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/ --data "{ \"name\": \"$RPM_NAME\", \"desc\": \"$RPM_NAME RPM package\", \"desc_url\": \"$BASE_DESC\", \"labels\": \"\" }"
+curl -vvf -u$BINTRAY_USER:$BINTRAY_APIKEY -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/ --data "{ \"name\": \"$RPM_NAME\", \"desc\": \"${RPM_DESCRIPTION}\", \"desc_url\": \"$BASE_DESC\", \"labels\": \"\" }"
 
 #echo "@@@@@@@@@@@@@@@@@@@@@@"
 #echo "@@@ delete version @@@"
