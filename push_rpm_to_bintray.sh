@@ -28,6 +28,7 @@ RPM_RELEASE=`rpm --queryformat "%{RELEASE}" -qp $RPM_FILE`
 RPM_ARCH=`rpm --queryformat "%{ARCH}" -qp $RPM_FILE`
 RPM_DESCRIPTION=`rpm --queryformat "%{DESCRIPTION}" -qp $RPM_FILE`
 REPO_FILE_PATH=`basename $RPM_FILE`
+DESC_URL=$BASE_DESC
 
 if [ -z "$RPM_NAME" ] || [ -z "$RPM_VERSION" ] || [ -z "$RPM_RELEASE" ] || [ -z "$RPM_ARCH" ]; then
   echo "no RPM metadata information in $RPM_FILE, skipping."
@@ -40,30 +41,28 @@ echo "BINTRAY_USER=$BINTRAY_USER, BINTRAY_APIKEY=$BINTRAY_APIKEY, BINTRAY_REPO=$
 echo "@@@@@@@@@@@@@@@@@@@@@@"
 echo "@@@ delete package @@@"
 echo "@@@@@@@@@@@@@@@@@@@@@@"
-curl -vvf -u$BINTRAY_USER:$BINTRAY_APIKEY -H "Content-Type: application/json" -X DELETE https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/$RPM_NAME
+HTTP_CODE=`$CURL_CMD -H "Content-Type: application/json" -X DELETE https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/$RPM_NAME`
+echo "delete package -> $HTTP_CODE"
 
 echo "@@@@@@@@@@@@@@@@@@@@@@"
 echo "@@@ create package @@@"
 echo "@@@@@@@@@@@@@@@@@@@@@@"
-curl -vvf -u$BINTRAY_USER:$BINTRAY_APIKEY -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/ --data "{ \"name\": \"$RPM_NAME\", \"desc\": \"${RPM_DESCRIPTION}\", \"desc_url\": \"$BASE_DESC\", \"labels\": \"\" }"
+HTTP_CODE=`$CURL_CMD -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/ --data "{ \"name\": \"$RPM_NAME\", \"desc\": \"${RPM_DESCRIPTION}\", \"desc_url\": \"$DESC_URL\", \"labels\": \"\" }"`
 
-#echo "@@@@@@@@@@@@@@@@@@@@@@"
-#echo "@@@ delete version @@@"
-#echo "@@@@@@@@@@@@@@@@@@@@@@"
-#curl -vvf -u$BINTRAY_USER:$BINTRAY_APIKEY -X DELETE https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/$RPM_NAME/versions/$RPM_VERSION-$RPM_RELEASE
-
-#echo "@@@@@@@@@@@@@@@@@@@@@@"
-#echo "@@@ create version @@@"
-#echo "@@@@@@@@@@@@@@@@@@@@@@"
-#curl -vvf -u$BINTRAY_USER:$BINTRAY_APIKEY -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/$RPM_NAME/versions --data "{ \"name\": \"$RPM_VERSION-$RPM_RELEASE\", \"release_notes\": \"auto\", \"release_url\": \"$BASE_DESC/$RPM_NAME\", \"released\": \"\" }"
+if [ "$HTTP_CODE" != "201" ]; then
+ echo "can't create package -> $HTTP_CODE"
+ exit -1
+fi
 
 echo "@@@@@@@@@@@@@@@@@@@@@@"
 echo "@@@ upload content @@@"
 echo "@@@@@@@@@@@@@@@@@@@@@@"
-curl -vvf -T $RPM_FILE -u$BINTRAY_USER:$BINTRAY_APIKEY -H "X-Bintray-Package:$RPM_NAME" -H "X-Bintray-Version:$RPM_VERSION-$RPM_RELEASE" "https://api.bintray.com/content/$BINTRAY_ACCOUNT/$BINTRAY_REPO/$REPO_FILE_PATH;publish=1"
+HTTP_CODE=`$CURL_CMD -T $RPM_FILE -u$BINTRAY_USER:$BINTRAY_APIKEY -H "X-Bintray-Package:$RPM_NAME" -H "X-Bintray-Version:$RPM_VERSION-$RPM_RELEASE" "https://api.bintray.com/content/$BINTRAY_ACCOUNT/$BINTRAY_REPO/$REPO_FILE_PATH;publish=1"`
 
-#echo "@@@@@@@@@@@@@@@@@@@@@@@"
-#echo "@@@ publish content @@@"
-#echo "@@@@@@@@@@@@@@@@@@@@@@@"
-#curl -vvf -u$BINTRAY_USER:$BINTRAY_APIKEY -H "Content-Type: application/json" -X POST https://api.bintray.com/content/$BINTRAY_ACCOUNT/$BINTRAY_REPO/$RPM_NAME/$RPM_VERSION-$RPM_RELEASE/publish --data "{ \"discard\": \"false\" }"
+if [ "$HTTP_CODE" != "201" ]; then
+ echo "failed to upload package -> $HTTP_CODE"
+ exit -1
+fi
+
+exit 0
 
