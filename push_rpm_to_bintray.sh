@@ -27,6 +27,7 @@ RPM_VERSION=`rpm --queryformat "%{VERSION}" -qp $RPM_FILE`
 RPM_RELEASE=`rpm --queryformat "%{RELEASE}" -qp $RPM_FILE`
 RPM_ARCH=`rpm --queryformat "%{ARCH}" -qp $RPM_FILE`
 RPM_DESCRIPTION=`rpm --queryformat "%{DESCRIPTION}" -qp $RPM_FILE`
+
 REPO_FILE_PATH=`basename $RPM_FILE`
 DESC_URL=$BASE_DESC
 
