@@ -20,6 +20,8 @@ BINTRAY_REPO=$3
 RPM_FILE=$4
 BASE_DESC=$5
 
+CURL_CMD="curl --write-out %{http_code} --silent --output /dev/null -u$BINTRAY_USER:$BINTRAY_APIKEY"
+
 BINTRAY_ACCOUNT=$BINTRAY_USER
 
 RPM_NAME=`rpm --queryformat "%{NAME}" -qp $RPM_FILE`
