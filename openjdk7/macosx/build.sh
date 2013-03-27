@@ -8,6 +8,8 @@
 # OBF_PROJECT_NAME (ie: openjdk7)
 # OBF_MILESTONE (ie: u8-b10)
 
+set -e
+
 #
 # Apply patches if available
 #

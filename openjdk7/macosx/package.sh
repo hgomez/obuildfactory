@@ -12,6 +12,8 @@
 #
 # OBF_JDK_MODEL (ie: x86_64 to override default calculated)
 
+set -e
+
 if [ "$XDEBUG" = "true" ]; then
   FILENAME_PREFIX="-fastdebug"
 fi

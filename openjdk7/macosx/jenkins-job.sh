@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 
+set -e
 export OBF_PROJECT_NAME=openjdk7
 TAG_FILTER=jdk7
 
