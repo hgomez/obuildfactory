@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 
+set -e
 export OBF_PROJECT_NAME=openjdk7
 
 #
@@ -25,14 +26,18 @@ fi
 if [ ! -d $OBF_SOURCES_PATH ]; then
   hg clone http://hg.openjdk.java.net/jdk7u/jdk7u $OBF_SOURCES_PATH
 else
-  pushd $OBF_SOURCES_PATH >>/dev/null	
+  pushd $OBF_SOURCES_PATH >>/dev/null
   hg update
+  if [ -d .pc ]; then
+    quilt pop -a
+    rm -r .pc
+  fi
   popd >>/dev/null
-fi	
-	
+fi
+
 pushd $OBF_SOURCES_PATH >>/dev/null
 
-# 
+#
 # Updating sources for Mercurial repo
 #
 sh ./get_source.sh

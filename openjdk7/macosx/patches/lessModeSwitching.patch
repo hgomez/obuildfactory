@@ -1,0 +1,42 @@
+Avoid mode switching if the current mode already matches the requested one.
+
+This works around a bug in OS X where CGDisplayCopyAllDisplayModes
+does not return all available modes, and in fact sometimes does not
+even include the currently active mode. This breaks the mode
+restoration after full screen, as introduced by OpenJDK commit
+http://hg.openjdk.java.net/jdk7u/jdk7u/jdk/rev/bf5bf37108c1. To avoid
+the problem, we compare the requested and the actual display mode. If
+they match, no switching is required.
+
+As a drive-by fix, we also avoid a comparison between double and int.
+
+First report: http://java.net/jira/browse/MACOSX_PORT-805
+Oracle internal review ID: 2371768
+Public Oracle bug ID: unknown, apparently not assigned yet
+
+Index: jdk/src/macosx/classes/sun/awt/CGraphicsDevice.java
+===================================================================
+--- jdk/src/macosx/classes/sun/awt/CGraphicsDevice.java.orig
++++ jdk/src/macosx/classes/sun/awt/CGraphicsDevice.java
+@@ -197,6 +197,8 @@ public class CGraphicsDevice extends Gra
+         if (dm == null) {
+             throw new IllegalArgumentException("Attempt to set null as a DisplayMode");
+         }
++        if (dm.equals(getDisplayMode()))
++            return;
+         nativeSetDisplayMode(displayID, dm.getWidth(), dm.getHeight(), dm.getBitDepth(), dm.getRefreshRate());
+         if (isFullScreenSupported() && getFullScreenWindow() != null) {
+             getFullScreenWindow().setSize(dm.getWidth(), dm.getHeight());
+Index: jdk/src/macosx/native/sun/awt/CGraphicsDevice.m
+===================================================================
+--- jdk/src/macosx/native/sun/awt/CGraphicsDevice.m.orig
++++ jdk/src/macosx/native/sun/awt/CGraphicsDevice.m
+@@ -79,7 +79,7 @@ static CGDisplayModeRef getBestModeForPa
+             // Exact match
+             return cRef;
+         }
+-        if (CGDisplayModeGetRefreshRate(cRef) == 0) {
++        if ((int)CGDisplayModeGetRefreshRate(cRef) == 0) {
+             // Not exactly what was asked for, but may fit our needs if we don't find an exact match
+             bestGuess = cRef;
+         }
