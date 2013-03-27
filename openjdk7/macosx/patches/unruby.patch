@@ -1,0 +1,158 @@
+Avoid using Ruby.
+
+There are tow ruby scripts used in building JObjC. They are however
+little more than shell scripts, and the Ruby dependency is quite
+strict as to which versions do work, so it has already caused trouble
+in the past. This patch here gets rid of Ruby as a dependency
+altogether, using bash instead.
+
+Index: jdk/src/macosx/native/jobjc/rungen
+===================================================================
+--- jdk/src/macosx/native/jobjc/rungen.orig
++++ jdk/src/macosx/native/jobjc/rungen
+@@ -25,43 +25,44 @@
+ #
+ #
+ 
+-xcodeAction = ARGV[0]
++xcodeAction=$1
+ 
+-exit unless xcodeAction == "install"
++[[ $xcodeAction == "install" ]] || exit 2
+ 
+-JOBJC_JAR = ARGV[1]
+-LIBPATH = ARGV[2]
+-OBJROOT = ARGV[3]
+-ARCHS   = ARGV[4]
+-STABLE_GEN_DIR = ARGV[5]
+-
+-ourJavaHome = ENV['JAVA_HOME']
+-ourJavaVersion = `java -fullversion 2>&1`
+-$stderr.puts "ENV['JAVA_HOME'] = #{ourJavaHome}"
+-$stderr.puts "java -fullversion = #{ourJavaVersion}"
+-
+-$stderr.puts "jobjc_jar = #{JOBJC_JAR}"
+-$stderr.puts "libpath = #{LIBPATH}"
+-$stderr.puts "objroot = #{OBJROOT}"
+-$stderr.puts "ARCHS   = #{ARCHS}"
+-$stderr.puts "STABLE_GEN_DIR = #{STABLE_GEN_DIR}"
+-
+-jarch = if ARCHS =~ /x86_64/ then "-d64" else "-d32" end
++JOBJC_JAR=$2
++LIBPATH=$3
++OBJROOT=$4
++ARCHS=$5
++STABLE_GEN_DIR=$6
++
++ourJavaHome=${JAVA_HOME}
++ourJavaVersion="$(java -fullversion 2>&1)"
++echo "ENV['JAVA_HOME'] = ${ourJavaHome}"
++echo "java -fullversion = ${ourJavaVersion}"
++
++echo "jobjc_jar = ${JOBJC_JAR}"
++echo "libpath = ${LIBPATH}"
++echo "objroot = ${OBJROOT}"
++echo "ARCHS   = ${ARCHS}"
++echo "STABLE_GEN_DIR = ${STABLE_GEN_DIR}"
++
++if [[ $ARCGS == *x86_64* ]]; then
++  jarch = "-d64"
++else
++  jarch = "-d32"
++fi
+ 
+ # compute the boot class path, but remove the JObjC jar file that may have been installed in the boot jdk
+ 
+-bootclasspathcmd = "java -classpath #{OBJROOT}/bin/core:#{OBJROOT}/bin/generator com.apple.internal.jobjc.generator.BootClassPathMinus #{JOBJC_JAR}"
+-$stderr.puts bootclasspathcmd
+-bootclasspath = `#{bootclasspathcmd}`
++bootclasspathcmd="java -classpath ${OBJROOT}/bin/core:${OBJROOT}/bin/generator com.apple.internal.jobjc.generator.BootClassPathMinus ${JOBJC_JAR}"
++echo "$bootclasspathcmd"
++bootclasspath="$(${bootclasspathcmd})"
+ 
+-$stderr.puts "bootclasspath is: "
+-$stderr.puts bootclasspath
++echo "bootclasspath is: ${bootclasspath}"
+ 
+ # we run the generator with our newly created JObjC.  The installed version (if available) has been removed from
+ # the boot class path, so we are building with everything newly created.
+-cmd = "java #{jarch} -Xms128m -Xmx512m -Djava.library.path=#{LIBPATH} -Xbootclasspath:#{bootclasspath.chomp} -classpath #{OBJROOT}/bin/core:#{OBJROOT}/bin/generator -ea com.apple.internal.jobjc.generator.Generator dst=#{OBJROOT}/src/jobjc frameworks=#{STABLE_GEN_DIR}"
+-
+-$stderr.puts cmd
+-puts `#{cmd} 2>&1`
++cmd="java ${jarch} -Xms128m -Xmx512m -Djava.library.path=${LIBPATH} -Xbootclasspath:${bootclasspath} -classpath ${OBJROOT}/bin/core:${OBJROOT}/bin/generator -ea com.apple.internal.jobjc.generator.Generator dst=${OBJROOT}/src/jobjc frameworks=${STABLE_GEN_DIR}"
+ 
+-raise $?.to_i if $?.to_i != 0
++echo "$cmd"
++exec ${cmd} 2>&1
+Index: jdk/src/macosx/native/jobjc/build.xml
+===================================================================
+--- jdk/src/macosx/native/jobjc/build.xml.orig
++++ jdk/src/macosx/native/jobjc/build.xml
+@@ -128,7 +128,7 @@
+   <property name="product.jarfile" location="${product.jarfile.dir}/${product.jarfile.name}"/>
+ 
+   <target name="gen-pcoder" description="Generate PrimitiveCoder.java">
+-    <exec executable="ruby" failonerror="true">
++    <exec executable="bash" failonerror="true">
+       <arg value="${src}/run-and-write-if-okay"/>
+       <arg value="${src}/src/core/PrimitiveCoder.hs"/>
+       <arg value="${src}/src/core/java/com/apple/jobjc/PrimitiveCoder.java"/>
+@@ -184,7 +184,7 @@
+   running the generator. -->
+   <target name="run-generator" depends="build-generator" description="Invoke the assembled generator">
+     <mkdir dir="${generated.src}"/>
+-    <exec executable="ruby" failonerror="true">
++    <exec executable="bash" failonerror="true">
+       <arg value="${src}/rungen"/>
+       <arg value="install"/>
+       <arg value="${product.jarfile.name}"/>
+Index: jdk/src/macosx/native/jobjc/run-and-write-if-okay
+===================================================================
+--- jdk/src/macosx/native/jobjc/run-and-write-if-okay.orig
++++ jdk/src/macosx/native/jobjc/run-and-write-if-okay
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env ruby
++#!/bin/bash
+ #
+ # Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+@@ -25,24 +25,25 @@
+ #
+ #
+ 
+-if ARGV.length < 2
+-  puts <<EOF
++if [[ $# -lt 2 ]]; then
++  cat <<'EOF'
+ Expects two args: EXEC and OUTPATH. First, it runs and prints
+ `EXEC 2>&1`. If it returns successfully, it writes the output to OUTPATH.
+ This script will return successfully unless writing the output fails.
+ EOF
+-  exit
+-end
++  exit 2
++fi
+ 
+-EXECPATH = ARGV[0]
+-OUTPATH  = ARGV[1]
++EXECPATH=$1
++OUTPATH=$2
+ 
+-output = `#{EXECPATH}`
+-puts output
++output="$(${EXECPATH})"
++res=$?
++echo "${output}"
+ 
+-if $?.to_i == 0
+-  puts "Writing output of #{EXECPATH} to #{OUTPATH}"
+-  File.open(OUTPATH, 'w') {|f| f.write(output) }
++if [[ $res -eq 0 ]]; then
++  echo "Writing output of ${EXECPATH} to ${OUTPATH}"
++  echo "${output}" > "${OUTPATH}"
+ else
+-  puts "#{EXECPATH} failed to run trial. Ignoring."
+-end
++  echo "${EXECPATH} failed to run trial. Ignoring."
++fi
