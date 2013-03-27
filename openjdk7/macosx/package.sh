@@ -30,7 +30,7 @@ JRE_BUNDLE=$OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-bundle$FILENAME_PREFIX-$OBF_BASE
 # 1.7.0 to be injected in Info.plist
 JVM_VERSION=1.7.0
 
-# jdk dirname in template.dmg 
+# jdk dirname in template.dmg
 DMG_BUNDLE_DIR=1.7.0.jdk
 
 #
@@ -47,7 +47,7 @@ function build_dmg()
   SRC_BUNDLE=$3
   DST_BUNDLE=$4
   FILE_NAME=$5
-  
+
   pushd $OBF_BUILD_PATH/dmg >>/dev/null
 
   rm -rf TEMP
@@ -59,10 +59,10 @@ function build_dmg()
     pushd TEMP >>/dev/null
 
     tar xjf $BUNDLE_FILE
-    
+
     # Set Milestone and buildnumber in Info.plist
     sed -i "" -e "s|<string>$JVM_VERSION</string>|<string>$JVM_VERSION-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE</string>|" $SRC_BUNDLE/Contents/Info.plist
-  
+
     cp ../template.dmg.bz2 .
     bzip2 -d template.dmg.bz2
 
@@ -81,10 +81,10 @@ function build_dmg()
     hdiutil detach $DMG_MOUNT_DIR -quiet -force
     hdiutil convert template.dmg -format UDZO -imagekey zlib-level=9 -o $FILE_NAME-$OBF_BASE_ARCH-$PACKAGE_NAME-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.dmg
     rm template.dmg
-  
+
     mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME
     mv $FILE_NAME-$OBF_BASE_ARCH-$PACKAGE_NAME-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.dmg $OBF_DROP_DIR/$OBF_PROJECT_NAME
-  
+
     popd >>/dev/null
     rm -rf TEMP
   else
