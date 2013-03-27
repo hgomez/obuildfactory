@@ -1,0 +1,3 @@
+freetype-osx.patch -p0
+unruby.patch -p0
+lessModeSwitching.patch -p0

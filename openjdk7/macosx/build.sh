@@ -8,6 +8,8 @@
 # OBF_PROJECT_NAME (ie: openjdk7)
 # OBF_MILESTONE (ie: u8-b10)
 
+set -e
+
 #
 # Apply patches if available
 #
@@ -16,12 +18,23 @@ function apply_patches()
   pushd $OBF_SOURCES_PATH >>/dev/null
 
   if [ -d $OBF_BUILD_PATH/patches ]; then
-    for i in $OBF_BUILD_PATH/patches/*.patch; do
-      echo "applying patch $i"
-      patch -f -p0 <$i
-    done
+    if ! [ -e $OBF_BUILD_PATH/patches/series ]; then
+      # no series file, simply apply patches in alphabetical order
+      for i in $OBF_BUILD_PATH/patches/*.patch; do
+        echo "applying patch $i"
+        patch -f -p0 <$i
+      done
+    elif type quilt >/dev/null 2>&1; then
+      # series file and quilt available: use quilt
+      QUILT_PATCHES=$OBF_BUILD_PATH/patches quilt push -a
+    else
+      # no quilt available: emulate it
+      grep '^[^#]' $OBF_BUILD_PATH/patches/series | while read args; do
+        patch -f -p1 -i $OBF_BUILD_PATH/patches/${args}
+      done
+    fi
   fi
-  
+
   popd >>/dev/null
 }
 
@@ -31,9 +44,9 @@ function apply_patches()
 function cacerts_gen()
 {
   local DESTCERTS=$1
-  local TMPCERTSDIR=`mktemp -d certs`
-  
-  pushd $TMPCERTSDIR
+  local TMPCERTSDIR=`mktemp -d certs-XXXXXX`
+
+  pushd $TMPCERTSDIR > /dev/null
   curl -L http://curl.haxx.se/ca/cacert.pem -o cacert.pem
   cat cacert.pem | awk '/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/{ print $0; }' > cacert-clean.pem
   rm -f cacerts cert_*
@@ -48,11 +61,11 @@ function cacerts_gen()
   done
 
   unset JAVA_HOME
-  
+
   rm -f cacert.pem cacert-clean.pem
   mv cacerts $DESTCERTS
 
-  popd
+  popd > /dev/null
   rm -rf $TMPCERTSDIR
 }
 
@@ -79,7 +92,7 @@ function ensure_cacert()
 function ensure_freetype()
 {
   if [ ! -f $OBF_DROP_DIR/freetype/lib/libfreetype.dylib ]; then
-	  
+
 	  FREETYPE_VERSION=2.4.10
 
 	  if [ ! -f $OBF_DROP_DIR/freetype-$FREETYPE_VERSION.tar.bz2 ]; then
@@ -129,16 +142,16 @@ function check_version()
 
 #
 # Build using old build system
-# 
+#
 function build_old()
 {
   echo "### using old build system ###"
-  
+
   NUM_CPUS=`sysctl -n hw.ncpu`
 
   export MILESTONE="$OBF_BUILD_NUMBER"
   export BUILD_NUMBER="$OBF_BUILD_DATE"
-  
+
   export LD_LIBRARY_PATH=
   export ALT_BOOTDIR=`/usr/libexec/java_home -v 1.6`
   export ALLOW_DOWNLOADS=true
@@ -154,24 +167,24 @@ function build_old()
   fi
 
   case $OBF_BASE_ARCH in
-  	x86_64)
+	x86_64)
 		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-x86_64
-  	;;
-  	i386)
-  		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-i586
-  	;;
-  	universal)
-  		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-universal
-  	;;
+	;;
+	i386)
+		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-i586
+	;;
+	universal)
+		export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/macosx-universal
+	;;
   esac
-  
+
   if [ "$XCLEAN" = "true" ]; then
 	  rm -rf $IMAGE_BUILD_DIR
   fi
-  
+
   # Set Company Name to OBuildFactory
   sed -i "" -e "s|COMPANY_NAME = N/A|COMPANY_NAME = $BUNDLE_VENDOR|g" $OBF_SOURCES_PATH/jdk/make/common/shared/Defs.gmk
-  
+
   pushd $OBF_SOURCES_PATH >>/dev/null
   make ALLOW_DOWNLOADS=true SA_APPLE_BOOT_JAVA=true ALWAYS_PASS_TEST_GAMMA=true ALT_BOOTDIR=$ALT_BOOTDIR ALT_DROPS_DIR=$DROP_DIR HOTSPOT_BUILD_JOBS=$NUM_CPUS PARALLEL_COMPILE_JOBS=$NUM_CPUS
   popd >>/dev/null
@@ -179,7 +192,7 @@ function build_old()
 
 #
 # Build using new build system
-# 
+#
 function build_new()
 {
  echo "not yet"
@@ -187,44 +200,44 @@ function build_new()
 }
 
 #
-# Verify build 
+# Verify build
 #
 function test_build()
 {
   if [ -x $IMAGE_BUILD_DIR/j2sdk-image/bin/java ]; then
     $IMAGE_BUILD_DIR/j2sdk-image/bin/java -version
   else
-    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed" 
+    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed"
     exit -1
    fi
 
    if [ -x $IMAGE_BUILD_DIR/j2re-image/bin/java ]; then
      $IMAGE_BUILD_DIR/j2re-image/bin/java -version
    else
-     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed" 
+     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed"
      exit -1
     fi
 }
 
 #
-# Archives build 
+# Archives build
 #
 function archive_build()
 {
     mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME
 
     pushd $IMAGE_BUILD_DIR >>/dev/null
-	
+
     if [ "$XDEBUG" = "true" ]; then
-    	FILENAME_PREFIX="-fastdebug"
+	FILENAME_PREFIX="-fastdebug"
     fi
-	
+
     tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2sdk-image
     tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
 	popd >>/dev/null
 
 	if [ -d $IMAGE_BUILD_DIR/j2sdk-bundle ]; then
-    	pushd $IMAGE_BUILD_DIR/j2sdk-bundle >>/dev/null
+	pushd $IMAGE_BUILD_DIR/j2sdk-bundle >>/dev/null
 		tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jdk1.7.0.jdk
 		popd >>/dev/null
 	else
@@ -232,13 +245,13 @@ function archive_build()
 	fi
 
 	if [ -d $IMAGE_BUILD_DIR/j2re-bundle ]; then
-    	pushd $IMAGE_BUILD_DIR/j2re-bundle >>/dev/null
-    	tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jre1.7.0.jre
+	pushd $IMAGE_BUILD_DIR/j2re-bundle >>/dev/null
+	tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-bundle$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jre1.7.0.jre
 		popd >>/dev/null
 	else
 		echo "Warning, j2re bundle not found, DMG packages won't be available"
 	fi
-	
+
     echo "produced tarball files under $OBF_DROP_DIR/$OBF_PROJECT_NAME"
     ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/*$OBF_BUILD_NUMBER-$OBF_BUILD_DATE*
 }
@@ -275,7 +288,7 @@ if [ "$XUSE_NEW_BUILD_SYSTEM" = "true" ]; then
 else
   build_old
 fi
-	  
+
 #
 # Test Build
 #
