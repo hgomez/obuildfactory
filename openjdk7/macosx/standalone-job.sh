@@ -28,6 +28,10 @@ if [ ! -d $OBF_SOURCES_PATH ]; then
 else
   pushd $OBF_SOURCES_PATH >>/dev/null
   hg update
+  if [ -d .pc ]; then
+    quilt pop -a
+    rm -r .pc
+  fi
   popd >>/dev/null
 fi
 

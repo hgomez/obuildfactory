@@ -18,10 +18,21 @@ function apply_patches()
   pushd $OBF_SOURCES_PATH >>/dev/null
 
   if [ -d $OBF_BUILD_PATH/patches ]; then
-    for i in $OBF_BUILD_PATH/patches/*.patch; do
-      echo "applying patch $i"
-      patch -f -p0 <$i
-    done
+    if ! [ -e $OBF_BUILD_PATH/patches/series ]; then
+      # no series file, simply apply patches in alphabetical order
+      for i in $OBF_BUILD_PATH/patches/*.patch; do
+        echo "applying patch $i"
+        patch -f -p0 <$i
+      done
+    elif type quilt >/dev/null 2>&1; then
+      # series file and quilt available: use quilt
+      QUILT_PATCHES=$OBF_BUILD_PATH/patches quilt push -a
+    else
+      # no quilt available: emulate it
+      grep '^[^#]' $OBF_BUILD_PATH/patches/series | while read args; do
+        patch -f -p1 -i $OBF_BUILD_PATH/patches/${args}
+      done
+    fi
   fi
 
   popd >>/dev/null
