@@ -134,6 +134,7 @@ function build_old()
   echo "### using old build system ###"
   
   NUM_CPUS=`grep "processor" /proc/cpuinfo | sort -u | wc -l`
+  [ $NUM_CPUS -gt 8 ] && NUM_CPUS=8
 
   export BUILD_NUMBER="$OBF_BUILD_DATE"
   export MILESTONE="$OBF_MILESTONE"
