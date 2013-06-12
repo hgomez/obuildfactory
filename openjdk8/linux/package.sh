@@ -16,7 +16,7 @@ PACKAGE_DESCRIPTION="OpenJDK 8 native package"
 
 pushd $OBF_BUILD_PATH/rpm >>/dev/null
 
-CPU_BUILD_ARCH=`uname -p`
+CPU_BUILD_ARCH=`uname -m`
 
 if [ -z "$OBF_JDK_MODEL" ]; then
     OBF_JDK_MODEL=$CPU_BUILD_ARCH

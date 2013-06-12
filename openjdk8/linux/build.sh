@@ -284,7 +284,7 @@ function archive_build()
 # Build start here
 #
 
-CPU_BUILD_ARCH=`uname -p`
+CPU_BUILD_ARCH=`uname -m`
 
 export JDK_BUNDLE_VENDOR="OBuildFactory"
 export BUNDLE_VENDOR="OBuildFactory"
