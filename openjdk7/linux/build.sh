@@ -125,6 +125,8 @@ function build_old()
   
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
+  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-ppc64
   else
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
   fi

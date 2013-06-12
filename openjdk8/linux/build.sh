@@ -115,6 +115,14 @@ function ensure_java7()
       echo "missing required Java 7, aborting..."
     fi
     
+  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
+
+    if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-ppc64 ]; then
+      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-ppc64
+    else
+      echo "missing required Java 7, aborting..."
+    fi
+
   else
 
     if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-i686 ]; then
@@ -159,6 +167,8 @@ function build_old()
   
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
+  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-ppc64
   else
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
   fi
@@ -214,6 +224,8 @@ function build_new()
 
 	  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
 	    BUILD_PROFILE=linux-x86_64-normal-server-release
+	  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
+	    BUILD_PROFILE=linux-ppc64-normal-server-release
 	  else
 	    BUILD_PROFILE=linux-x86-normal-server-release
 	  fi
