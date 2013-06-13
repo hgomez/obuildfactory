@@ -214,12 +214,15 @@ function build_new()
 
 	  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
 	    BUILD_PROFILE=linux-x86_64-normal-server-fastdebug
+	  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
+	    BUILD_PROFILE=linux-ppc64-normal-server-fastdebug
+        EXTRA_FLAGS="--with-jvm-interpreter=cpp"
 	  else
   	    BUILD_PROFILE=linux-x86-normal-server-fastdebug
 	  fi
   
 	  bash ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug \
-                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
+                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
 
   else
 
