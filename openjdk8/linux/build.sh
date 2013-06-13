@@ -226,12 +226,13 @@ function build_new()
 	    BUILD_PROFILE=linux-x86_64-normal-server-release
 	  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
 	    BUILD_PROFILE=linux-ppc64-normal-server-release
+        EXTRA_FLAGS="--with-jvm-interpreter=cpp"
 	  else
 	    BUILD_PROFILE=linux-x86-normal-server-release
 	  fi
   
 	  bash ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
-                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
+                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
 
   fi
 

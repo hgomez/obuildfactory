@@ -127,6 +127,9 @@ function build_old()
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
   elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-ppc64
+    export CC_INTERP=true
+    export OPENJDK=true
+    export ARCH_DATA_MODEL=64
   else
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
   fi
