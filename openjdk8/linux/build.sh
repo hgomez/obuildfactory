@@ -47,6 +47,7 @@ function ensure_ant()
   fi
 
   export PATH=$OBF_DROP_DIR/ant/bin:$PATH
+  export ANT_HOME=$OBF_DROP_DIR/ant
 }
 
 function ensure_cacert()
