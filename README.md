@@ -11,7 +11,7 @@ These scripts add goodies like :
 * Native packages support, aka Linux RPMs up to trusted Yum repository population.
 * OSX DMG for easy install via drag&drop.
 
-
+ 
 You could use these scripts from a Jenkins Powered environment to setup a Continuous Integration chain or standalone for one shot builds.
 
 Initialy planned for Linux, this project also include Mac OSX scripts from [openjdk-osx-build](http://code.google.com/p/openjdk-osx-build/) 
@@ -102,3 +102,6 @@ BTW, I'll welcome pull-requests so it will help others OSX users.
 
 [Building and packaging OpenJDK8 with Lambda for OSX](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK8-with-Lambda-for-OSX)
 
+## Licence
+
+These scripts are provided under Apache Software Licence 2.0.
