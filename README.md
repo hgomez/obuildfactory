@@ -36,42 +36,42 @@ Thanks to JFrog Bintray, OpenJDKs for Linux are available for major Linux distri
 
 #### CentOS 5 32bits
 
-    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-centos5-i386 -O bintray-hgomez-obuildfactory.repo
+    wget https://bintray.com/hgomez/obuildfactory-centos5-i386/rpm -O bintray-hgomez-obuildfactory.repo
     sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
 
 #### CentOS 5 64bits
 
-    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-centos5-x86-64 -O bintray-hgomez-obuildfactory.repo
+    wget https://bintray.com/hgomez/obuildfactory-centos5-x86-64/rpm -O bintray-hgomez-obuildfactory.repo
     sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
 
 #### CentOS 6 32bits
 
-    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-centos6-i386 -O bintray-hgomez-obuildfactory.repo
+    wget https://bintray.com/hgomez/obuildfactory-centos6-i386/rpm -O bintray-hgomez-obuildfactory.repo
     sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
 
 #### CentOS 6 64bits
 
-    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-centos6-x86-64 -O bintray-hgomez-obuildfactory.repo
+    wget https://bintray.com/hgomez/obuildfactory-centos6-x86-64/rpm -O bintray-hgomez-obuildfactory.repo
     sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
 
 #### Fedora 17/18 32bits
 
-    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-fedora18-i386 -O bintray-hgomez-obuildfactory.repo
+    wget https://bintray.com/hgomez/obuildfactory-fedora18-i386/rpm -O bintray-hgomez-obuildfactory.repo
     sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
 
 #### Fedora 17/18 64bits
-
-    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-fedora18-x86-64 -O bintray-hgomez-obuildfactory.repo
+    
+    wget https://bintray.com/hgomez/obuildfactory-fedora18-x86-64/rpm -O bintray-hgomez-obuildfactory.repo
     sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
 
 #### openSUSE 12.x 32bits
 
-    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-opensuse122-i386 -O bintray-hgomez-obuildfactory.repo
+    wget https://bintray.com/hgomez/obuildfactory-opensuse122-i386/rpm -O bintray-hgomez-obuildfactory.repo
     sudo mv bintray-hgomez-obuildfactory.repo /etc/zypp/repos.d/
 
 #### openSUSE 12.x 64bits
 
-    wget https://bintray.com/repo/rpm/hgomez/obuildfactory-opensuse122-x86-64 -O bintray-hgomez-obuildfactory.repo
+    wget https://bintray.com/hgomez/obuildfactory-opensuse122-x86-64/rpm -O bintray-hgomez-obuildfactory.repo
     sudo mv bintray-hgomez-obuildfactory.repo /etc/zypp/repos.d/
 
 Then you could install rpm like this :
