@@ -9,7 +9,7 @@
 # OBF_BASE_PATH (ie: /home/jenkinsa/www)
 # OBF_UPLOAD_PATH (ie: /home/jenkinsa/upload)
 #
-# OBF_BASE_ARCH (i386 or x86_64)
+# OBF_BASE_ARCH (i386, x86_64, or ppc64)
 # OBF_DISTRIBUTION (centos, fedora, opensuse...)
 # OBF_RELEASE_VERSION (5, 6, 121)
 #

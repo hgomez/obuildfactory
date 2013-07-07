@@ -47,7 +47,7 @@ pushd $OBF_SOURCES_PATH >>/dev/null
 export OBF_MILESTONE=`hg tags | grep $TAG_FILTER | head -1 | cut -d ' ' -f 1 | sed 's/^-//'`
 export OBF_BUILD_NUMBER=`hg tags | grep $TAG_FILTER | head -1 | sed "s/$TAG_FILTER//" | cut -d ' ' -f 1 | sed 's/^-//'`
 export OBF_BUILD_DATE=`date +%Y%m%d`
-export OBF_BASE_ARCH=`uname -p`
+export OBF_BASE_ARCH=`uname -m`
 
 popd >>/dev/null
 
