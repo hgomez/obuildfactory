@@ -47,6 +47,7 @@ function ensure_ant()
   fi
 
   export PATH=$OBF_DROP_DIR/ant/bin:$PATH
+  export ANT_HOME=$OBF_DROP_DIR/ant
 }
 
 function ensure_cacert()
@@ -104,6 +105,7 @@ function build_old()
   echo "### using old build system ###"
   
   NUM_CPUS=`grep "processor" /proc/cpuinfo | sort -u | wc -l`
+  [ $NUM_CPUS -gt 8 ] && NUM_CPUS=8
 
   export MILESTONE="$OBF_BUILD_NUMBER"
   export BUILD_NUMBER="$OBF_BUILD_DATE"
@@ -124,6 +126,10 @@ function build_old()
   
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
+  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-ppc64
+    export CC_INTERP=true
+    export ARCH_DATA_MODEL=64
   else
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
   fi
@@ -197,7 +203,7 @@ function archive_build()
 # Build start here
 #
 
-CPU_BUILD_ARCH=`uname -p`
+CPU_BUILD_ARCH=`uname -m`
 
 export JDK_BUNDLE_VENDOR="OBuildFactory"
 export BUNDLE_VENDOR="OBuildFactory"

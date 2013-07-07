@@ -60,7 +60,7 @@ else
     mkdir -p RPMS
     mkdir -p SOURCES
 
-    CPU_BUILD_ARCH=`uname -p`
+    CPU_BUILD_ARCH=`uname -m`
 
     if [ -z "$OBF_JDK_MODEL" ]; then
      OBF_JDK_MODEL=$CPU_BUILD_ARCH

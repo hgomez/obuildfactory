@@ -47,6 +47,7 @@ function ensure_ant()
   fi
 
   export PATH=$OBF_DROP_DIR/ant/bin:$PATH
+  export ANT_HOME=$OBF_DROP_DIR/ant
 }
 
 function ensure_cacert()
@@ -115,6 +116,14 @@ function ensure_java7()
       echo "missing required Java 7, aborting..."
     fi
     
+  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
+
+    if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-ppc64 ]; then
+      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-ppc64
+    else
+      echo "missing required Java 7, aborting..."
+    fi
+
   else
 
     if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-i686 ]; then
@@ -134,6 +143,7 @@ function build_old()
   echo "### using old build system ###"
   
   NUM_CPUS=`grep "processor" /proc/cpuinfo | sort -u | wc -l`
+  [ $NUM_CPUS -gt 8 ] && NUM_CPUS=8
 
   export BUILD_NUMBER="$OBF_BUILD_DATE"
   export MILESTONE="$OBF_MILESTONE"
@@ -158,6 +168,8 @@ function build_old()
   
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
+  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-ppc64
   else
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-i586
   fi
@@ -202,23 +214,29 @@ function build_new()
 
 	  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
 	    BUILD_PROFILE=linux-x86_64-normal-server-fastdebug
+	  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
+	    BUILD_PROFILE=linux-ppc64-normal-server-fastdebug
+        EXTRA_FLAGS="--with-jvm-interpreter=cpp"
 	  else
   	    BUILD_PROFILE=linux-x86-normal-server-fastdebug
 	  fi
   
 	  bash ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug \
-                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
+                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
 
   else
 
 	  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
 	    BUILD_PROFILE=linux-x86_64-normal-server-release
+	  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
+	    BUILD_PROFILE=linux-ppc64-normal-server-release
+        EXTRA_FLAGS="--with-jvm-interpreter=cpp"
 	  else
 	    BUILD_PROFILE=linux-x86-normal-server-release
 	  fi
   
 	  bash ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
-                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
+                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
 
   fi
 
@@ -284,7 +302,7 @@ function archive_build()
 # Build start here
 #
 
-CPU_BUILD_ARCH=`uname -p`
+CPU_BUILD_ARCH=`uname -m`
 
 export JDK_BUNDLE_VENDOR="OBuildFactory"
 export BUNDLE_VENDOR="OBuildFactory"
