@@ -29,9 +29,19 @@ function apply_patches()
       QUILT_PATCHES=$OBF_BUILD_PATH/patches quilt push -a
     else
       # no quilt available: emulate it
+
+      # Except for the very 1st build attempt,
+      # patch utility will fail (as source files are already patched).
+      # patch will just as well fail if the same patch
+      # has already been incorporated in the upstream source.
+      #
+      # Since we have -e set, this failure will break out of the whole while loop,
+      # so we're temporarily setting +e while the loop is being run.
+      set +e
       grep '^[^#]' $OBF_BUILD_PATH/patches/series | while read args; do
         patch -f -p1 -i $OBF_BUILD_PATH/patches/${args}
       done
+      set -e
     fi
   fi
 
