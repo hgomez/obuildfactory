@@ -1,0 +1,69 @@
+--- jdk/src/macosx/native/sun/awt/AWTView.m	Tue Aug 06 20:44:31 2013 +0100
++++ jdk/src/macosx/native/sun/awt/AWTView.m	Wed Aug 21 19:23:29 2013 +0400
+@@ -1334,7 +1334,12 @@
+ 
+         NSRect viewBounds = [view bounds];
+         NSRect frameInWindow = [view convertRect:viewBounds toView:nil];
++#if __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ >= 1070
+         rect = [[view window] convertRectToScreen:frameInWindow];
++#else // __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__
++        NSPoint screenPoint = [[view window] convertBaseToScreen:NSMakePoint(frameInWindow.origin.x, frameInWindow.origin.y)];
++        rect = NSMakeRect(screenPoint.x, screenPoint.y, frameInWindow.size.width, frameInWindow.size.height);
++#endif // __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__
+         NSRect screenRect = [[NSScreen mainScreen] frame];
+         //Convert coordinates to top-left corner origin
+         rect.origin.y = screenRect.size.height - rect.origin.y - viewBounds.size.height;
+--- jdk/src/macosx/native/sun/awt/CGraphicsDevice.m	Tue Aug 06 20:44:31 2013 +0100
++++ jdk/src/macosx/native/sun/awt/CGraphicsDevice.m	Wed Aug 21 19:23:29 2013 +0400
+@@ -288,6 +288,7 @@
+ {
+     __block jdouble ret = 1.0f;
+ 
++#if __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ >= 1070
+ JNF_COCOA_ENTER(env);
+ 
+     [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
+@@ -305,5 +306,6 @@
+     }];
+ 
+ JNF_COCOA_EXIT(env);
++#endif // __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__
+     return ret;
+ }
+--- jdk/src/macosx/native/sun/java2d/opengl/CGLLayer.m	Tue Aug 06 20:44:31 2013 +0100
++++ jdk/src/macosx/native/sun/java2d/opengl/CGLLayer.m	Wed Aug 21 19:23:29 2013 +0400
+@@ -214,6 +214,7 @@
+ Java_sun_java2d_opengl_CGLLayer_nativeSetScale
+ (JNIEnv *env, jclass cls, jlong layerPtr, jdouble scale)
+ {
++#if __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ >= 1070
+     JNF_COCOA_ENTER(env);
+     CGLLayer *layer = jlong_to_ptr(layerPtr);
+     // We always call all setXX methods asynchronously, exception is only in 
+@@ -224,4 +225,15 @@
+         layer.contentsScale = scale;
+     }];
+     JNF_COCOA_EXIT(env);
++#else // __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__
++#define __MAC_OS_X_VERSION_MAJOR__	__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ / 100
++#define __MAC_OS_X_VERSION_MINOR__	__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ / 10 % 10
++#define __MAC_OS_X_VERSION_UPDATE__	__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ % 10
++    const jclass throwable = (*env)->FindClass(env, "java/lang/UnsupportedOperationException");
++    if (throwable != NULL) {
++        char message[64];
++        sprintf(message, "Not implemented in Mac OS X %d.%d.%d", __MAC_OS_X_VERSION_MAJOR__, __MAC_OS_X_VERSION_MINOR__, __MAC_OS_X_VERSION_UPDATE__);
++        (*env)->ThrowNew(env, throwable, message);
++    }
++#endif // __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__
+ }
+--- jdk/src/macosx/native/sun/osxapp/ThreadUtilities.h	Tue Aug 06 20:44:31 2013 +0100
++++ jdk/src/macosx/native/sun/osxapp/ThreadUtilities.h	Wed Aug 21 19:23:29 2013 +0400
+@@ -123,7 +123,7 @@
+ // --------------------------------------------------------------------------
+ 
+ __attribute__((visibility("default")))
+-@interface ThreadUtilities { }
++@interface ThreadUtilities : NSObject { }
+ 
+ + (JNIEnv*)getJNIEnv;
+ + (JNIEnv*)getJNIEnvUncached;
