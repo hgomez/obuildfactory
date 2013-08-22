@@ -60,6 +60,14 @@ if [ "$(uname -s)" = 'Darwin' -o "$(uname -o)" = 'Darwin' ]; then
   if [ "$(which split 2>/dev/null)" != '/usr/bin/split' ]; then
     PATH="/usr/bin:${PATH}"
   fi
+
+  #
+  # On Mac OS X 10.6, compiler warnings are inevitable.
+  # Make sure they're non-fatal.
+  #
+  if [ "$(sw_vers | grep 'ProductVersion' | awk '{print $2}' | sed 's/\.[0-9]$//g')" = "10.6" ]; then
+    export COMPILER_WARNINGS_FATAL='false'
+  fi
 fi
 
 #
