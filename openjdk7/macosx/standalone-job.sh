@@ -52,6 +52,16 @@ fi
 
 popd >>/dev/null
 
+if [ "$(uname -s)" = 'Darwin' -o "$(uname -o)" = 'Darwin' ]; then
+  #
+  # Correct the PATH, so that split is /usr/bin/split
+  # (on Mac OS X, it should be the BSD version which accepts the -p argument).
+  #
+  if [ "$(which split 2>/dev/null)" != '/usr/bin/split' ]; then
+    PATH="/usr/bin:${PATH}"
+  fi
+fi
+
 #
 # Mercurial repositories updated, call Jenkins job now
 #
