@@ -28,6 +28,7 @@ RPM_NAME=`rpm --queryformat "%{NAME}" -qp $RPM_FILE`
 RPM_VERSION=`rpm --queryformat "%{VERSION}" -qp $RPM_FILE`
 RPM_RELEASE=`rpm --queryformat "%{RELEASE}" -qp $RPM_FILE`
 RPM_ARCH=`rpm --queryformat "%{ARCH}" -qp $RPM_FILE`
+RPM_LICENSE=`rpm --queryformat "%{LICENSE}" -qp $RPM_FILE`
 RPM_DESCRIPTION=`rpm --queryformat "%{DESCRIPTION}" -qp $RPM_FILE`
 
 REPO_FILE_PATH=`basename $RPM_FILE`
@@ -51,7 +52,8 @@ else
 fi
 
 echo "Creating package on Bintray.."
-HTTP_CODE=`$CURL_CMD -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/ --data "{ \"name\": \"$RPM_NAME\", \"desc\": \"${RPM_DESCRIPTION}\", \"desc_url\": \"$DESC_URL\", \"labels\": \"\" }"`
+HTTP_CODE=`$CURL_CMD -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/ --data "{ \"name\": \"$RPM_NAME\", \"desc\": \"${RPM_DESCRIPTION}\", \"desc_url\": \"$DESC_URL\", \"labels\": \"\", \"licenses\": [ \"$RPM_LICENSE\" ]
+ }"`
 
 if [ "$HTTP_CODE" != "201" ]; then
  echo "can't create package -> $HTTP_CODE"
