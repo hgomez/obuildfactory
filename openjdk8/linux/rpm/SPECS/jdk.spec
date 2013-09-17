@@ -90,7 +90,7 @@ Provides: jdbc-stdext = 3.0
 Provides: java-sasl = %{epoch}:%{version}
 Provides: java-fonts = %{epoch}:%{version}
 
-License:  GPL
+License:  GPL-2.0
 URL:      http://openjdk.java.net
 
 SOURCE0: j2sdk-image.tar.bz2
