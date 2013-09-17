@@ -87,7 +87,7 @@ Provides: jdbc-stdext = 3.0
 Provides: java-sasl = %{epoch}:%{version}
 Provides: java-fonts = %{epoch}:%{version}
 
-License:  GPL
+License:  GPL+ and GPLv2 and GPLv2 with exceptions and LGPL+ and LGPLv2
 URL:      http://openjdk.java.net
 
 SOURCE0: j2re-image.tar.bz2
