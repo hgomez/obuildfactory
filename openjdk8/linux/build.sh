@@ -256,7 +256,7 @@ function build_new()
 	  CONT=$BUILD_PROFILE make clean
   fi
   
-  CONT=$BUILD_PROFILE make EXTRA_CFLAGS=-Wno-unknown-warning images
+  CONT=$BUILD_PROFILE make images
 
   popd >>/dev/null
 
