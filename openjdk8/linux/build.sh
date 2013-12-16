@@ -221,7 +221,7 @@ function build_new()
   	    BUILD_PROFILE=linux-x86-normal-server-fastdebug
 	  fi
   
-          rm -rf mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
+          rm -rf $OBF_SOURCES_PATH/build/$BUILD_PROFILE
           mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
           pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
 
@@ -240,7 +240,7 @@ function build_new()
 	    BUILD_PROFILE=linux-x86-normal-server-release
 	  fi
   
-          rm -rf mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
+          rm -rf $OBF_SOURCES_PATH/build/$BUILD_PROFILE
           mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
           pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
 
