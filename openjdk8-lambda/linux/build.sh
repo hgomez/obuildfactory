@@ -248,7 +248,7 @@ function build_new()
 	  CONT=$BUILD_PROFILE make clean
   fi
   
-  CONT=$BUILD_PROFILE make images -Wno-error=unused-parameter
+  CONT=$BUILD_PROFILE make EXTRA_CFLAGS=-Wno-error images
 
   # restore original common/autoconf/version.numbers
   if [ -f ../autoconf/version.numbers.orig ]; then
