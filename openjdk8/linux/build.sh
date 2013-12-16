@@ -197,9 +197,9 @@ function build_new()
   pushd $OBF_SOURCES_PATH >>/dev/null
   
   # patch common/autoconf/version.numbers
-  if [ -f autoconf/version.numbers ]; then
-    mv autoconf/version.numbers autoconf/version.numbers.orig 
-    cat autoconf/version.numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > autoconf/version.numbers
+  if [ -f common/autoconf/version.numbers ]; then
+    mv common/autoconf/version.numbers common/autoconf/version.numbers.orig 
+    cat common/autoconf/version.numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > common/autoconf/version.numbers
   fi
 
   export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
@@ -222,7 +222,7 @@ function build_new()
 	  fi
   
           pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
-	  bash $OBF_SOURCES_PATH/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+	  bash $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts \
                --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug \ 
                --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
 
@@ -239,7 +239,7 @@ function build_new()
   
           pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
 
-	  bash $OBF_SOURCES_PATH/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+	  bash $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
                --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
                -with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
 
@@ -256,8 +256,8 @@ function build_new()
   popd >>/dev/null
 
   # restore original common/autoconf/version.numbers
-  if [ -f autoconf/version.numbers.orig ]; then
-    mv autoconf/version.numbers.orig autoconf/version.numbers
+  if [ -f common/autoconf/version.numbers.orig ]; then
+    mv common/autoconf/version.numbers.orig common/autoconf/version.numbers
   fi
 
   popd >>/dev/null
