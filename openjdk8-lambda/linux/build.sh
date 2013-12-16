@@ -201,6 +201,8 @@ function build_new()
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-x86-normal-server-release/images
   fi
   
+  # ensure makefiles dir exists
+  mkdir -p $OBF_SOURCES_PATH/common/makefiles
   pushd $OBF_SOURCES_PATH/common/makefiles >>/dev/null
   
   # patch common/autoconf/version.numbers
