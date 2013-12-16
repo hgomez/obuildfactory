@@ -198,7 +198,6 @@ function build_new()
   mkdir -p $OBF_SOURCES_PATH/common/makefiles
 
   pushd $OBF_SOURCES_PATH/common/makefiles >>/dev/null
-  pushd $OBF_SOURCES_PATH
   
   # patch common/autoconf/version.numbers
   if [ -f ../autoconf/version.numbers ]; then
