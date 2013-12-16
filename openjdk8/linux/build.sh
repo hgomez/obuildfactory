@@ -194,15 +194,12 @@ function build_new()
 {
   echo "### using new build system ###"
 
-  # ensure makefiles dir exists
-  mkdir -p $OBF_SOURCES_PATH/common/makefiles
-
-  pushd $OBF_SOURCES_PATH/common/makefiles >>/dev/null
+  pushd $OBF_SOURCES_PATH >>/dev/null
   
   # patch common/autoconf/version.numbers
-  if [ -f ../autoconf/version.numbers ]; then
-    mv ../autoconf/version.numbers ../autoconf/version.numbers.orig 
-    cat ../autoconf/version.numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > ../autoconf/version.numbers
+  if [ -f autoconf/version.numbers ]; then
+    mv autoconf/version.numbers autoconf/version.numbers.orig 
+    cat autoconf/version.numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > autoconf/version.numbers
   fi
 
   export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
@@ -224,8 +221,10 @@ function build_new()
   	    BUILD_PROFILE=linux-x86-normal-server-fastdebug
 	  fi
   
-	  bash ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug \
-                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
+          pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
+	  bash $OBF_SOURCES_PATH/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+               --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug \ 
+               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
 
   else
 
@@ -238,8 +237,11 @@ function build_new()
 	    BUILD_PROFILE=linux-x86-normal-server-release
 	  fi
   
-	  bash ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
-                               --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
+          pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
+
+	  bash $OBF_SOURCES_PATH/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+               --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
+               -with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
 
   fi
 
@@ -251,9 +253,11 @@ function build_new()
   
   CONT=$BUILD_PROFILE make EXTRA_CFLAGS=-Wno-error images
 
+  popd >>/dev/null
+
   # restore original common/autoconf/version.numbers
-  if [ -f ../autoconf/version.numbers.orig ]; then
-    mv ../autoconf/version.numbers.orig ../autoconf/version.numbers
+  if [ -f autoconf/version.numbers.orig ]; then
+    mv autoconf/version.numbers.orig autoconf/version.numbers
   fi
 
   popd >>/dev/null
