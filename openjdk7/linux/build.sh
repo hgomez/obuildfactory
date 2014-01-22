@@ -196,7 +196,23 @@ function archive_build()
     ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
     ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
   
-    popd
+    popd >>/dev/null
+}
+
+
+#
+# Apply patches if existing 
+#
+function apply_patches()
+{
+  pushd $OBF_SOURCES_PATH >>/dev/null
+
+  for INFILES in $OBF_BUILD_PATH/patches/*.patch; do
+    patch -p0 < INFILES
+  done
+
+  popd >>/dev/null
+
 }
 
 #
@@ -224,6 +240,14 @@ ensure_ant
 # Ensure freetype is correct one 
 # 
 ensure_freetype
+
+#
+# Apply Patches
+#
+if [ "$XUSE_PATCHES" = "true" ]; then
+  apply_patches
+fi
+
 
 #
 # Build JDK/JRE images
