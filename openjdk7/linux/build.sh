@@ -207,8 +207,9 @@ function apply_patches()
 {
   pushd $OBF_SOURCES_PATH >>/dev/null
 
-  for INFILES in $OBF_BUILD_PATH/patches/*.patch; do
-    patch -p0 < INFILES
+  for PATCH_FILE in $OBF_BUILD_PATH/patches/*.patch; do
+    echo "applying patch from $PATCH_FILE..."
+    patch -p0 < $PATCH_FILE
   done
 
   popd >>/dev/null
