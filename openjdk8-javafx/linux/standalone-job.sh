@@ -74,7 +74,6 @@ fi
 # Apply patches
 #
 patch -d $OBF_SOURCES_PATH-openjfx -p1 < $OBF_BUILD_PATH/patches/build.patch
-echo -e "COMPILE_WEBKIT = true\nCOMPILE_MEDIA = true" > $OBF_SOURCES_PATH-openjfx/gradle.properties
 
 #
 # OBF_MILESTONE will contains build tag number and name, ie b56 but without dash inside (suited for RPM packages)
