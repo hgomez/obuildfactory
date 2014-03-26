@@ -308,7 +308,7 @@ function buildJFX()
 	DIR=`pwd`
 	cd $OBF_SOURCES_PATH-openjfx
         if [ "$XCLEAN" = "true" ]; then
-            rm -rf build
+		hg st -uni0 | xargs -0 rm
         fi
 	$GRADLE -PBUILD_NATIVES=true -PCOMPILE_WEBKIT=true -PCOMPILE_MEDIA=true
 	cp -rv build/linux-sdk/bin/* $IMAGE_BUILD_DIR/j2sdk-image/bin

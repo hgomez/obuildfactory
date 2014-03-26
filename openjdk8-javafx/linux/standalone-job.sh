@@ -95,6 +95,5 @@ $OBF_BUILD_PATH/jenkins-job.sh
 
 cd $OBF_SOURCES_PATH-openjfx
 hg revert -a
-rm gradle.properties
 cd $DIR
 
