@@ -40,7 +40,7 @@ if [ -z "$OBF_WORKSPACE_PATH" ]; then
 fi
 
 if [ ! -d $OBF_SOURCES_PATH ]; then
-  hg clone http://hg.openjdk.java.net/jdk8/jdk8 $OBF_SOURCES_PATH
+  hg clone http://hg.openjdk.java.net/jdk8u/jdk8u $OBF_SOURCES_PATH
   hg clone http://hg.openjdk.java.net/openjfx/8u-dev/rt $OBF_SOURCES_PATH-openjfx
   cd $OBF_SOURCES_PATH-openjfx
   hg revert -a
@@ -69,11 +69,6 @@ if [ ! -z "$XUSE_JFX_TAG" ]; then
   hg checkout $XUSE_JFX_TAG
   cd $DIR
 fi
-
-#
-# Apply patches
-#
-patch -d $OBF_SOURCES_PATH-openjfx -p1 < $OBF_BUILD_PATH/patches/build.patch
 
 #
 # OBF_MILESTONE will contains build tag number and name, ie b56 but without dash inside (suited for RPM packages)
