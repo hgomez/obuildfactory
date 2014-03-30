@@ -70,25 +70,9 @@ if [ ! -z "$XUSE_JFX_TAG" ]; then
   cd $DIR
 fi
 
-#
-# OBF_MILESTONE will contains build tag number and name, ie b56 but without dash inside (suited for RPM packages)
-# OBF_BUILD_NUMBER will contains build number, ie b56
-# OBF_BUILD_DATE will contains build date, ie 20120908
-#
-# Build System concats OBF_MILESTONE, - and OBF_BUILD_DATE, ie b56-20120908
-#
-export OBF_MILESTONE=`hg tags | grep $TAG_FILTER | head -1 | cut -d ' ' -f 1 | sed 's/^-//'`
-export OBF_BUILD_NUMBER=`hg tags | grep $TAG_FILTER | head -1 | sed "s/$TAG_FILTER//" | cut -d ' ' -f 1 | sed 's/^-//'`
-export OBF_BUILD_DATE=`date +%Y%m%d`
-
 popd >>/dev/null
 
 #
 # Mercurial repositories updated, call Jenkins job now
 #
 $OBF_BUILD_PATH/jenkins-job.sh
-
-cd $OBF_SOURCES_PATH-openjfx
-hg revert -a
-cd $DIR
-
