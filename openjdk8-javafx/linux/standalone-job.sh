@@ -42,9 +42,6 @@ fi
 if [ ! -d $OBF_SOURCES_PATH ]; then
   hg clone http://hg.openjdk.java.net/jdk8u/jdk8u $OBF_SOURCES_PATH
   hg clone http://hg.openjdk.java.net/openjfx/8u-dev/rt $OBF_SOURCES_PATH-openjfx
-  cd $OBF_SOURCES_PATH-openjfx
-  hg revert -a
-  cd $DIR
 fi	
 	
 pushd $OBF_SOURCES_PATH >>/dev/null
@@ -53,6 +50,14 @@ pushd $OBF_SOURCES_PATH >>/dev/null
 # Updating sources for Mercurial repo
 #
 sh ./get_source.sh
+
+DIR=`pwd`
+cd $OBF_SOURCES_PATH-openjfx
+hg revert -a
+hg pull
+hg checkout tip
+cd $DIR
+
 
 #
 # Update sources to provided tag XUSE_TAG (if defined)
@@ -69,6 +74,18 @@ if [ ! -z "$XUSE_JFX_TAG" ]; then
   hg checkout $XUSE_JFX_TAG
   cd $DIR
 fi
+
+cd $OBF_SOURCES_PATH-openjfx
+rm modules/base/src/main/java/com/sun/javafx/logging/JFR*
+echo "package com.sun.javafx.logging;" > modules/base/src/main/java/com/sun/javafx/logging/JFRLogger.java
+echo "class JFRLogger extends Logger {" >> modules/base/src/main/java/com/sun/javafx/logging/JFRLogger.java
+echo "private static JFRLogger jfrLogger;" >> modules/base/src/main/java/com/sun/javafx/logging/JFRLogger.java
+echo "public static JFRLogger getInstance() {" >> modules/base/src/main/java/com/sun/javafx/logging/JFRLogger.java
+echo "if(jfrLogger == null) jfrLogger = new JFRLogger();" >> modules/base/src/main/java/com/sun/javafx/logging/JFRLogger.java
+echo "return jfrLogger;" >> modules/base/src/main/java/com/sun/javafx/logging/JFRLogger.java
+echo "}}" >> modules/base/src/main/java/com/sun/javafx/logging/JFRLogger.java
+cd $DIR
+
 
 popd >>/dev/null
 
