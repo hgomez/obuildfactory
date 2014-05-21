@@ -101,35 +101,35 @@ function ensure_freetype()
 #
 # Determine BUILD JVM to use
 #
-function ensure_java7() 
+function ensure_java8() 
 {
-  if [ ! -z "$OBF_JAVA7_HOME" ]; then
-    export OBF_BOOTDIR=$OBF_JAVA7_HOME
+  if [ ! -z "$OBF_JAVA8_HOME" ]; then
+    export OBF_BOOTDIR=$OBF_JAVA8_HOME
     return
   fi
 	  
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
 
-    if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-x86_64 ]; then
-      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-x86_64
+    if [ -d /opt/obuildfactory/jdk-1.8.0-openjdk-x86_64 ]; then
+      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.8.0-openjdk-x86_64
     else
-      echo "missing required Java 7, aborting..."
+      echo "missing required Java 8, aborting..."
     fi
     
   elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
 
-    if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-ppc64 ]; then
-      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-ppc64
+    if [ -d /opt/obuildfactory/jdk-1.8.0-openjdk-ppc64 ]; then
+      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.8.0-openjdk-ppc64
     else
-      echo "missing required Java 7, aborting..."
+      echo "missing required Java 8, aborting..."
     fi
 
   else
 
-    if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-i686 ]; then
-      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.7.0-openjdk-i686
+    if [ -d /opt/obuildfactory/jdk-1.8.0-openjdk-i686 ]; then
+      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.8.0-openjdk-i686
     else
-      echo "missing required Java 7, aborting..."
+      echo "missing required Java 8, aborting..."
     fi
   
   fi
@@ -337,9 +337,9 @@ ensure_ant
 ensure_freetype
 
 #
-# Select Java 7 (32 / 64bits)
+# Select Java 8 (32 / 64bits)
 #
-ensure_java7
+ensure_java8
 
 #
 # Build JDK/JRE images
