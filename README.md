@@ -53,7 +53,7 @@ Thanks to JFrog Bintray, OpenJDKs for Linux are available for major Linux distri
 
 #### CentOS 6 64bits
 
-    wget https://bintray.com/hgomez/obuildfactory-centos6-x86-64/rpm -o bintray-hgomez-obuildfactory.repo
+    curl -L https://bintray.com/hgomez/obuildfactory-centos6-x86-64/rpm -o bintray-hgomez-obuildfactory.repo
     sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
 
 #### Fedora 17/18 32bits
