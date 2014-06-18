@@ -207,6 +207,15 @@ function apply_patches()
 {
   pushd $OBF_SOURCES_PATH >>/dev/null
 
+  # Remove fontfix patch on distro who didn't support it
+  if [ -f /usr/include/fontconfig/fontconfig.h ]; then
+   grep FC_LCD_DEFAULT /usr/include/fontconfig/fontconfig.h >>/dev/null
+   
+   if [ $? != "0" ]; then
+     rm $OBF_BUILD_PATH/patches/fontfix.patch 
+   fi
+  fi
+
   for PATCH_FILE in $OBF_BUILD_PATH/patches/*.patch; do
     echo "applying patch from $PATCH_FILE..."
     patch -p0 < $PATCH_FILE
