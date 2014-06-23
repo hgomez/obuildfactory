@@ -52,8 +52,13 @@ else
 fi
 
 echo "Creating package on Bintray.."
-HTTP_CODE=`$CURL_CMD -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/ --data "{ \"name\": \"$RPM_NAME\", \"desc\": \"${RPM_DESCRIPTION}\", \"desc_url\": \"$DESC_URL\", \"labels\": \"\", \"licenses\": [ \"$RPM_LICENSE\" ]
- }"`
+DATA_JSON="{ \"name\": \"$RPM_NAME\", \"desc\": \"${RPM_DESCRIPTION}\", \"desc_url\": \"$DESC_URL\", \"labels\": \"\", \"licenses\": [ \"$RPM_LICENSE\" ]}"
+
+if [ "$XDEBUG" = "true" ]; then
+ echo "DATA_JSON=$DATA_JSON"
+fi
+
+HTTP_CODE=`$CURL_CMD -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/ --data "$DATA_JSON"`
 
 if [ "$HTTP_CODE" != "201" ]; then
  echo "can't create package -> $HTTP_CODE"
