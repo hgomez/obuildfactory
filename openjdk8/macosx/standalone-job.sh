@@ -23,7 +23,7 @@ if [ -z "$OBF_SOURCES_PATH" ]; then
 fi
 
 if [ ! -d $OBF_SOURCES_PATH ]; then
-  hg clone http://hg.openjdk.java.net/jdk8/jdk8 $OBF_SOURCES_PATH
+  hg clone http://hg.openjdk.java.net/jdk8u/jdk8u $OBF_SOURCES_PATH
 else
   pushd $OBF_SOURCES_PATH >>/dev/null	
   hg update
