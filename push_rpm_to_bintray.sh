@@ -21,9 +21,9 @@ RPM_FILE=$4
 BASE_DESC=$5
 
 if [ "$XDEBUG" = "true" ]; then
-  CURL_CMD="curl --write-out %{http_code} --output curl-command.log -u$BINTRAY_USER:$BINTRAY_APIKEY"
+  CURL_CMD="curl -v -L --write-out %{http_code} --output curl-command.log -u$BINTRAY_USER:$BINTRAY_APIKEY"
 else
-  CURL_CMD="curl --write-out %{http_code} --silent --output /dev/null -u$BINTRAY_USER:$BINTRAY_APIKEY"
+  CURL_CMD="curl -L --write-out %{http_code} --silent --output /dev/null -u$BINTRAY_USER:$BINTRAY_APIKEY"
 fi
 
 BINTRAY_ACCOUNT=$BINTRAY_USER
