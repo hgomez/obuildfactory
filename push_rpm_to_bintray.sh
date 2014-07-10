@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # push_rpm_to_bintray.sh - henri.gomez@gmail.com
 # 
@@ -55,30 +55,56 @@ else
  echo "Package deleted"
 fi
 
-echo "Creating package on Bintray.."
-DATA_JSON="{ \"name\": \"$RPM_NAME\", \"desc\": \"${RPM_DESCRIPTION}\", \"desc_url\": \"$DESC_URL\", \"labels\": \"\", \"licenses\": [ \"$RPM_LICENSE\" ]}"
+for LOOP in 0 1 2
+do
 
-if [ "$XDEBUG" = "true" ]; then
- echo "DATA_JSON=$DATA_JSON"
+  echo "Creating package on Bintray, attempt #$LOOP ..."
+  DATA_JSON="{ \"name\": \"$RPM_NAME\", \"desc\": \"${RPM_DESCRIPTION}\", \"desc_url\": \"$DESC_URL\", \"labels\": \"\", \"licenses\": [ \"$RPM_LICENSE\" ]}"
+
+  if [ "$XDEBUG" = "true" ]; then
+    echo "DATA_JSON=$DATA_JSON"
+  fi
+
+  HTTP_CODE=`$CURL_CMD -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/ --data "$DATA_JSON"`
+
+  if [ "$HTTP_CODE" != "201" ]; then
+    echo "can't create package -> $HTTP_CODE"
+    echo "sleeping before retrying..."
+    sleep 10
+    CREATED="NOK"
+  else
+    echo "Package created"
+    CREATED="OK"
+    break
+  fi
+
+done
+
+if [ "$CREATED" != "OK" ]; then
+  exit -1
 fi
 
-HTTP_CODE=`$CURL_CMD -H "Content-Type: application/json" -X POST https://api.bintray.com/packages/$BINTRAY_ACCOUNT/$BINTRAY_REPO/ --data "$DATA_JSON"`
+for LOOP in 0 1 2
+do
 
-if [ "$HTTP_CODE" != "201" ]; then
- echo "can't create package -> $HTTP_CODE"
- exit -1
-else
- echo "Package created"
-fi
+  echo "Uploading package to Bintray, attempt #$LOOP ..."
+  HTTP_CODE=`$CURL_CMD -T $RPM_FILE -u$BINTRAY_USER:$BINTRAY_APIKEY -H "X-Bintray-Package:$RPM_NAME" -H "X-Bintray-Version:$RPM_VERSION-$RPM_RELEASE" "https://api.bintray.com/content/$BINTRAY_ACCOUNT/$BINTRAY_REPO/$REPO_FILE_PATH;publish=1"`
 
-echo "Uploading package to Bintray.."
-HTTP_CODE=`$CURL_CMD -T $RPM_FILE -u$BINTRAY_USER:$BINTRAY_APIKEY -H "X-Bintray-Package:$RPM_NAME" -H "X-Bintray-Version:$RPM_VERSION-$RPM_RELEASE" "https://api.bintray.com/content/$BINTRAY_ACCOUNT/$BINTRAY_REPO/$REPO_FILE_PATH;publish=1"`
+  if [ "$HTTP_CODE" != "201" ]; then
+    echo "failed to upload package -> $HTTP_CODE"
+    echo "sleeping before retrying..."
+    sleep 10
+    CREATED="NOK"
+  else
+    echo "Package uploaded"
+    CREATED="OK"
+    break
+  fi
 
-if [ "$HTTP_CODE" != "201" ]; then
- echo "failed to upload package -> $HTTP_CODE"
- exit -1
-else
- echo "Package uploaded"
+done
+
+if [ "$CREATED" != "OK" ]; then
+  exit -1
 fi
 
 exit 0
