@@ -80,7 +80,7 @@ do
 
 done
 
-if [ "$CREATED" != "OK" ]; then
+if [ "$CREATED" != "OK" ]; then
   echo "failed to create package after many attempts, aborting"
   exit -1
 fi
@@ -104,7 +104,7 @@ do
 
 done
 
-if [ "$CREATED" != "OK" ]; then
+if [ "$CREATED" != "OK" ]; then
   echo "failed to upload package after many attempts, aborting"
   exit -1
 fi
