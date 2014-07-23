@@ -256,7 +256,7 @@ function build_new()
 	  CONT=$BUILD_PROFILE make clean
   fi
   
-  CONT=$BUILD_PROFILE make images
+  CONT=$BUILD_PROFILE make DEBUG_BINARIES=true images
 
   popd >>/dev/null
 
