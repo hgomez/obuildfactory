@@ -143,7 +143,7 @@ function build_old()
   
   pushd $OBF_SOURCES_PATH >>/dev/null
   make sanity
-  make all
+  make DEBUG_BINARIES=true all
   popd >>/dev/null
 }
 
