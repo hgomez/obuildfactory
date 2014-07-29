@@ -30,11 +30,21 @@ if [ "$XDEBUG" = "true" ]; then
 fi
 
 if [ "$XUSE_FPM" = "true" ]; then
-  
+
     if [ -x /usr/bin/apt-get ]; then
         XPACKAGE_MODE=deb
-    else 
+    else
         XPACKAGE_MODE=rpm
+    fi
+
+    if [ "$XDEBUG" = "true" ]; then
+        FILENAME_PREFIX="-fastdebug"
+    fi
+
+    CPU_BUILD_ARCH=`uname -m`
+
+    if [ -z "$OBF_JDK_MODEL" ]; then
+     OBF_JDK_MODEL=$CPU_BUILD_ARCH
     fi
 
     mkdir -p tmp/$OBF_PROJECT_NAME
@@ -43,7 +53,7 @@ if [ "$XUSE_FPM" = "true" ]; then
     XDEST_DIR=opt/obuildfactory/$PACKAGE_NAME-$OBF_JDK_MODEL$FILENAME_PREFIX
     rm -rf $XDEST_DIR
     mkdir -p $XDEST_DIR
-    mv j2sdk-image/* $XDEST_DIR 
+    mv j2sdk-image/* $XDEST_DIR
 
     rm -rf *.$XPACKAGE_MODE
 

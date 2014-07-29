@@ -24,11 +24,21 @@ if [ "$XDEBUG" = "true" ]; then
 fi
 
 if [ "$XUSE_FPM" = "true" ]; then
-  
+
     if [ -x /usr/bin/apt-get ]; then
         XPACKAGE_MODE=deb
-    else 
+    else
         XPACKAGE_MODE=rpm
+    fi
+
+    if [ "$XDEBUG" = "true" ]; then
+        FILENAME_PREFIX="-fastdebug"
+    fi
+
+    CPU_BUILD_ARCH=`uname -m`
+
+    if [ -z "$OBF_JDK_MODEL" ]; then
+     OBF_JDK_MODEL=$CPU_BUILD_ARCH
     fi
 
     mkdir -p tmp/$OBF_PROJECT_NAME
@@ -37,12 +47,13 @@ if [ "$XUSE_FPM" = "true" ]; then
     XDEST_DIR=opt/obuildfactory/$PACKAGE_NAME-$OBF_JDK_MODEL$FILENAME_PREFIX
     rm -rf $XDEST_DIR
     mkdir -p $XDEST_DIR
-    mv j2sdk-image/* $XDEST_DIR 
+    mv j2sdk-image/* $XDEST_DIR
 
     rm -rf *.$XPACKAGE_MODE
 
     fpm --verbose -s dir -t $XPACKAGE_MODE -n $OBF_PROJECT_NAME$FILENAME_PREFIX -v "1.7.0-$OBF_BUILD_NUMBER" --category language -m "Henri Gomez <henri.gomez@gmail.com>" \
     --url https://github.com/hgomez/obuildfactory/ \
+    --license "GPL-2.0"
     --description "$PACKAGE_DESCRIPTION$DESCRIPTION_ADDON" \
     -C . opt
 
@@ -67,7 +78,7 @@ else
     fi
 
     if [ "$XDEBUG" = "true" ]; then
-	    FILENAME_PREFIX="-fastdebug"
+        FILENAME_PREFIX="-fastdebug"
     fi
 
     if [ -f $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 ]; then
