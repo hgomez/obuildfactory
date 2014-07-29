@@ -59,6 +59,7 @@ if [ "$XUSE_FPM" = "true" ]; then
 
     fpm --verbose -s dir -t $XPACKAGE_MODE -n $OBF_PROJECT_NAME$FILENAME_PREFIX -v "1.8.0-$OBF_BUILD_NUMBER" --category language -m "Henri Gomez <henri.gomez@gmail.com>" \
     --url https://github.com/hgomez/obuildfactory/ \
+    --license "GPL-2.0" \
     --description "$PACKAGE_DESCRIPTION$DESCRIPTION_ADDON" \
     -C . opt
 
