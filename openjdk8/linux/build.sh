@@ -216,10 +216,13 @@ function build_new()
         BUILD_PROFILE=linux-x86_64-normal-server-fastdebug
       elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
         BUILD_PROFILE=linux-ppc64-normal-server-fastdebug
-            EXTRA_FLAGS="--with-jvm-interpreter=cpp"
+        EXTRA_FLAGS="--with-jvm-interpreter=cpp"
       else
         BUILD_PROFILE=linux-x86-normal-server-fastdebug
       fi
+
+      # https://bugs.openjdk.java.net/browse/JDK-8047952
+      EXTRA_CFLAGS="$EXTRA_FLAGS -U_FORTIFY_SOURCE"
 
       rm -rf $OBF_SOURCES_PATH/build/$BUILD_PROFILE
       mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
