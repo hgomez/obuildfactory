@@ -12,7 +12,7 @@ function cacerts_gen()
 {
   local DESTCERTS=$1
   local TMPCERTSDIR=`mktemp -d`
-  
+
   pushd $TMPCERTSDIR
   curl -L http://curl.haxx.se/ca/cacert.pem -o cacert.pem
   cat cacert.pem | awk '/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/{ print $0; }' > cacert-clean.pem
@@ -86,7 +86,7 @@ function ensure_freetype()
       cd freetype-2.4.10
       mkdir -p $OBF_DROP_DIR/freetype
       ./configure --prefix=$OBF_DROP_DIR/freetype
-      make 
+      make
       make install
       popd
     fi
@@ -99,11 +99,11 @@ function ensure_freetype()
 
 #
 # Build using old build system
-# 
+#
 function build_old()
 {
   echo "### using old build system ###"
-  
+
   NUM_CPUS=`grep "processor" /proc/cpuinfo | sort -u | wc -l`
   [ $NUM_CPUS -gt 8 ] && NUM_CPUS=8
 
@@ -123,7 +123,7 @@ function build_old()
   if [ "$XDEBUG" = "true" ]; then
     export SKIP_FASTDEBUG_BUILD=false
   fi
-  
+
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
   elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
@@ -135,12 +135,12 @@ function build_old()
   fi
 
   if [ "$XCLEAN" = "true" ]; then
-	  rm -rf $IMAGE_BUILD_DIR
+      rm -rf $IMAGE_BUILD_DIR
   fi
-  
+
   # Set Company Name to OBuildFactory
   sed -i "s|COMPANY_NAME = N/A|COMPANY_NAME = $BUNDLE_VENDOR|g" $OBF_SOURCES_PATH/jdk/make/common/shared/Defs.gmk
-  
+
   pushd $OBF_SOURCES_PATH >>/dev/null
   make sanity
   make all
@@ -149,7 +149,7 @@ function build_old()
 
 #
 # Build using new build system
-# 
+#
 function build_new()
 {
  echo "not yet"
@@ -157,51 +157,51 @@ function build_new()
 }
 
 #
-# Verify build 
+# Verify build
 #
 function test_build()
 {
   if [ -x $IMAGE_BUILD_DIR/j2sdk-image/bin/java ]; then
     $IMAGE_BUILD_DIR/j2sdk-image/bin/java -version
   else
-    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed" 
+    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed"
     exit -1
    fi
 
    if [ -x $IMAGE_BUILD_DIR/j2re-image/bin/java ]; then
      $IMAGE_BUILD_DIR/j2re-image/bin/java -version
    else
-     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed" 
+     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed"
      exit -1
     fi
 }
 
 #
-# Archives build 
+# Archives build
 #
 function archive_build()
 {
-	
+
     pushd $IMAGE_BUILD_DIR
     mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME
 
     if [ "$XDEBUG" = "true" ]; then
-    	FILENAME_PREFIX="-fastdebug"
+        FILENAME_PREFIX="-fastdebug"
     fi
-		
+
     tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2sdk-image
     tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
-  
+
     echo "produced tarball files under $OBF_DROP_DIR/$OBF_PROJECT_NAME"
     ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
     ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
-  
+
     popd >>/dev/null
 }
 
 
 #
-# Apply patches if existing 
+# Apply patches if existing
 #
 function apply_patches()
 {
@@ -210,9 +210,9 @@ function apply_patches()
   # Remove fontfix patch on distro who didn't support it
   if [ -f /usr/include/fontconfig/fontconfig.h ]; then
    grep FC_LCD_DEFAULT /usr/include/fontconfig/fontconfig.h >>/dev/null
-   
+
    if [ $? != "0" ]; then
-     rm $OBF_BUILD_PATH/patches/fontfix.patch 
+     rm $OBF_BUILD_PATH/patches/fontfix.patch
    fi
   fi
 
@@ -247,8 +247,8 @@ ensure_cacert
 ensure_ant
 
 #
-# Ensure freetype is correct one 
-# 
+# Ensure freetype is correct one
+#
 ensure_freetype
 
 #
@@ -267,7 +267,7 @@ if [ "$XUSE_NEW_BUILD_SYSTEM" = "true" ]; then
 else
   build_old
 fi
-	  
+
 #
 # Test Build
 #
