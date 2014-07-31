@@ -222,7 +222,7 @@ function build_new()
       fi
 
       # https://bugs.openjdk.java.net/browse/JDK-8047952
-      EXTRA_CFLAGS="$EXTRA_FLAGS -U_FORTIFY_SOURCE"
+      EXTRA_CFLAGS="-U_FORTIFY_SOURCE"
 
       rm -rf $OBF_SOURCES_PATH/build/$BUILD_PROFILE
       mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
@@ -238,7 +238,7 @@ function build_new()
         BUILD_PROFILE=linux-x86_64-normal-server-release
       elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
         BUILD_PROFILE=linux-ppc64-normal-server-release
-            EXTRA_FLAGS="--with-jvm-interpreter=cpp"
+        EXTRA_FLAGS="--with-jvm-interpreter=cpp"
       else
         BUILD_PROFILE=linux-x86-normal-server-release
       fi
@@ -259,7 +259,7 @@ function build_new()
       CONT=$BUILD_PROFILE make clean
   fi
 
-  CONT=$BUILD_PROFILE make DEBUG_BINARIES=true images
+  CONT=$BUILD_PROFILE make EXTRA_CFLAGS=$EXTRA_CFLAGS DEBUG_BINARIES=true images
 
   popd >>/dev/null
 
