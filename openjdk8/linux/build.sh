@@ -221,9 +221,6 @@ function build_new()
         BUILD_PROFILE=linux-x86-normal-server-fastdebug
       fi
 
-      # https://bugs.openjdk.java.net/browse/JDK-8047952
-      EXTRA_CFLAGS="-U_FORTIFY_SOURCE"
-
       rm -rf $OBF_SOURCES_PATH/build/$BUILD_PROFILE
       mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
       pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
