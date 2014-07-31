@@ -35,11 +35,11 @@ fi
 
 if [ ! -d $OBF_SOURCES_PATH ]; then
   hg clone http://hg.openjdk.java.net/jdk8u/jdk8u $OBF_SOURCES_PATH
-fi	
-	
+fi
+
 pushd $OBF_SOURCES_PATH >>/dev/null
 
-# 
+#
 # Updating sources for Mercurial repo
 #
 sh ./get_source.sh
