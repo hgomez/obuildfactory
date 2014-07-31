@@ -47,12 +47,12 @@ Release: 1%{?dist}
 #
 %if %{cum_jdk}
  # Name contain jdk + Version + Origin + Version + Architecture (32/64) -> QA mode
-Name:    jdk-%{javaver}-%{origin}-%{jvm_version}-%{jdk_model}
-%define jdkdir          %{_jvmdir}/jdk-%{javaver}-%{origin}-%{jdk_model}-%{jvm_version}
+Name:    jdk-%{javaver}-%{origin}-%{jvm_version}-%{jdk_model}%{jdk_type}
+%define jdkdir          %{_jvmdir}/jdk-%{javaver}-%{origin}-%{jdk_model}%{jdk_type}-%{jvm_version}
 %else
 # Name contain jdk + Version + Origin + Architecture (32/64) -> Ops mode
-Name:    jdk-%{javaver}-%{origin}-%{jdk_model}
-%define jdkdir          %{_jvmdir}/jdk-%{javaver}-%{origin}-%{jdk_model}
+Name:    jdk-%{javaver}-%{origin}-%{jdk_model}%{jdk_type}
+%define jdkdir          %{_jvmdir}/jdk-%{javaver}-%{origin}-%{jdk_model}%{jdk_type}
 %endif
 
 # java-1.5.0-ibm from jpackage.org set Epoch to 1 for unknown reasons,
@@ -122,7 +122,7 @@ Requires: libXtst
 %endif
 
 %description
-This package contains the JDK from %{origin} %{javaver}
+This package contains the JDK from %{origin} %{javaver} %{jdk_type} with JavaFX
 
 %package db
 Summary:        JavaDB files from %{origin} %{javaver}

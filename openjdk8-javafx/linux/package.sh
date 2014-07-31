@@ -30,10 +30,10 @@ if [ "$XDEBUG" = "true" ]; then
 fi
 
 if [ "$XUSE_FPM" = "true" ]; then
-  
+
     if [ -x /usr/bin/apt-get ]; then
         XPACKAGE_MODE=deb
-    else 
+    else
         XPACKAGE_MODE=rpm
     fi
 
@@ -43,7 +43,7 @@ if [ "$XUSE_FPM" = "true" ]; then
     XDEST_DIR=opt/obuildfactory/$PACKAGE_NAME-$OBF_JDK_MODEL$FILENAME_PREFIX
     rm -rf $XDEST_DIR
     mkdir -p $XDEST_DIR
-    mv j2sdk-image/* $XDEST_DIR 
+    mv j2sdk-image/* $XDEST_DIR
 
     rm -rf *.$XPACKAGE_MODE
 
@@ -71,7 +71,9 @@ else
         echo "packaging JDK"
         cp $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 SOURCES/j2sdk-image.tar.bz2
 
-        rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" --define="jdk_model $OBF_JDK_MODEL$FILENAME_PREFIX" --define="cum_jdk 0" SPECS/jdk.spec
+        rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" \
+                 --define="jdk_type $FILENAME_PREFIX" --define="jdk_model $OBF_JDK_MODEL" --define="cum_jdk 0" \
+                 SPECS/jdk.spec
 
         if [ $? != 0 ]; then
             exit -1
@@ -86,7 +88,9 @@ else
         echo "packaging JRE"
         cp $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 SOURCES/j2re-image.tar.bz2
 
-        rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" --define="jdk_model $OBF_JDK_MODEL$FILENAME_PREFIX" --define="cum_jdk 0" SPECS/jre.spec
+        rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" \
+                 --define="jdk_type $FILENAME_PREFIX" --define="jdk_model $OBF_JDK_MODEL" --define="cum_jdk 0" \
+                 SPECS/jre.spec
 
         if [ $? != 0 ]; then
             exit -1

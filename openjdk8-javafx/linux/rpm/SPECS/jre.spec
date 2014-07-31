@@ -47,12 +47,12 @@ Release: 1%{?dist}
 #
 %if %{cum_jdk}
  # Name contain jre + Version + Origin + Version + Architecture (32/64) -> QA mode
-Name:    jre-%{javaver}-%{origin}-%{jvm_version}-%{jdk_model}
-%define jredir          %{_jvmdir}/jre-%{javaver}-%{origin}-%{jdk_model}-%{jvm_version}
+Name:    jre-%{javaver}-%{origin}-%{jvm_version}-%{jdk_model}%{jdk_type}
+%define jredir          %{_jvmdir}/jre-%{javaver}-%{origin}-%{jdk_model}%{jdk_type}-%{jvm_version}
 %else
 # Name contain jdk + Version + Origin + Architecture (32/64) -> Ops mode
-Name:    jre-%{javaver}-%{origin}-%{jdk_model}
-%define jredir          %{_jvmdir}/jre-%{javaver}-%{origin}-%{jdk_model}
+Name:    jre-%{javaver}-%{origin}-%{jdk_model}%{jdk_type}
+%define jredir          %{_jvmdir}/jre-%{javaver}-%{origin}-%{jdk_model}%{jdk_type}
 %endif
 
 # java-1.5.0-ibm from jpackage.org set Epoch to 1 for unknown reasons,
@@ -122,7 +122,7 @@ Requires: libXtst
 %endif
 
 %description
-This package contains JRE from %{origin} %{javaver} 
+This package contains JRE from %{origin} %{javaver} %{jdk_type} with JavaFX
 
 %prep
 %setup -n j2re-image

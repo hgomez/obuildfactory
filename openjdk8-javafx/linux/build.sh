@@ -12,7 +12,7 @@ function cacerts_gen()
 {
   local DESTCERTS=$1
   local TMPCERTSDIR=`mktemp -d`
-  
+
   pushd $TMPCERTSDIR
   curl -L http://curl.haxx.se/ca/cacert.pem -o cacert.pem
   cat cacert.pem | awk '/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/{ print $0; }' > cacert-clean.pem
@@ -86,7 +86,7 @@ function ensure_freetype()
       cd freetype-2.4.10
       mkdir -p $OBF_DROP_DIR/freetype
       ./configure --prefix=$OBF_DROP_DIR/freetype
-      make 
+      make
       make install
       popd
     fi
@@ -101,13 +101,13 @@ function ensure_freetype()
 #
 # Determine BUILD JVM to use
 #
-function ensure_java7() 
+function ensure_java7()
 {
   if [ ! -z "$OBF_JAVA7_HOME" ]; then
     export OBF_BOOTDIR=$OBF_JAVA7_HOME
     return
   fi
-	  
+
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
 
     if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-x86_64 ]; then
@@ -115,7 +115,7 @@ function ensure_java7()
     else
       echo "missing required Java 7, aborting..."
     fi
-    
+
   elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
 
     if [ -d /opt/obuildfactory/jdk-1.7.0-openjdk-ppc64 ]; then
@@ -131,17 +131,17 @@ function ensure_java7()
     else
       echo "missing required Java 7, aborting..."
     fi
-  
+
   fi
 }
 
 #
 # Build using old build system
-# 
+#
 function build_old()
 {
   echo "### using old build system ###"
-  
+
   NUM_CPUS=`grep "processor" /proc/cpuinfo | sort -u | wc -l`
   [ $NUM_CPUS -gt 8 ] && NUM_CPUS=8
 
@@ -165,7 +165,7 @@ function build_old()
   if [ "$XDEBUG" = "true" ]; then
     export SKIP_FASTDEBUG_BUILD=false
   fi
-  
+
   if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/linux-amd64
   elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
@@ -175,9 +175,9 @@ function build_old()
   fi
 
   if [ "$XCLEAN" = "true" ]; then
-	rm -rf $IMAGE_BUILD_DIR
+    rm -rf $IMAGE_BUILD_DIR
   fi
-  
+
   # Set Company Name to OBuildFactory
   sed -i "s|COMPANY_NAME = N/A|COMPANY_NAME = $BUNDLE_VENDOR|g" $OBF_SOURCES_PATH/jdk/make/common/shared/Defs.gmk
 
@@ -195,10 +195,10 @@ function build_new()
   echo "### using new build system ###"
 
   pushd $OBF_SOURCES_PATH >>/dev/null
-  
+
   # patch common/autoconf/version.numbers
   if [ -f common/autoconf/version.numbers ]; then
-    mv common/autoconf/version.numbers common/autoconf/version.numbers.orig 
+    mv common/autoconf/version.numbers common/autoconf/version.numbers.orig
     cat common/autoconf/version.numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > common/autoconf/version.numbers
   fi
 
@@ -212,39 +212,39 @@ function build_new()
 
   if [ "$XDEBUG" = "true" ]; then
 
-	  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-	    BUILD_PROFILE=linux-x86_64-normal-server-fastdebug
-	  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
-	    BUILD_PROFILE=linux-ppc64-normal-server-fastdebug
-            EXTRA_FLAGS="--with-jvm-interpreter=cpp"
-	  else
-  	    BUILD_PROFILE=linux-x86-normal-server-fastdebug
-	  fi
-  
-          rm -rf $OBF_SOURCES_PATH/build/$BUILD_PROFILE
-          mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
-          pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
+      if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
+        BUILD_PROFILE=linux-x86_64-normal-server-fastdebug
+      elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
+        BUILD_PROFILE=linux-ppc64-normal-server-fastdebug
+        EXTRA_FLAGS="--with-jvm-interpreter=cpp"
+      else
+        BUILD_PROFILE=linux-x86-normal-server-fastdebug
+      fi
 
-	  bash $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
-               --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug --enable-unlimited-crypto \ 
+      rm -rf $OBF_SOURCES_PATH/build/$BUILD_PROFILE
+      mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
+      pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
+
+      bash $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+               --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug --enable-unlimited-crypto \
                -with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
 
   else
 
-	  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-	    BUILD_PROFILE=linux-x86_64-normal-server-release
-	  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
-	    BUILD_PROFILE=linux-ppc64-normal-server-release
-            EXTRA_FLAGS="--with-jvm-interpreter=cpp"
-	  else
-	    BUILD_PROFILE=linux-x86-normal-server-release
-	  fi
-  
-          rm -rf $OBF_SOURCES_PATH/build/$BUILD_PROFILE
-          mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
-          pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
+      if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
+        BUILD_PROFILE=linux-x86_64-normal-server-release
+      elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
+        BUILD_PROFILE=linux-ppc64-normal-server-release
+        EXTRA_FLAGS="--with-jvm-interpreter=cpp"
+      else
+        BUILD_PROFILE=linux-x86-normal-server-release
+      fi
 
-	  bash $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+      rm -rf $OBF_SOURCES_PATH/build/$BUILD_PROFILE
+      mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
+      pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
+
+      bash $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
                --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-unlimited-crypto \
                -with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
 
@@ -253,9 +253,9 @@ function build_new()
   export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$BUILD_PROFILE/images
 
   if [ "$XCLEAN" = "true" ]; then
-	  CONT=$BUILD_PROFILE make clean
+      CONT=$BUILD_PROFILE make clean
   fi
-  
+
   CONT=$BUILD_PROFILE make images
 
   popd >>/dev/null
@@ -269,21 +269,21 @@ function build_new()
 }
 
 #
-# Verify build 
+# Verify build
 #
 function test_build()
 {
   if [ -x $IMAGE_BUILD_DIR/j2sdk-image/bin/java ]; then
     $IMAGE_BUILD_DIR/j2sdk-image/bin/java -version
   else
-    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed" 
+    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed"
     exit -1
    fi
 
    if [ -x $IMAGE_BUILD_DIR/j2re-image/bin/java ]; then
      $IMAGE_BUILD_DIR/j2re-image/bin/java -version
    else
-     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed" 
+     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed"
      exit -1
     fi
 }
@@ -293,39 +293,39 @@ function test_build()
 #
 function buildJFX()
 {
-	# Gradle
-	if [ -n "$XGRADLE" ]; then
-		export GRADLE=$XGRADLE;
-	else
-		export GRADLE=gradle;
-	fi
+    # Gradle
+    if [ -n "$XGRADLE" ]; then
+        export GRADLE=$XGRADLE;
+    else
+        export GRADLE=gradle;
+    fi
 
-	ORIG_JAVA_HOME=$JAVA_HOME
-	ORIG_PATH=$PATH
-	# Switch to newly build JDK
-	export JAVA_HOME=$IMAGE_BUILD_DIR/j2sdk-image
-	export PATH=$JAVA_HOME/bin:$PATH
-	DIR=`pwd`
-	cd $OBF_SOURCES_PATH-openjfx
+    ORIG_JAVA_HOME=$JAVA_HOME
+    ORIG_PATH=$PATH
+    # Switch to newly build JDK
+    export JAVA_HOME=$IMAGE_BUILD_DIR/j2sdk-image
+    export PATH=$JAVA_HOME/bin:$PATH
+    DIR=`pwd`
+    cd $OBF_SOURCES_PATH-openjfx
         if [ "$XCLEAN" = "true" ]; then
-		hg st -uni0 | xargs -0 rm
+        hg st -uni0 | xargs -0 rm
         fi
-	# Overriding jdkRuntimeVersion is a hack here, but the openjfx build expects the format to end with the Buildnumber -bXXXX
-	# when openjdk is build with an additional build number this fails
-	$GRADLE -PBUILD_NATIVES=true -PCOMPILE_WEBKIT=true -PCOMPILE_MEDIA=true -PjdkRuntimeVersion=1.8.0-b140
-	cp -rv build/linux-sdk/bin/* $IMAGE_BUILD_DIR/j2sdk-image/bin
-	cp -rv build/linux-sdk/lib/* $IMAGE_BUILD_DIR/j2sdk-image/lib
-	cp -rv build/linux-sdk/man/* $IMAGE_BUILD_DIR/j2sdk-image/man
-	cp -rv build/linux-sdk/rt/* $IMAGE_BUILD_DIR/j2sdk-image/jre
-	cp -rv build/linux-sdk/rt/* $IMAGE_BUILD_DIR/j2re-image
-	cd $DIR
-	export PATH=$ORIG_PATH
-	export JAVA_HOME=$ORIG_JAVA_HOME
+    # Overriding jdkRuntimeVersion is a hack here, but the openjfx build expects the format to end with the Buildnumber -bXXXX
+    # when openjdk is build with an additional build number this fails
+    $GRADLE -PBUILD_NATIVES=true -PCOMPILE_WEBKIT=true -PCOMPILE_MEDIA=true -PjdkRuntimeVersion=1.8.0-b140
+    cp -rv build/linux-sdk/bin/* $IMAGE_BUILD_DIR/j2sdk-image/bin
+    cp -rv build/linux-sdk/lib/* $IMAGE_BUILD_DIR/j2sdk-image/lib
+    cp -rv build/linux-sdk/man/* $IMAGE_BUILD_DIR/j2sdk-image/man
+    cp -rv build/linux-sdk/rt/* $IMAGE_BUILD_DIR/j2sdk-image/jre
+    cp -rv build/linux-sdk/rt/* $IMAGE_BUILD_DIR/j2re-image
+    cd $DIR
+    export PATH=$ORIG_PATH
+    export JAVA_HOME=$ORIG_JAVA_HOME
 }
 
 
 #
-# Archives build 
+# Archives build
 #
 function archive_build()
 {
@@ -333,16 +333,16 @@ function archive_build()
   mkdir -p $OBF_DROP_DIR/$OBF_PROJECT_NAME
 
   if [ "$XDEBUG" = "true" ]; then
-  	FILENAME_PREFIX="-fastdebug"
+    FILENAME_PREFIX="-fastdebug"
   fi
-		
+
   tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2sdk-image
   tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
-  
+
   echo "produced tarball files under $OBF_DROP_DIR/$OBF_PROJECT_NAME"
   ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
   ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
-  
+
   popd
 }
 
@@ -368,8 +368,8 @@ ensure_cacert
 ensure_ant
 
 #
-# Ensure freetype is correct one 
-# 
+# Ensure freetype is correct one
+#
 ensure_freetype
 
 #
@@ -385,7 +385,7 @@ if [ "$XUSE_NEW_BUILD_SYSTEM" = "true" ]; then
 else
   build_old
 fi
-	  
+
 #
 # Test Build
 #
