@@ -10,6 +10,14 @@
 %define __portsed sed -i
 %endif
 
+%if 0%{?jdk_type:1}
+%define jdk_nameext    -fastdebug
+%define jdk_commentext with fast debug
+%else
+%define jdk_nameext    %{nil}
+%define jdk_commentext %{nil}
+%endif
+
 #
 # OpenJDK 1.7.0 packaging (32/64bits)
 #
@@ -47,12 +55,12 @@ Release: 1%{?dist}
 #
 %if %{cum_jdk}
  # Name contain jdk + Version + Origin + Version + Architecture (32/64) -> QA mode
-Name:    jdk-%{javaver}-%{origin}-%{jvm_version}-%{jdk_model}%{jdk_type}
-%define jdkdir          %{_jvmdir}/jdk-%{javaver}-%{origin}-%{jdk_model}%{jdk_type}-%{jvm_version}
+Name:    jdk-%{javaver}-%{origin}-%{jvm_version}-%{jdk_model}%{jdk_nameext}
+%define jdkdir          %{_jvmdir}/jdk-%{javaver}-%{origin}-%{jdk_model}%{jdk_nameext}-%{jvm_version}
 %else
 # Name contain jdk + Version + Origin + Architecture (32/64) -> Ops mode
-Name:    jdk-%{javaver}-%{origin}-%{jdk_model}%{jdk_type}
-%define jdkdir          %{_jvmdir}/jdk-%{javaver}-%{origin}-%{jdk_model}%{jdk_type}
+Name:    jdk-%{javaver}-%{origin}-%{jdk_model}%{jdk_nameext}
+%define jdkdir          %{_jvmdir}/jdk-%{javaver}-%{origin}-%{jdk_model}%{jdk_nameext}
 %endif
 
 # java-1.5.0-ibm from jpackage.org set Epoch to 1 for unknown reasons,
@@ -122,7 +130,7 @@ Requires: libXtst
 %endif
 
 %description
-This package contains the JDK from %{origin} %{javaver} %{jdk_type}
+This package contains the JDK from %{origin} %{javaver} %{jdk_commentext}
 
 %package db
 Summary:        JavaDB files from %{origin} %{javaver}
