@@ -313,11 +313,11 @@ function buildJFX()
     # Overriding jdkRuntimeVersion is a hack here, but the openjfx build expects the format to end with the Buildnumber -bXXXX
     # when openjdk is build with an additional build number this fails
     $GRADLE -PBUILD_NATIVES=true -PCOMPILE_WEBKIT=true -PCOMPILE_MEDIA=true -PjdkRuntimeVersion=1.8.0-b140
-    cp -rv build/linux-sdk/bin/* $IMAGE_BUILD_DIR/j2sdk-image/bin
-    cp -rv build/linux-sdk/lib/* $IMAGE_BUILD_DIR/j2sdk-image/lib
-    cp -rv build/linux-sdk/man/* $IMAGE_BUILD_DIR/j2sdk-image/man
-    cp -rv build/linux-sdk/rt/* $IMAGE_BUILD_DIR/j2sdk-image/jre
-    cp -rv build/linux-sdk/rt/* $IMAGE_BUILD_DIR/j2re-image
+    cp -rv build/sdk/bin/* $IMAGE_BUILD_DIR/j2sdk-image/bin
+    cp -rv build/sdk/lib/* $IMAGE_BUILD_DIR/j2sdk-image/lib
+    cp -rv build/sdk/man/* $IMAGE_BUILD_DIR/j2sdk-image/man
+    cp -rv build/sdk/rt/* $IMAGE_BUILD_DIR/j2sdk-image/jre
+    cp -rv build/sdk/rt/* $IMAGE_BUILD_DIR/j2re-image
     cd $DIR
     export PATH=$ORIG_PATH
     export JAVA_HOME=$ORIG_JAVA_HOME
