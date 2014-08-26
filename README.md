@@ -66,6 +66,28 @@ Thanks to JFrog Bintray, OpenJDKs for Linux are available for major Linux distri
     curl -L https://bintray.com/hgomez/obuildfactory-fedora18-x86-64/rpm -o bintray-hgomez-obuildfactory.repo
     sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
 
+#### Fedora 19 32bits
+
+    curl -L https://bintray.com/hgomez/obuildfactory-fedora19-i386/rpm -o bintray-hgomez-obuildfactory.repo
+    sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
+
+#### Fedora 19 64bits
+    
+    curl -L https://bintray.com/hgomez/obuildfactory-fedora19-x86-64/rpm -o bintray-hgomez-obuildfactory.repo
+    sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
+
+#### Fedora 20 32bits
+
+    curl -L https://bintray.com/hgomez/obuildfactory-fedora20-i386/rpm -o bintray-hgomez-obuildfactory.repo
+    sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
+
+
+#### Fedora 20 64bits
+    
+    curl -L https://bintray.com/hgomez/obuildfactory-fedora20-x86-64/rpm -o bintray-hgomez-obuildfactory.repo
+    sudo mv bintray-hgomez-obuildfactory.repo /etc/yum.repos.d/
+
+
 #### openSUSE 12.x 32bits
 
     curl -L https://bintray.com/hgomez/obuildfactory-opensuse122-i386/rpm -o bintray-hgomez-obuildfactory.repo
