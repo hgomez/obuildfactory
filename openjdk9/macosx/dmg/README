@@ -4,7 +4,7 @@ This package has been created using build and packages scripts from OBuildFactor
 
 More informations on how to do it yourself : https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK9-for-OSX
 
-OpenJDK 8 source code is available on OpenJDK mercurial repositories : http://hg.openjdk.java.net/jdk9/jdk9
+OpenJDK 9 source code is available on OpenJDK mercurial repositories : http://hg.openjdk.java.net/jdk9/jdk9
 
 # Members
 
