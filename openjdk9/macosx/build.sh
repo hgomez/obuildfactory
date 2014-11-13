@@ -257,10 +257,12 @@ function build_new()
     export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$BUILD_PROFILE/images
 	
 	if [ "$XCLEAN" = "true" ]; then
-  	   CONF=$BUILD_PROFILE make clean
+#  	   CONF=$BUILD_PROFILE make clean
+  	   make clean
     fi
 
-    CONF=$BUILD_PROFILE make images
+#    CONF=$BUILD_PROFILE make images
+    make images
     
     # restore original common/autoconf/version.numbers
     mv ../autoconf/version.numbers.orig ../autoconf/version.numbers
