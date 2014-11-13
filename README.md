@@ -116,7 +116,6 @@ And then update then with yum/zypper :
 
 ## OSX
 
-I don't have anymore OSX machines so I won't be able to help on Apple platforms.
 There is some wiki pages who detailed how to build, but there is no guaranty about success.
 BTW, I'll welcome pull-requests so it will help others OSX users.
 
@@ -124,7 +123,8 @@ BTW, I'll welcome pull-requests so it will help others OSX users.
 
 [Building and packaging OpenJDK8 for OSX](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK8-for-OSX)
 
-[Building and packaging OpenJDK8 with Lambda for OSX](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK8-with-Lambda-for-OSX)
+[Building and packaging OpenJDK9 for OSX](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK9-for-OSX)
+
 
 ## Licence
 
