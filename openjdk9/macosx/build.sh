@@ -220,48 +220,20 @@ function build_new()
 
     if [ "$XDEBUG" = "true" ]; then
 
-	    case $OBF_BASE_ARCH in
-	    	x86_64)
-			    BUILD_PROFILE=macosx-x86_64-normal-server-fastdebug
-	    	;;
-	    	i386)
-		        BUILD_PROFILE=macosx-x86-normal-server-fastdebug
-	    	;;
-	    	universal)
-	            BUILD_PROFILE=macosx-universal-normal-server-fastdebug
-	    	;;
-	    esac
-
-#	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
-	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
+	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug --with-freetype-lib=$OBF_DROP_DIR/freetype/lib --with-freetype-include=$OBF_DROP_DIR/freetype/include
 
 	else
 
-	    case $OBF_BASE_ARCH in
-	    	x86_64)
-		        BUILD_PROFILE=macosx-x86_64-normal-server-release
-	    	;;
-	    	i386)
-	            BUILD_PROFILE=macosx-x86-normal-server-release
-	    	;;
-	    	universal)
-            	BUILD_PROFILE=macosx-universal-normal-server-release
-	    	;;
-	    esac
-
-#	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
 	    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
 	       --with-freetype-lib=$OBF_DROP_DIR/freetype/lib --with-freetype-include=$OBF_DROP_DIR/freetype/include
     fi
 
-    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$BUILD_PROFILE/images
+    export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/common/makefiles/images
 	
-	if [ "$XCLEAN" = "true" ]; then
-#  	   CONF=$BUILD_PROFILE make clean
+    if [ "$XCLEAN" = "true" ]; then
   	   make clean
     fi
 
-#    CONF=$BUILD_PROFILE make images
     make images
     
     # restore original common/autoconf/version.numbers
