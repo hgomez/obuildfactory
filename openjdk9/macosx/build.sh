@@ -80,7 +80,7 @@ function ensure_freetype()
 {
   if [ ! -f $OBF_DROP_DIR/freetype/lib/libfreetype.dylib ]; then
 	  
-	  FREETYPE_VERSION=2.4.10
+	  FREETYPE_VERSION=2.4.12
 
 	  if [ ! -f $OBF_DROP_DIR/freetype-$FREETYPE_VERSION.tar.bz2 ]; then
 	    curl -L http://download.savannah.gnu.org/releases/freetype/freetype-$FREETYPE_VERSION.tar.bz2 -o $OBF_DROP_DIR/freetype-$FREETYPE_VERSION.tar.bz2
@@ -146,7 +146,7 @@ function build_old()
   if [ -z "$ALT_BOOTDIR" ]; then
     if [ -z "$JAVA_HOME" ];
     then
-      export ALT_BOOTDIR=`/usr/libexec/java_home -v 1.7`
+      export ALT_BOOTDIR=`/usr/libexec/java_home -v 1.8`
     else
       export ALT_BOOTDIR=$JAVA_HOME
     fi
@@ -209,11 +209,11 @@ function build_new()
 
     if [ -z "$JAVA_HOME" ];
     then
-      export OBF_BOOTDIR=`/usr/libexec/java_home -v 1.7`
+      export OBF_BOOTDIR=`/usr/libexec/java_home -v 1.8`
     else
       export OBF_BOOTDIR=$JAVA_HOME
     fi
-    OBF_BOOTDIR=`/usr/libexec/java_home -v 1.7`
+    OBF_BOOTDIR=`/usr/libexec/java_home -v 1.8`
 	
     rm -rf $OBF_WORKSPACE_PATH/.ccache
     mkdir -p $OBF_WORKSPACE_PATH/.ccache
