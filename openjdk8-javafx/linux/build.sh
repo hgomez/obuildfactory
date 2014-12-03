@@ -196,10 +196,10 @@ function build_new()
 
   pushd $OBF_SOURCES_PATH >>/dev/null
 
-  # patch common/autoconf/version.numbers
-  if [ -f common/autoconf/version.numbers ]; then
-    mv common/autoconf/version.numbers common/autoconf/version.numbers.orig
-    cat common/autoconf/version.numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > common/autoconf/version.numbers
+  # patch common/autoconf/version-numbers
+  if [ -f common/autoconf/version-numbers ]; then
+    mv common/autoconf/version-numbers common/autoconf/version-numbers.orig
+    cat common/autoconf/version-numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > common/autoconf/version-numbers
   fi
 
   export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
@@ -260,9 +260,9 @@ function build_new()
 
   popd >>/dev/null
 
-  # restore original common/autoconf/version.numbers
-  if [ -f common/autoconf/version.numbers.orig ]; then
-    mv common/autoconf/version.numbers.orig common/autoconf/version.numbers
+  # restore original common/autoconf/version-numbers
+  if [ -f common/autoconf/version-numbers.orig ]; then
+    mv common/autoconf/version-numbers.orig common/autoconf/version-numbers
   fi
 
   popd >>/dev/null
