@@ -227,7 +227,7 @@ function build_new()
 
       bash $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_FREETYPE_DIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
                --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug \
-               -with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
+               -with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_BUILD_NUMBER $EXTRA_FLAGS
 
   else
 
