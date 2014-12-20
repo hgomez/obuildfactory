@@ -56,22 +56,6 @@ if [ ! -z "$XUSE_TAG" ]; then
   sh ./make/scripts/hgforest.sh update $XUSE_TAG
 fi
 
-#
-# OBF_MILESTONE will contains build tag number and name, ie b56 but without dash inside (suited for RPM packages)
-# OBF_BUILD_NUMBER will contains build number, ie b56
-# OBF_BUILD_DATE will contains build date, ie 20120908
-#
-# Build System concats OBF_MILESTONE, - and OBF_BUILD_DATE, ie b56-20120908
-#
-export OBF_MILESTONE=`hg identify | cut -d ' ' -f 2`
-
-if [ "$OBF_MILESTONE" = "tip" ]; then
-  OBF_MILESTONE=`hg tags | grep $TAG_FILTER | head -1 | cut -d ' ' -f 1`
-fi
-
-export OBF_BUILD_NUMBER=`echo $OBF_MILESTONE | sed "s/$TAG_FILTER//" | sed 's/^-//'`
-export OBF_BUILD_DATE=`date +%Y%m%d`
-
 popd >>/dev/null
 
 #
