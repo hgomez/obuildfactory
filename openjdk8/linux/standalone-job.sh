@@ -44,6 +44,10 @@ pushd $OBF_SOURCES_PATH >>/dev/null
 #
 sh ./get_source.sh
 
+if [ -n "$XUSE_UPDATE" ]; then
+  XUSE_TAG=`hg tags | grep "jdk8u$XUSE_UPDATE" | head -1 | cut -d ' ' -f 1`
+fi
+
 #
 # Update sources to provided tag XUSE_TAG (if defined)
 #
