@@ -25,10 +25,12 @@ fi
 
 if [ "$XUSE_FPM" = "true" ]; then
 
-    if [ -x /usr/bin/apt-get ]; then
-        XPACKAGE_MODE=deb
-    else
-        XPACKAGE_MODE=rpm
+    if [ -z "$XPACKAGE_MODE" ]; then
+        if [ -x /usr/bin/apt-get ]; then
+            XPACKAGE_MODE=deb
+        else
+            XPACKAGE_MODE=rpm
+        fi
     fi
 
     if [ "$XDEBUG" = "true" ]; then
@@ -63,12 +65,14 @@ if [ "$XUSE_FPM" = "true" ]; then
 
 else
 
+    [ "$XPACKAGE_MODE" = "generic" ] && PKG_DIR="GENERIC" || PKG_DIR="RPMS"
+
     rm -rf TEMP
     mkdir -p TEMP
     rm -rf BUILD
     mkdir -p BUILD
-    rm -rf RPMS
-    mkdir -p RPMS
+    rm -rf $PKG_DIR
+    mkdir -p $PKG_DIR
     mkdir -p SOURCES
 
     CPU_BUILD_ARCH=`uname -m`
@@ -85,9 +89,21 @@ else
       echo "packaging JDK"
       cp $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 SOURCES/j2sdk-image.tar.bz2
 
-      rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" \
+      if [ "$XPACKAGE_MODE" = "generic" ]; then
+        tar -xjf SOURCES/j2sdk-image.tar.bz2 -C TEMP
+
+        find TEMP/j2sdk-image -name '*.diz' | xargs rm
+        (cd TEMP/j2sdk-image && rm -rf demo sample man src.zip)
+
+        REVISION=$(echo $OBF_BUILD_NUMBER | sed 's/^u\(.*\)-b.*$/\1/')
+        JDK_DIR="jdk1.7.0_$REVISION"
+        mv TEMP/j2sdk-image TEMP/$JDK_DIR
+        tar -cJf GENERIC/$PACKAGE_NAME-$OBF_BASE_ARCH-1.7.0_$OBF_BUILD_NUMBER.tar.xz -C TEMP $JDK_DIR
+      else
+        rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" \
                    --define="jdk_type $FILENAME_PREFIX" --define="jdk_model $OBF_JDK_MODEL" --define="cum_jdk 0" \
                    SPECS/jdk.spec
+      fi
 
       if [ $? != 0 ]; then
         exit -1
@@ -101,9 +117,13 @@ else
       echo "packaging JRE"
       cp $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 SOURCES/j2re-image.tar.bz2
 
-      rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" \
-                   --define="jdk_type $FILENAME_PREFIX" --define="jdk_model $OBF_JDK_MODEL" --define="cum_jdk 0" \
-                   SPECS/jre.spec
+      if [ "$XPACKAGE_MODE" = "generic" ]; then
+        echo "No generic JRE packaging yet."
+      else
+        rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" \
+                     --define="jdk_type $FILENAME_PREFIX" --define="jdk_model $OBF_JDK_MODEL" --define="cum_jdk 0" \
+                     SPECS/jre.spec
+      fi
 
       if [ $? != 0 ]; then
         exit -1
@@ -113,8 +133,10 @@ else
       echo "missing JRE image tarball $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2, skipping packaging"
     fi
 
-    mv RPMS/*/*.rpm $OBF_DROP_DIR/$OBF_PROJECT_NAME
+    if [ "$XPACKAGE_MODE" = "generic" ]; then
+      mv GENERIC/*.tar.xz $OBF_DROP_DIR/$OBF_PROJECT_NAME
+    else
+      mv RPMS/*/*.rpm $OBF_DROP_DIR/$OBF_PROJECT_NAME
+    fi
 
 fi
-
-
