@@ -35,14 +35,18 @@ fi
 
 if [ ! -d $OBF_SOURCES_PATH ]; then
   hg clone http://hg.openjdk.java.net/jdk7u/jdk7u $OBF_SOURCES_PATH
-fi	
-	
+fi
+
 pushd $OBF_SOURCES_PATH >>/dev/null
 
-# 
+#
 # Updating sources for Mercurial repo
 #
 sh ./get_source.sh
+
+if [ -n "$XUSE_UPDATE" ]; then
+  XUSE_TAG=`hg tags | grep "jdk8u$XUSE_UPDATE" | head -1 | cut -d ' ' -f 1`
+fi
 
 #
 # Update sources to provided tag XUSE_TAG (if defined)
