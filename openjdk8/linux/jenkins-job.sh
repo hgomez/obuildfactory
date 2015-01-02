@@ -48,7 +48,7 @@ pushd $OBF_SOURCES_PATH >>/dev/null
 #
 # Build System concats OBF_MILESTONE, - and OBF_BUILD_DATE, ie b56-20120908
 #
-export OBF_MILESTONE=`hg identify | cut -d ' ' -f 2`
+export OBF_MILESTONE=`hg identify | cut -d ' ' -f 2 | cut -d '/' -f 1`
 
 if [ "$OBF_MILESTONE" = "tip" ]; then
   OBF_MILESTONE=`hg tags | grep $TAG_FILTER | head -1 | cut -d ' ' -f 1`
