@@ -216,7 +216,7 @@ function build_new()
         BUILD_PROFILE=linux-x86_64-normal-server-fastdebug
       elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
         BUILD_PROFILE=linux-ppc64-normal-server-fastdebug
-        EXTRA_FLAGS="--with-jvm-interpreter=cpp"
+        EXTRA_FLAGS=$XEXTRA_FLAGS "--with-jvm-interpreter=cpp"
       else
         BUILD_PROFILE=linux-x86-normal-server-fastdebug
       fi
@@ -235,7 +235,7 @@ function build_new()
         BUILD_PROFILE=linux-x86_64-normal-server-release
       elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
         BUILD_PROFILE=linux-ppc64-normal-server-release
-        EXTRA_FLAGS="--with-jvm-interpreter=cpp"
+        EXTRA_FLAGS=$XEXTRA_FLAGS "--with-jvm-interpreter=cpp"
       else
         BUILD_PROFILE=linux-x86-normal-server-release
       fi
