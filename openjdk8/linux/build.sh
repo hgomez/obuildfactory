@@ -254,8 +254,12 @@ function build_new()
   if [ "$XCLEAN" = "true" ]; then
       CONT=$BUILD_PROFILE make clean
   fi
-
-  CONT=$BUILD_PROFILE make EXTRA_CFLAGS=$EXTRA_CFLAGS DEBUG_BINARIES=true images
+	
+  if [ "$XDEBUG_BINARIES" = "false" ]; then
+      CONT=$BUILD_PROFILE make EXTRA_CFLAGS=$EXTRA_CFLAGS DEBUG_BINARIES=false images
+  else
+      CONT=$BUILD_PROFILE make EXTRA_CFLAGS=$EXTRA_CFLAGS DEBUG_BINARIES=true images
+  fi
 
   popd >>/dev/null
 
