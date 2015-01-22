@@ -53,7 +53,7 @@ fi
 #
 if [ ! -z "$XUSE_TAG" ]; then
   echo "using tag $XUSE_TAG"
-  sh ./make/scripts/hgforest.sh update $XUSE_TAG
+  sh ./make/scripts/hgforest.sh update --clean $XUSE_TAG
 fi
 
 popd >>/dev/null
