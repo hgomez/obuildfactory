@@ -96,7 +96,7 @@ function updateVersion() {
 
 function uploadPackage() {
   echo "Uploading package to Bintray, attempt #$1 ..."
-  HTTP_CODE=`$CURL_CMD -T $PACKAGE_FILE -H "X-Bintray-Package:$PACKAGE_NAME" -H "X-Bintray-Version:$BINTRAY_VERSION" "https://api.bintray.com/content/$BINTRAY_ACCOUNT/$BINTRAY_REPO/$REPO_FILE_PATH;publish=1"`
+  HTTP_CODE=`$CURL_CMD -T $PACKAGE_FILE -H "X-Bintray-Package:$PACKAGE_NAME" -H "X-Bintray-Version:$BINTRAY_VERSION" "https://api.bintray.com/content/$BINTRAY_ACCOUNT/$BINTRAY_REPO/$REPO_FILE_PATH;publish=1;override=1"`
 
   if [ "$HTTP_CODE" != "201" ]; then
     echo "failed to upload package -> $HTTP_CODE"
