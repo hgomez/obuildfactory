@@ -259,7 +259,7 @@ function build_new()
       CONT=$BUILD_PROFILE make clean
   fi
 
-  if [ "$XDEBUG_BINARIES = "false" ]; then
+  if [ "$XDEBUG_BINARIES" = "false" ]; then
       CONT=$BUILD_PROFILE make DEBUG_BINARIES=false EXTRA_CFLAGS=$EXTRA_CFLAGS images
   else
       CONT=$BUILD_PROFILE make DEBUG_BINARIES=true EXTRA_CFLAGS=$EXTRA_CFLAGS images
