@@ -1,0 +1,21 @@
+
+FROM centos:centos7
+
+RUN yum install -y git-core mercurial zip bzip2 unzip tar 
+RUN yum install -y ccache make gcc gcc-c++ libstdc++-devel 
+RUN yum install -y alsa-lib-devel cups-devel libX11-devel libXext-devel libXt-devel libXrender-devel libXtst-devel libXi-devel libjpeg-devel giflib-devel freetype-devel
+RUN yum install -y curl rpm-build gpg
+RUN yum install -y java-1.7.0-openjdk-devel
+
+ENV JAVA_HOME /usr/lib/jvm/java-1.7.0
+
+WORKDIR /openjdk
+
+RUN git clone https://github.com/hgomez/obuildfactory.git
+
+ENV XPACKAGE true
+ENV XCLEAN true
+ENV XUSE_NEW_BUILD_SYSTEM true
+ENV XBUILD true
+
+
