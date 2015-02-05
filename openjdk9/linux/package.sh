@@ -51,11 +51,11 @@ if [ "$XUSE_FPM" = "true" ]; then
 
     mkdir -p tmp/$OBF_PROJECT_NAME
     pushd tmp/$OBF_PROJECT_NAME
-    tar xvjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
+    tar xvjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
     XDEST_DIR=opt/obuildfactory/$PACKAGE_NAME-$OBF_JDK_MODEL$FILENAME_PREFIX
     rm -rf $XDEST_DIR
     mkdir -p $XDEST_DIR
-    mv j2sdk-image/* $XDEST_DIR
+    mv jdk/* $XDEST_DIR
 
     rm -rf *.$XPACKAGE_MODE
 
@@ -81,20 +81,20 @@ else
     mkdir -p $PKG_DIR
     mkdir -p SOURCES
 
-    if [ -f $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 ]; then
+    if [ -f $OBF_DROP_DIR/$OBF_PROJECT_NAME/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 ]; then
 
         echo "packaging JDK"
-        cp $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 SOURCES/j2sdk-image.tar.bz2
+        cp $OBF_DROP_DIR/$OBF_PROJECT_NAME/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 SOURCES/jdk.tar.bz2
 
         if [ "$XPACKAGE_MODE" = "generic" ]; then
-            tar -xjf SOURCES/j2sdk-image.tar.bz2 -C TEMP
+            tar -xjf SOURCES/jdk.tar.bz2 -C TEMP
 
-            find TEMP/j2sdk-image -name '*.diz' | xargs rm
-            (cd TEMP/j2sdk-image && rm -rf demo sample man src.zip)
+            find TEMP/jdk -name '*.diz' | xargs rm
+            (cd TEMP/jdk && rm -rf demo sample man src.zip)
 
             REVISION=$(echo $OBF_BUILD_NUMBER | sed 's/^u\(.*\)-b.*$/\1/')
             JDK_DIR="jdk1.9.0_$REVISION"
-            mv TEMP/j2sdk-image TEMP/$JDK_DIR
+            mv TEMP/jdk TEMP/$JDK_DIR
             tar -cJf GENERIC/$PACKAGE_NAME-$OBF_BASE_ARCH-1.9.0_$OBF_BUILD_NUMBER.tar.xz -C TEMP $JDK_DIR
         else
             rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" \
@@ -107,13 +107,13 @@ else
         fi
 
     else
-        echo "missing JDK image tarball $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2, skipping packaging"
+        echo "missing JDK image tarball $OBF_DROP_DIR/$OBF_PROJECT_NAME/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2, skipping packaging"
     fi
 
-    if [ -f $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 ]; then
+    if [ -f $OBF_DROP_DIR/$OBF_PROJECT_NAME/jre$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 ]; then
 
         echo "packaging JRE"
-        cp $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 SOURCES/j2re-image.tar.bz2
+        cp $OBF_DROP_DIR/$OBF_PROJECT_NAME/jre$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 SOURCES/jre.tar.bz2
 
         if [ "$XPACKAGE_MODE" = "generic" ]; then
             echo "No generic JRE packaging yet."
@@ -128,7 +128,7 @@ else
         fi
 
     else
-        echo "missing JRE image tarball $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2, skipping packaging"
+        echo "missing JRE image tarball $OBF_DROP_DIR/$OBF_PROJECT_NAME/jre$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2, skipping packaging"
     fi
 
     if [ "$XPACKAGE_MODE" = "generic" ]; then
