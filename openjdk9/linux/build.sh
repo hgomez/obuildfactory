@@ -280,17 +280,17 @@ function build_new()
 #
 function test_build()
 {
-  if [ -x $IMAGE_BUILD_DIR/j2sdk-image/bin/java ]; then
-    $IMAGE_BUILD_DIR/j2sdk-image/bin/java -version
+  if [ -x $IMAGE_BUILD_DIR/jdk/bin/java ]; then
+    $IMAGE_BUILD_DIR/jdk/bin/java -version
   else
-    echo "can't find java into JDK $IMAGE_BUILD_DIR/j2sdk-image, build failed"
+    echo "can't find java into JDK $IMAGE_BUILD_DIR/jdk, build failed"
     exit -1
    fi
 
-   if [ -x $IMAGE_BUILD_DIR/j2re-image/bin/java ]; then
-     $IMAGE_BUILD_DIR/j2re-image/bin/java -version
+   if [ -x $IMAGE_BUILD_DIR/jre/bin/java ]; then
+     $IMAGE_BUILD_DIR/jre/bin/java -version
    else
-     echo "can't find java into JRE $IMAGE_BUILD_DIR/j2re-image, build failed"
+     echo "can't find java into JRE $IMAGE_BUILD_DIR/jre, build failed"
      exit -1
     fi
 }
@@ -307,12 +307,12 @@ function archive_build()
     FILENAME_PREFIX="-fastdebug"
   fi
 
-  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2sdk-image
-  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 j2re-image
+  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jdk
+  tar cjf $OBF_DROP_DIR/$OBF_PROJECT_NAME/jre$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jre
 
   echo "produced tarball files under $OBF_DROP_DIR/$OBF_PROJECT_NAME"
-  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2sdk-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
-  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/j2re-image$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
+  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
+  ls -l $OBF_DROP_DIR/$OBF_PROJECT_NAME/jre$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
 
   popd
 }
