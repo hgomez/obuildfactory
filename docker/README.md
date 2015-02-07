@@ -1,4 +1,4 @@
-# Docker support for building OpenJDK for different OSes
+1# Docker support for building OpenJDK for different OSes
 
 ## How does docker help?
 
@@ -18,4 +18,20 @@ $ make centos7-openjdk8
 
   or
 
-$ make centos7-openjdk9
+$ make ubuntu14-openjdk8
+
+These would would leave RPMs or DEBs under
+build/centos7-openjdk8/binaries or build/ubuntu14-openjdk8/binaries
+respectively.
+
+## Bootstrapping OpenJDK9
+
+The rules for OpenJDK9 require that you build OpenJDK8 first. So, for
+example:
+
+$ make centos7-openjdk8
+$ make centos7-openjdk8
+
+  or
+
+$ make centos7-openjdk8 centos7-openjdk9
