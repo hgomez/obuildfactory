@@ -1,0 +1,25 @@
+
+FROM ubuntu:utopic
+
+RUN apt-get update
+RUN apt-get install -y git mercurial zip bzip2 unzip tar curl
+RUN apt-get install -y ccache make gcc g++ ca-certificates ca-certificates-java
+RUN apt-get install -y libX11-dev libxext-dev libxrender-dev libxtst-dev  
+RUN apt-get install -y libasound2-dev libcups2-dev libfreetype6-dev
+RUN apt-get install -y build-essential ruby-dev pkg-config
+RUN apt-get install -y openjdk-7-jdk 
+RUN gem install fpm
+
+ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
+
+WORKDIR /openjdk
+
+RUN git clone https://github.com/hgomez/obuildfactory.git
+
+ENV XUSE_FPM true
+ENV XPACKAGE true
+ENV XCLEAN true
+ENV XUSE_NEW_BUILD_SYSTEM true
+ENV XBUILD true
+
+
