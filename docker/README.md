@@ -1,4 +1,4 @@
-1# Docker support for building OpenJDK for different OSes
+# Docker support for building OpenJDK for different OSes
 
 ## How does docker help?
 
