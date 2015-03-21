@@ -197,9 +197,11 @@ function build_new()
   mkdir -p $OBF_SOURCES_PATH/common/makefiles
   pushd $OBF_SOURCES_PATH/common/makefiles >>/dev/null
 
-  # patch common/autoconf/version-numbers
-  mv ../autoconf/version-numbers ../autoconf/version-numbers.orig
-  cat ../autoconf/version-numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > ../autoconf/version-numbers
+  # patch ../autoconf/version-numbers
+  if [ -f ../autoconf/version-numbers ]; then
+    mv ../autoconf/version-numbers ../autoconf/version-numbers.orig
+    cat ../autoconf/version-numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > ../autoconf/version-numbers
+  fi
 
   export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
   export MILESTONE=$OBF_MILESTONE
@@ -260,8 +262,10 @@ function build_new()
   # CONF=$BUILD_PROFILE make images
   make images
 
-  # restore original common/autoconf/version-numbers
-  mv ../autoconf/version-numbers.orig ../autoconf/version-numbers
+  # restore original ../autoconf/version-numbers
+  if [ -f ../autoconf/version-numbers.orig ]; then
+    mv ../autoconf/version-numbers.orig ../autoconf/version-numbers
+  fi
 
   popd >>/dev/null
 }
