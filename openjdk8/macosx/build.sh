@@ -232,7 +232,9 @@ function build_new()
     esac
 
     # sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
-    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
+    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+        --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --with-milestone=$OBF_MILESTONE \
+        --enable-debug
 
   else
 
@@ -249,7 +251,8 @@ function build_new()
     esac
 
     # sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
-    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
+    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+        --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --with-milestone=$OBF_MILESTONE
   fi
 
   export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$BUILD_PROFILE/images
