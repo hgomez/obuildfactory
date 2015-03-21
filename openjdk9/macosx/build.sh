@@ -238,7 +238,7 @@ function build_new()
      make clean
   fi
 
-  make images
+  make DEBUG_BINARIES=${XDEBUG_BINARIES:-false} images
 
   # restore original common/autoconf/version-numbers
   if [ -f common/autoconf/version-numbers.orig ]; then

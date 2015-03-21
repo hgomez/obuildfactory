@@ -272,7 +272,7 @@ function build_new()
   fi
 
   # CONF=$BUILD_PROFILE make images
-  make images
+  make DEBUG_BINARIES=${XDEBUG_BINARIES:-false} images
 
   popd >>/dev/null
 
