@@ -194,14 +194,12 @@ function build_new()
 {
   echo "### using new build system ###"
 
-  # ensure makefiles dir exists
-  mkdir -p $OBF_SOURCES_PATH/common/makefiles
-  pushd $OBF_SOURCES_PATH/common/makefiles >>/dev/null
+  pushd $OBF_SOURCES_PATH >>/dev/null
 
-  # patch ../autoconf/version-numbers
-  if [ -f ../autoconf/version-numbers ]; then
-    mv ../autoconf/version-numbers ../autoconf/version-numbers.orig
-    cat ../autoconf/version-numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > ../autoconf/version-numbers
+  # patch common/autoconf/version-numbers
+  if [ -f common/autoconf/version-numbers ]; then
+    mv common/autoconf/version-numbers common/autoconf/version-numbers.orig
+    cat common/autoconf/version-numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > common/autoconf/version-numbers
   fi
 
   export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
@@ -220,7 +218,7 @@ function build_new()
 
   if [ "$XDEBUG" = "true" ]; then
 
-    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+    sh $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
         --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
         --with-freetype-lib=$OBF_DROP_DIR/freetype/lib --with-freetype-include=$OBF_DROP_DIR/freetype/include \
         --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE \
@@ -228,7 +226,7 @@ function build_new()
 
   else
 
-    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+    sh $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
         --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
         --with-freetype-lib=$OBF_DROP_DIR/freetype/lib --with-freetype-include=$OBF_DROP_DIR/freetype/include \
         --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
@@ -242,9 +240,9 @@ function build_new()
 
   make images
 
-  # restore original ../autoconf/version-numbers
-  if [ -f ../autoconf/version-numbers.orig ]; then
-    mv ../autoconf/version-numbers.orig ../autoconf/version-numbers
+  # restore original common/autoconf/version-numbers
+  if [ -f common/autoconf/version-numbers.orig ]; then
+    mv common/autoconf/version-numbers.orig common/autoconf/version-numbers
   fi
 
   popd >>/dev/null

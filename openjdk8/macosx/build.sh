@@ -194,14 +194,12 @@ function build_new()
 {
   echo "### using new build system ###"
 
-  # ensure makefiles dir exists
-  mkdir -p $OBF_SOURCES_PATH/common/makefiles
-  pushd $OBF_SOURCES_PATH/common/makefiles >>/dev/null
+  pushd $OBF_SOURCES_PATH >>/dev/null
 
-  # patch ../autoconf/version-numbers
-  if [ -f ../autoconf/version-numbers ]; then
-    mv ../autoconf/version-numbers ../autoconf/version-numbers.orig
-    cat ../autoconf/version-numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > ../autoconf/version-numbers
+  # patch common/autoconf/version-numbers
+  if [ -f common/autoconf/version-numbers ]; then
+    mv common/autoconf/version-numbers common/autoconf/version-numbers.orig
+    cat common/autoconf/version-numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > common/autoconf/version-numbers
   fi
 
   export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
@@ -232,8 +230,12 @@ function build_new()
       ;;
     esac
 
+    rm -rf $OBF_SOURCES_PATH/build/$BUILD_PROFILE
+    mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
+    pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
+
     # sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
-    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+    sh $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
         --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
         --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE \
         --enable-debug
@@ -252,8 +254,10 @@ function build_new()
       ;;
     esac
 
+    pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
+
     # sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
-    sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+    sh $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
         --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
         --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
   fi
@@ -268,9 +272,11 @@ function build_new()
   # CONF=$BUILD_PROFILE make images
   make images
 
-  # restore original ../autoconf/version-numbers
-  if [ -f ../autoconf/version-numbers.orig ]; then
-    mv ../autoconf/version-numbers.orig ../autoconf/version-numbers
+  popd >>/dev/null
+
+  # restore original common/autoconf/version-numbers
+  if [ -f common/autoconf/version-numbers.orig ]; then
+    mv common/autoconf/version-numbers.orig common/autoconf/version-numbers
   fi
 
   popd >>/dev/null
