@@ -13,7 +13,7 @@
 function ensure_jtreg()
 {
   if [ ! -f $OBF_DROP_DIR/jtreg/win32/bin/jtreg ]; then
-  
+
     JTREG_VERSION=b05
 
     if [ ! -f $OBF_DROP_DIR/jtreg-$JTREG_VERSION.zip ]; then

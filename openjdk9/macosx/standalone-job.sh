@@ -25,14 +25,14 @@ fi
 if [ ! -d $OBF_SOURCES_PATH ]; then
   hg clone http://hg.openjdk.java.net/jdk9/jdk9 $OBF_SOURCES_PATH
 else
-  pushd $OBF_SOURCES_PATH >>/dev/null	
+  pushd $OBF_SOURCES_PATH >>/dev/null
   hg update
   popd >>/dev/null
-fi	
-	
+fi
+
 pushd $OBF_SOURCES_PATH >>/dev/null
 
-# 
+#
 # Updating sources for Mercurial repo
 #
 sh ./get_source.sh
