@@ -222,7 +222,7 @@ function build_new()
     sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
         --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
         --with-freetype-lib=$OBF_DROP_DIR/freetype/lib --with-freetype-include=$OBF_DROP_DIR/freetype/include \
-        --with-milestone=$OBF_MILESTONE \
+        --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE \
         --enable-debug
 
   else
@@ -230,7 +230,7 @@ function build_new()
     sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
         --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
         --with-freetype-lib=$OBF_DROP_DIR/freetype/lib --with-freetype-include=$OBF_DROP_DIR/freetype/include \
-        --with-milestone=$OBF_MILESTONE
+        --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_MILESTONE
   fi
 
   export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/common/makefiles/images
