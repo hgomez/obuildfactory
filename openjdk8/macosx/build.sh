@@ -235,7 +235,9 @@ function build_new()
     pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
 
     # sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache --enable-debug
-    sh $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+    sh $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR \
+        --with-xcode-path=$OBF_XCODE_PATH \
+        --with-cacerts-file=$OBF_DROP_DIR/cacerts \
         --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
         --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_BUILD_NUMBER \
         --enable-debug
@@ -259,7 +261,9 @@ function build_new()
     pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
 
     # sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
-    sh $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+    sh $OBF_SOURCES_PATH/common/autoconf/configure --with-boot-jdk=$OBF_BOOTDIR \
+        --with-xcode-path=$OBF_XCODE_PATH \
+        --with-cacerts-file=$OBF_DROP_DIR/cacerts \
         --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
         --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_BUILD_NUMBER
   fi

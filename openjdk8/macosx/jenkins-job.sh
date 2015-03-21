@@ -38,6 +38,10 @@ if [ -z "$OBF_WORKSPACE_PATH" ]; then
   export OBF_WORKSPACE_PATH=`pwd`
 fi
 
+if [ -z "$OBF_XCODE_PATH" ]; then
+  export OBF_XCODE_PATH=/Application/Xcode.app
+fi
+
 pushd $OBF_SOURCES_PATH >>/dev/null
 
 #
