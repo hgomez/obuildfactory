@@ -254,6 +254,8 @@ function build_new()
       ;;
     esac
 
+    rm -rf $OBF_SOURCES_PATH/build/$BUILD_PROFILE
+    mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
     pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
 
     # sh ../autoconf/configure --with-boot-jdk=$OBF_BOOTDIR --with-freetype=$OBF_DROP_DIR/freetype --with-cacerts-file=$OBF_DROP_DIR/cacerts --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache
