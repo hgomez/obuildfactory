@@ -224,6 +224,7 @@ function build_new()
         --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
         --with-freetype-lib=$OBF_DROP_DIR/freetype/lib --with-freetype-include=$OBF_DROP_DIR/freetype/include \
         --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_BUILD_NUMBER \
+        --enable-unlimited-crypto=yes \
         --enable-debug
 
   else
@@ -233,7 +234,8 @@ function build_new()
         --with-cacerts-file=$OBF_DROP_DIR/cacerts \
         --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
         --with-freetype-lib=$OBF_DROP_DIR/freetype/lib --with-freetype-include=$OBF_DROP_DIR/freetype/include \
-        --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_BUILD_NUMBER
+        --with-build-number=$OBF_BUILD_DATE --with-milestone=$OBF_BUILD_NUMBER \
+        --enable-unlimited-crypto=yes
   fi
 
   export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/common/makefiles/images
