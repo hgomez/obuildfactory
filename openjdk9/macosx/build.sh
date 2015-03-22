@@ -238,7 +238,7 @@ function build_new()
         --enable-unlimited-crypto=yes
   fi
 
-  export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/common/makefiles/images
+  export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$OBF_BASE_ARCH/images
 
   if [ "$XCLEAN" = "true" ]; then
      make clean
