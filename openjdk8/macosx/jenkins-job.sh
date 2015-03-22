@@ -17,6 +17,10 @@ if [ -z $OBF_DROP_DIR ]; then
   export OBF_DROP_DIR="$HOME/OBF_DROP_DIR"
 fi
 
+if [ "$XCLEAN" = "true" ]; then
+  rm -rf $OBF_DROP_DIR
+fi
+
 mkdir -p $OBF_DROP_DIR
 
 #
@@ -34,6 +38,10 @@ if [ -z "$OBF_WORKSPACE_PATH" ]; then
   export OBF_WORKSPACE_PATH=`pwd`
 fi
 
+if [ -z "$OBF_XCODE_PATH" ]; then
+  export OBF_XCODE_PATH=/Application/Xcode.app
+fi
+
 pushd $OBF_SOURCES_PATH >>/dev/null
 
 #
@@ -43,8 +51,12 @@ pushd $OBF_SOURCES_PATH >>/dev/null
 #
 # Build System concats OBF_MILESTONE, - and OBF_BUILD_DATE, ie b56-20120908
 #
-export OBF_MILESTONE=`hg tags | grep $TAG_FILTER | head -1 | cut -d ' ' -f 1 | sed 's/^-//'`
-export OBF_BUILD_NUMBER=`hg tags | grep $TAG_FILTER | head -1 | sed "s/$TAG_FILTER//" | cut -d ' ' -f 1 | sed 's/^-//'`
+export OBF_MILESTONE=`hg identify | cut -d ' ' -f 2 | cut -d '/' -f 1`
+if [ "$OBF_MILESTONE" = "tip" ]; then
+  export OBF_MILESTONE=`hg tags | grep $TAG_FILTER | head -1 | cut -d ' ' -f 1`
+fi
+
+export OBF_BUILD_NUMBER=`echo $OBF_MILESTONE | sed "s/$TAG_FILTER//" | sed 's/^-//'`
 export OBF_BUILD_DATE=`date +%Y%m%d`
 
 if [ -z "$OBF_DISTRIBUTION" ]; then

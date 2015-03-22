@@ -13,7 +13,7 @@
 function ensure_jtreg()
 {
   if [ ! -f $OBF_DROP_DIR/jtreg/win32/bin/jtreg ]; then
-  
+
     JTREG_VERSION=b05
 
     if [ ! -f $OBF_DROP_DIR/jtreg-$JTREG_VERSION.zip ]; then
@@ -35,34 +35,12 @@ function ensure_jtreg()
 
 ensure_jtreg
 
+BUILD_PROFILE="macosx-$OBF_BASE_ARCH-normal-server"
+
 if [ "$XDEBUG" = "true" ]; then
-
-  case $OBF_BASE_ARCH in
-    x86_64)
-      BUILD_PROFILE=macosx-x86_64-normal-server-fastdebug
-      ;;
-    i386)
-      BUILD_PROFILE=macosx-x86-normal-server-fastdebug
-      ;;
-    universal)
-      BUILD_PROFILE=macosx-universal-normal-server-fastdebug
-      ;;
-  esac
-
+  BUILD_PROFILE+="-fastdebug"
 else
-
-  case $OBF_BASE_ARCH in
-    x86_64)
-      BUILD_PROFILE=macosx-x86_64-normal-server-release
-      ;;
-    i386)
-      BUILD_PROFILE=macosx-x86-normal-server-release
-      ;;
-    universal)
-      BUILD_PROFILE=macosx-universal-normal-server-release
-      ;;
-  esac
-
+  BUILD_PROFILE+="-release"
 fi
 
 export PRODUCT_HOME=$OBF_SOURCES_PATH/build/$BUILD_PROFILE/images/j2sdk-image
