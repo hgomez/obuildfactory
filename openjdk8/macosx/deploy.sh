@@ -9,7 +9,7 @@
 # OBF_BASE_PATH (ie: /home/jenkinsa/www)
 # OBF_UPLOAD_PATH (ie: /home/jenkinsa/upload)
 #
-# OBF_BASE_ARCH (i386, x86_64 or universal)
+# OBF_BASE_ARCH (x86, x86_64 or universal)
 # OBF_RELEASE_VERSION (10.6, 10.7, 10.8)
 #
 # OBF_GPG_ID (ie: packagers@obuildfactory.org)
