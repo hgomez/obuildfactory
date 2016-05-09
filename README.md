@@ -4,8 +4,6 @@
 
 ![OBuildFactory Logo](https://raw.github.com/hgomez/obuildfactory/master/OBuildFactory-Logo.png)
 
-[![Is maintained?](http://stillmaintained.com/hgomez/obuildfactory.png)](http://stillmaintained.com/hgomez/obuildfactory)
-
 This GitHub project  provides build scripts for OpenJDK 7, 8, 8+Lambda, 8+Jigsaw.
 
 These scripts add goodies like :
