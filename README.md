@@ -117,7 +117,7 @@ And then update then with yum/zypper :
 ## OSX
 
 There is some wiki pages who detailed how to build, but there is no guaranty about success.
-BTW, I'll welcome pull-requests so it will help others OSX users.
+I don't have OSX machines anymore so I cannot help anymore on this OS
 
 [Building and packaging OpenJDK7 for OSX](https://github.com/hgomez/obuildfactory/wiki/Building-and-Packaging-OpenJDK7-for-OSX)
 
