@@ -30,6 +30,8 @@ Build and packages are tested on CentOS 5, 6, Fedora 18, openSUSE 12.2 and Ubunt
 
 [How to build and package OpenJDK 8 on Linux](https://github.com/hgomez/obuildfactory/wiki/How-to-build-and-package-OpenJDK-8-on-Linux)
 
+[How to build and package OpenJDK 9 on Linux](https://github.com/hgomez/obuildfactory/wiki/How-to-build-and-package-OpenJDK-9-on-Linux)
+
 ### Yum repositories
 
 Thanks to JFrog Bintray, OpenJDKs for Linux are available for major Linux distributions in yum repositories, install repositories like :
