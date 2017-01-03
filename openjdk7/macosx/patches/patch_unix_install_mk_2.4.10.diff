@@ -1,0 +1,10 @@
+--- builds/unix/install.mk.orig	2017-01-03 10:19:23.000000000 +0800
++++ builds/unix/install.mk	2017-01-03 10:19:36.000000000 +0800
+@@ -32,6 +32,7 @@
+                          $(DESTDIR)$(libdir)/pkgconfig                     \
+                          $(DESTDIR)$(includedir)/freetype2/freetype/config \
+                          $(DESTDIR)$(includedir)/freetype2/freetype/cache  \
++                         $(DESTDIR)$(includedir)/freetype2/freetype/internal  \
+                          $(DESTDIR)$(bindir)                               \
+                          $(DESTDIR)$(datadir)/aclocal
+ 	$(LIBTOOL) --mode=install $(INSTALL)                             \

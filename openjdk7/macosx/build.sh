@@ -66,7 +66,7 @@ function cacerts_gen()
 
   for CERT_FILE in cert_*; do
     ALIAS=$(basename ${CERT_FILE})
-    echo yes | keytool -import -alias ${ALIAS} -keystore cacerts -storepass 'changeit' -file ${CERT_FILE} || :
+    keytool -noprompt -import -alias ${ALIAS} -keystore cacerts -storepass 'changeit' -file ${CERT_FILE} || :
     rm -f $CERT_FILE
   done
 
@@ -114,6 +114,11 @@ function ensure_freetype()
 	    curl -L https://trac.macports.org/export/92468/trunk/dports/print/freetype/files/patch-modules.cfg.diff -o $OBF_DROP_DIR/freetype-patches/patch-modules.cfg.diff
 	    curl -L https://trac.macports.org/export/92468/trunk/dports/print/freetype/files/patch-src_base_ftrfork.c.diff -o $OBF_DROP_DIR/freetype-patches/patch-src_base_ftrfork.c.diff
 	  fi
+
+    # only patch with free type 2.4.10 install.mk
+    if [ "$FREETYPE_VERSION" = "2.4.10" ]; then
+      cp $OBF_BUILD_PATH/patches/patch_unix_install_mk_2.4.10.diff $OBF_DROP_DIR/freetype-patches/
+    fi
 
 	  rm -rf freetype-$FREETYPE_VERSION
 	  rm -rf $OBF_DROP_DIR/freetype
