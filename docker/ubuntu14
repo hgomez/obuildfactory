@@ -1,5 +1,5 @@
 
-FROM ubuntu:utopic
+FROM ubuntu:trusty
 
 RUN apt-get update
 RUN apt-get install -y git mercurial zip bzip2 unzip tar curl
@@ -11,8 +11,18 @@ RUN apt-get install -y openjdk-7-jdk
 RUN gem install fpm
 
 ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
+ENV OBF_JAVA7_HOME /usr/lib/jvm/java-7-openjdk-amd64
+
+ARG BUILD_USER=obuild
+ARG BUILD_UID=2000
+
+RUN useradd -u $BUILD_UID $BUILD_USER
 
 WORKDIR /openjdk
+
+RUN chown -R $BUILD_USER .
+
+USER $BUILD_USER
 
 RUN git clone https://github.com/hgomez/obuildfactory.git
 
