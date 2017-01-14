@@ -6,12 +6,23 @@ RUN yum install -y ccache make gcc gcc-c++ libstdc++-devel
 RUN yum install -y alsa-lib-devel cups-devel libX11-devel libXext-devel libXt-devel libXrender-devel libXtst-devel libXi-devel libjpeg-devel giflib-devel freetype-devel
 RUN yum install -y curl rpm-build gpg
 RUN yum install -y java-1.7.0-openjdk-devel
-RUN yum install -y ruby-devel
+RUN yum install -y epel-release
+RUN yum install -y ruby-devel which autoconf ccache
 RUN gem install fpm
 
 ENV JAVA_HOME /usr/lib/jvm/java-1.7.0
+ENV OBF_JAVA7_HOME /usr/lib/jvm/java-1.7.0
+
+ARG BUILD_USER=obuild
+ARG BUILD_UID=2000
+
+RUN useradd -u $BUILD_UID $BUILD_USER
 
 WORKDIR /openjdk
+
+RUN chown -R $BUILD_USER .
+
+USER $BUILD_USER
 
 RUN git clone https://github.com/hgomez/obuildfactory.git
 
