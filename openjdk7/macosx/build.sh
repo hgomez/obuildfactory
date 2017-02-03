@@ -136,7 +136,7 @@ function ensure_freetype()
       --disable-static --with-old-mac-fonts
 	  make install
 
-	  cp $OBF_DROP_DIR/freetype/lib/libfreetype.6.dylib $OBF_DROP_DIR/freetype/lib/libfreetype.dylib
+	  # cp $OBF_DROP_DIR/freetype/lib/libfreetype.6.dylib $OBF_DROP_DIR/freetype/lib/libfreetype.dylib
 
 	  popd >>/dev/null
 	  rm -rf freetype-$FREETYPE_VERSION
