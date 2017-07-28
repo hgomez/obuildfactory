@@ -58,8 +58,8 @@ if [ "$XUSE_FPM" = "true" ]; then
     mv jdk/* $XDEST_DIR
 
     rm -rf *.$XPACKAGE_MODE
-
-    fpm --verbose -s dir -t $XPACKAGE_MODE -n $OBF_PROJECT_NAME$FILENAME_PREFIX -v "1.9.0-$OBF_BUILD_NUMBER" --category language -m "Henri Gomez <henri.gomez@gmail.com>" \
+    fpm --verbose -s dir -t $XPACKAGE_MODE -n $OBF_PROJECT_NAME$FILENAME_PREFIX -v "1.9.0-$OBF_BUILD_NUMBER" --rpm-auto-add-directories \
+    --category language -m "Henri Gomez <henri.gomez@gmail.com>" \
     --url https://github.com/hgomez/obuildfactory/ \
     --license "GPL-2.0" \
     --description "$PACKAGE_DESCRIPTION$DESCRIPTION_ADDON" \
