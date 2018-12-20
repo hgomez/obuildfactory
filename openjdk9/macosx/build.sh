@@ -43,7 +43,7 @@ function cacerts_gen()
 
   for CERT_FILE in cert_*; do
     ALIAS=$(basename ${CERT_FILE})
-    echo yes | keytool -J"-Duser.language=en" -import -alias ${ALIAS} -keystore cacerts -storepass 'changeit' -file ${CERT_FILE} || :
+    keytool -noprompt -import -alias ${ALIAS} -keystore cacerts -storepass 'changeit' -file ${CERT_FILE} || :
     rm -f $CERT_FILE
   done
 
