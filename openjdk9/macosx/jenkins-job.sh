@@ -39,7 +39,7 @@ if [ -z "$OBF_WORKSPACE_PATH" ]; then
 fi
 
 if [ -z "$OBF_XCODE_PATH" ]; then
-  export OBF_XCODE_PATH=/Application/Xcode.app
+  export OBF_XCODE_PATH=/Applications/Xcode.app
 fi
 
 pushd $OBF_SOURCES_PATH >>/dev/null
